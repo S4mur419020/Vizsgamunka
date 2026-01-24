@@ -13,9 +13,15 @@ return new class extends Migration
     {
         Schema::create('termek_valtozatoks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('termek_id')->constrained('termekeks')->onDelete('cascade');
-            $table->string('nev');  //pl: méret, szín, egyéb megkülönböztetés
+            $table->unsignedBigInteger('termek_id');
+            $table->string('nev');
             $table->boolean('elerheto')->default(true);
+
+            $table->foreign('termek_id')
+                ->references('cikkszam')
+                ->on('termekeks')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }

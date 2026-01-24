@@ -12,16 +12,30 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('termekeks', function (Blueprint $table) {
-            $table->id();
-            $table->string('nev');
-            $table->foreignId('marka_id')->constrained('markaks')->onDelete('cascade');
-            $table->string('kategoria_id');
+            $table->id('cikkszam');
+            $table->string('nev', 50);
+
+            $table->string('marka', 50);
+            $table->string('tipus', 50);
+
             $table->text('leiras')->nullable();
-            $table->string('nem');
-            $table->string('anyag');
+            $table->string('nem', 10);
+            $table->string('anyag', 50);
             $table->boolean('elerheto')->default(true);
+
+            $table->foreign(['marka', 'tipus'])
+                ->references(['marka', 'tipus'])
+                ->on('kategoriaks')
+                ->onDelete('cascade');
+
+            $table->foreignId('marka_id')->constrained('markaks')->onDelete('cascade');
+
             $table->timestamps();
         });
+
+
+
+
 
         Schema::enableForeignKeyConstraints();
     }

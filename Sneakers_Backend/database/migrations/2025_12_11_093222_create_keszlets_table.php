@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('keszlets', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->integer('cikkszam');
+            $table->integer('meretvalasztek');
+            $table->string('szabvany', 50);
+            $table->integer('mennyiseg');
+            $table->primary(['cikkszam', 'meretvalasztek', 'szabvany']);
         });
     }
 

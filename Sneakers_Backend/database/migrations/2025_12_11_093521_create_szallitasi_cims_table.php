@@ -12,7 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('szallitasi_cims', function (Blueprint $table) {
-            $table->id();
+            $table->id('szallitasi_cim_id');
+            $table->unsignedBigInteger('felhasznalo_id');
+            $table->string('orszag', 50);
+            $table->string('iranyitoszam', 50);
+            $table->string('varos', 50);
+            $table->string('utca_szam', 50);
+            $table->text('megjegyzes')->nullable();
+
+            $table->foreign('felhasznalo_id')
+                ->references('felhasznalo_id')
+                ->on('felhasznalos')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }

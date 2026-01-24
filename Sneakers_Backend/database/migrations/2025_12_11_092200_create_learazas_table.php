@@ -12,7 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('learazas', function (Blueprint $table) {
-            $table->id();
+            $table->id('akcio');
+            $table->string('marka', 50);
+            $table->string('tipus', 50);
+            $table->integer('akcio_szazalek');
+            $table->date('kezdo_datum');
+            $table->date('zaro_datum');
+            $table->foreign(['marka', 'tipus'])
+                ->references(['marka', 'tipus'])
+                ->on('kategoriaks')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

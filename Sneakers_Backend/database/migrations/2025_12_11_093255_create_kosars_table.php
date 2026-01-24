@@ -12,7 +12,29 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kosars', function (Blueprint $table) {
-            $table->id();
+            $table->id('kosar_id');
+
+            $table->unsignedBigInteger('felhasznalo_id');
+            $table->unsignedBigInteger('termek_id');
+            $table->unsignedBigInteger('meret_id');
+            $table->integer('mennyiseg');
+            $table->dateTime('hozzaadas_datum');
+
+            $table->foreign('felhasznalo_id')
+                ->references('felhasznalo_id')   // itt a pontos oszlopnév!
+                ->on('felhasznalos')
+                ->onDelete('cascade');
+
+            $table->foreign('termek_id')
+                ->references('cikkszam')
+                ->on('termekeks')
+                ->onDelete('cascade');
+
+            $table->foreign('meret_id')
+                ->references('meretvalasztek')
+                ->on('merets')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }

@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('telephelies', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('szekhely_id');
+            $table->string('nev', 50);
+            $table->string('tipus', 50);
+            $table->string('cim', 100);
+            $table->foreign('szekhely_id')
+                ->references('id')
+                ->on('szekhelies')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

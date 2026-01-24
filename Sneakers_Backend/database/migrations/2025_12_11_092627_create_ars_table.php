@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ars', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('akcio')->primary();
+            $table->integer('osszeg');
+            $table->boolean('vip');
+            $table->foreign('akcio')
+                ->references('akcio')
+                ->on('learazas')
+                ->onDelete('cascade');
         });
     }
 

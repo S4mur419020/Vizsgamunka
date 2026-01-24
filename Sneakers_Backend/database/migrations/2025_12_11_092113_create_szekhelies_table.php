@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('szekhelies', function (Blueprint $table) {
             $table->id();
+            $table->string('nev', 50);
+            $table->string('cim', 100);
+            $table->string('orszag', 50);
+            $table->string('varos', 50);
+            $table->string('iranyitoszam', 20);
             $table->timestamps();
         });
     }
