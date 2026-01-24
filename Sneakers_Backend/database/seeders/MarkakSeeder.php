@@ -13,32 +13,16 @@ class MarkakSeeder extends Seeder
      */
     public function run(): void
     {
-        Markak::insert([
-            ['nev' => 'Nike'],
-            ['nev' => 'Adidas'],
-            ['nev' => 'New Balance'],
-            ['nev' => 'Asics'],
-            ['nev' => 'Under Armour'],
-            ['nev' => 'Vans'],
-            ['nev' => 'Converse'],
-            ['nev' => 'Nike SB'],
-            ['nev' => 'Adidas Originals'],
-            ['nev' => 'Puma'],
-            ['nev' => 'Balenciaga'],
-            ['nev' => 'Alexander McQueen'],
-            ['nev' => 'Gucci'],
-            ['nev' => 'Off-White'],
-            ['nev' => 'Maison Margiela'],
-            ['nev' => 'Veja'],
-            ['nev' => 'Allbirds'],
-            ['nev' => 'Cariuma'],
-            ['nev' => 'Adidas x Parley'],
-            ['nev' => 'Nike Space Hippie'],
-            ['nev' => 'Air Jordan'],
-            ['nev' => 'Nike Dunk'],
-            ['nev' => 'Adidas Forum'],
-            ['nev' => 'Puma Clyde'],
-            ['nev' => 'Reebok Question'],
-        ]);
+         $markak = [
+            'Nike', 'Adidas', 'New Balance', 'Asics', 'Under Armour', 'Vans', 
+            'Converse', 'Nike SB', 'Adidas Originals', 'Puma', 'Balenciaga', 
+            'Alexander McQueen', 'Gucci', 'Off-White', 'Maison Margiela', 'Veja', 
+            'Allbirds', 'Cariuma', 'Adidas x Parley', 'Nike Space Hippie', 
+            'Air Jordan', 'Nike Dunk', 'Adidas Forum', 'Puma Clyde', 'Reebok Question'
+        ];
+
+        foreach ($markak as $nev) {
+            Markak::create(['nev' => $nev]);
+        }
     }
 }

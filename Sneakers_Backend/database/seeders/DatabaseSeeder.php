@@ -23,6 +23,36 @@ class DatabaseSeeder extends Seeder
             TermekekSeeder::class,
             TermekValtozatokSeeder::class,
         ]);
+        
+        $this->call([
+            FelhasznaloSeeder::class,
+            SzekhelySeeder::class,
+            TelephelySeeder::class,
+        ]);
+
+        $this->call([
+            TermekekSeeder::class,
+            TermekValtozatokSeeder::class,
+        ]);
+
+        $this->call([
+            KeszletSeeder::class,
+            KosarSeeder::class,
+        ]);
+
+        $this->call([
+            LearazasSeeder::class,
+            ArSeeder::class,
+            RendelesTetelSeeder::class,
+            FizetesSeeder::class,
+        ]);
+
+        $this->call([
+            BlogSeeder::class,
+            ModositasSeeder::class,
+            RegisztracioSeeder::class,
+            SzallitasiCimSeeder::class,
+        ]);
 
         User::factory()->create([
             'name' => 'Test User',

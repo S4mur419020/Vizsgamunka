@@ -15,9 +15,7 @@ class TermekekSeeder extends Seeder
     public function run(): void
     {
 
-         $kategoriak = DB::table('kategoriaks') 
-            ->pluck('id', 'megnevezes')
-            ->toArray();
+        $kategoriak = DB::table('kategoriaks')->pluck('id', 'megnevezes')->toArray();
 
         $termekek = [
 
@@ -748,13 +746,13 @@ class TermekekSeeder extends Seeder
 
         ];
 
-         foreach ($termekek as &$t) {
+        foreach ($termekek as &$t) {
             $t['kategoria_id'] = $kategoriak[$t['kategoria_nev']];
             unset($t['kategoria_nev']);
             $t['created_at'] = now();
             $t['updated_at'] = now();
         }
 
-        Termekek::insert($termekek); 
+        Termekek::insert($termekek);
     }
 }

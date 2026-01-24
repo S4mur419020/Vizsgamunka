@@ -13,13 +13,13 @@ class KategoriakSeeder extends Seeder
      */
     public function run(): void
     {
-        Kategoriak::insert([
-            ['megnevezes'=>'Sport'],
-            ['megnevezes'=>'Utcai viselet'],
-            ['megnevezes'=>'Divat'],
-            ['megnevezes'=>'Környezetbarát'],
-            ['megnevezes'=>'Retro'],
-            ['megnevezes'=>'Kosaras'],
+       Kategoriak::insert([
+            ['megnevezes' => 'Sport', 'created_at' => now(), 'updated_at' => now()],
+            ['megnevezes' => 'Utcai viselet', 'created_at' => now(), 'updated_at' => now()],
+            ['megnevezes' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
+            ['megnevezes' => 'Környezetbarát', 'created_at' => now(), 'updated_at' => now()],
+            ['megnevezes' => 'Retro', 'created_at' => now(), 'updated_at' => now()],
+            ['megnevezes' => 'Kosaras', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
