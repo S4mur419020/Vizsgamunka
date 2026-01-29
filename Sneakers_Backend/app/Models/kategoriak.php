@@ -11,12 +11,10 @@ class Kategoriak extends Model
     use HasFactory;
     protected $table = 'kategoriaks';
 
-    protected $fillable = [
-        'megnevezes',
-    ];
+    protected $fillable = ['marka', 'tipus'];
 
     public function termekek()
     {
-        return $this->hasMany(Termekek::class, 'kategoria_nev', 'megnevezes');
+        return $this->hasMany(Termekek::class, 'kategoria_id');
     }
 }

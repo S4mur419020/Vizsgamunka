@@ -13,7 +13,7 @@ class MarkakController extends Controller
      */
     public function index()
     {
-        //
+         return response()->json(Markak::withCount('termekek')->get());
     }
 
     /**

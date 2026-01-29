@@ -10,11 +10,12 @@ class Termekek extends Model
     /** @use HasFactory<\Database\Factories\TermekekFactory> */
     use HasFactory;
     protected $table = 'termekeks';
+    protected $primaryKey = 'cikkszam';
 
     protected $fillable = [
         'nev',
         'marka_id',
-        'kategoria_nev',
+        'kategoria_id',
         'leiras',
         'nem',
         'anyag',
@@ -39,8 +40,7 @@ class Termekek extends Model
     {
         return $this->belongsTo(
             Kategoriak::class,
-            'kategoria_nev',
-            'megnevezes'
+            'kategoria_id',
         );
     }
 
@@ -49,7 +49,8 @@ class Termekek extends Model
     {
         return $this->hasMany(
             Termek_valtozatok::class,
-            'termek_id'
+            'termek_id',
+            'cikkszam'
         );
     }
 }

@@ -13,7 +13,7 @@ class KategoriakController extends Controller
      */
     public function index()
     {
-        //
+         return response()->json(Kategoriak::withCount('termekek')->get());
     }
 
     /**

@@ -13,7 +13,9 @@ class TermekValtozatokController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(
+            Termek_valtozatok::with('termek')->get()
+        );
     }
 
     /**

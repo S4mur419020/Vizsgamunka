@@ -19,6 +19,6 @@ class Termek_valtozatok extends Model
 
     public function termek()
     {
-        return $this->belongsTo(Termekek::class, 'termek_id');
+        return $this->belongsTo(Termekek::class, 'termek_id','cikkszam');
     }
 }
