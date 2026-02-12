@@ -3,9 +3,21 @@ import './App.css';
 
 function App() {
   return (
-     <Routes>
-      
-     </Routes>
+     <div className="App">
+      <header className="App-header">
+        <p>
+          Anyád segglyuka
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
 
