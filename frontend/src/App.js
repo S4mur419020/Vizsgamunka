@@ -29,8 +29,8 @@ function App() {
         <Route path="/products/:id" element={isLoggedIn ? <ProductDetailPage /> : <Navigate to="/login" />} />
         <Route path="/cart" element={isLoggedIn ? <CartPage /> : <Navigate to="/login" />} />
         <Route path="/checkout" element={isLoggedIn ? <CheckoutPage /> : <Navigate to="/login" />} />
-        <Route path="/" element={isLoggedIn ? <SettingsPage /> : <Navigate to="/login" />} />
-        <Route path="/" element={isLoggedIn ? <StoresPage /> : <Navigate to="/login" />} />
+        <Route path="/settings" element={isLoggedIn ? <SettingsPage /> : <Navigate to="/login" />} />
+        <Route path="/stores" element={isLoggedIn ? <StoresPage /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );
