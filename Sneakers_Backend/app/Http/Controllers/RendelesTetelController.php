@@ -8,59 +8,38 @@ use App\Models\Rendeles_tetel;
 
 class RendelesTetelController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(RendelesTetel::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'rendeles_id' => 'required|exists:rendeles,id',
+            'termek_id' => 'required|exists:termek,id',
+            'mennyiseg' => 'required|integer|min:1',
+            'ar' => 'required|numeric'
+        ]);
+
+        return response()->json(RendelesTetel::create($validated), 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(/*StoreRendeles_tetelRequest $request*/)
+    public function show($id)
     {
-        //
+        return response()->json(RendelesTetel::findOrFail($id));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Rendeles_tetel $rendeles_tetel)
+    public function update(Request $request, $id)
     {
-        //
+        $tetel = RendelesTetel::findOrFail($id);
+        $tetel->update($request->all());
+        return response()->json($tetel);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Rendeles_tetel $rendeles_tetel)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(/*UpdateRendeles_tetelRequest $request,*/ Rendeles_tetel $rendeles_tetel)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Rendeles_tetel $rendeles_tetel)
-    {
-        //
+        RendelesTetel::destroy($id);
+        return response()->json(['message'=>'Törölve']);
     }
 }

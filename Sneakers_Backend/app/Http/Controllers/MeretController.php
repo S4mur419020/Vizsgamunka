@@ -9,59 +9,35 @@ use Illuminate\Http\Request;
 
 class MeretController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Meret::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nev' => 'required|string'
+        ]);
+
+        return response()->json(Meret::create($validated), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Meret $meret)
+    public function show($id)
     {
-        //
+        return response()->json(Meret::findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Meret $meret)
+    public function update(Request $request, $id)
     {
-        //
+        $meret = Meret::findOrFail($id);
+        $meret->update($request->all());
+        return response()->json($meret);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Meret $meret)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Meret $meret)
-    {
-        //
+        Meret::destroy($id);
+        return response()->json(['message'=>'Törölve']);
     }
 }

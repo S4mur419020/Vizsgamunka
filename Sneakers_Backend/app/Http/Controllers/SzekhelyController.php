@@ -8,59 +8,36 @@ use App\Models\Szekhely;
 
 class SzekhelyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Szekhely::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nev' => 'required|string',
+            'cim' => 'required|string'
+        ]);
+
+        return response()->json(Szekhely::create($validated), 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(/*StoreSzekhelyRequest $request*/)
+    public function show($id)
     {
-        //
+        return response()->json(Szekhely::findOrFail($id));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Szekhely $szekhely)
+    public function update(Request $request, $id)
     {
-        //
+        $szekhely = Szekhely::findOrFail($id);
+        $szekhely->update($request->all());
+        return response()->json($szekhely);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Szekhely $szekhely)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(/*UpdateSzekhelyRequest $request,*/ Szekhely $szekhely)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Szekhely $szekhely)
-    {
-        //
+        Szekhely::destroy($id);
+        return response()->json(['message'=>'Törölve']);
     }
 }

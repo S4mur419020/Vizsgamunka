@@ -9,59 +9,18 @@ use Illuminate\Http\Request;
 
 class RegisztracioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function register(Request $request)
     {
-        //
-    }
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6'
+        ]);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        $validated['password'] = Hash::make($validated['password']);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $user = User::create($validated);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Regisztracio $regisztracio)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Regisztracio $regisztracio)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Regisztracio $regisztracio)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Regisztracio $regisztracio)
-    {
-        //
+        return response()->json($user, 201);
     }
 }

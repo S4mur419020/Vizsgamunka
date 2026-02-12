@@ -8,59 +8,35 @@ use App\Models\kategoriak;
 
 class KategoriakController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-         return response()->json(Kategoriak::withCount('termekek')->get());
+        return response()->json(Kategoria::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nev' => 'required|string'
+        ]);
+
+        return response()->json(Kategoria::create($validated), 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorekategoriakRequest $request)
+    public function show($id)
     {
-        //
+        return response()->json(Kategoria::findOrFail($id));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(kategoriak $kategoriak)
+    public function update(Request $request, $id)
     {
-        //
+        $kategoria = Kategoria::findOrFail($id);
+        $kategoria->update($request->all());
+        return response()->json($kategoria);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(kategoriak $kategoriak)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatekategoriakRequest $request, kategoriak $kategoriak)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(kategoriak $kategoriak)
-    {
-        //
+        Kategoria::destroy($id);
+        return response()->json(['message' => 'Törölve']);
     }
 }

@@ -7,59 +7,51 @@ use Illuminate\Http\Request;
 
 class RendelesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(
+            Rendeles::with(['rendelesTetelek','felhasznalo'])->get()
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        return DB::transaction(function () use ($request) {
+
+            $validated = $request->validate([
+                'felhasznalo_id' => 'required|exists:users,id',
+                'statusz' => 'required|string'
+            ]);
+
+            $rendeles = Rendeles::create($validated);
+
+            if ($request->has('tetelek')) {
+                foreach ($request->tetelek as $tetel) {
+                    $rendeles->rendelesTetelek()->create($tetel);
+                }
+            }
+
+            return response()->json($rendeles, 201);
+        });
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Rendeles $rendeles)
+    public function show($id)
     {
-        //
+        return response()->json(
+            Rendeles::with('rendelesTetelek')->findOrFail($id)
+        );
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Rendeles $rendeles)
+    public function update(Request $request, $id)
     {
-        //
+        $rendeles = Rendeles::findOrFail($id);
+        $rendeles->update($request->all());
+        return response()->json($rendeles);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Rendeles $rendeles)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Rendeles $rendeles)
-    {
-        //
+        Rendeles::destroy($id);
+        return response()->json(['message'=>'Törölve']);
     }
 }

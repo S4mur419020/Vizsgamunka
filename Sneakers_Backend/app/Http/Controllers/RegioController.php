@@ -9,59 +9,35 @@ use Illuminate\Http\Request;
 
 class RegioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Regio::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nev' => 'required|string'
+        ]);
+
+        return response()->json(Regio::create($validated), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Regio $regio)
+    public function show($id)
     {
-        //
+        return response()->json(Regio::findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Regio $regio)
+    public function update(Request $request, $id)
     {
-        //
+        $regio = Regio::findOrFail($id);
+        $regio->update($request->all());
+        return response()->json($regio);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Regio $regio)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Regio $regio)
-    {
-        //
+        Regio::destroy($id);
+        return response()->json(['message'=>'Törölve']);
     }
 }

@@ -9,59 +9,36 @@ use Illuminate\Http\Request;
 
 class NyelvController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Nyelv::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'kod' => 'required|string',
+            'megnevezes' => 'required|string'
+        ]);
+
+        return response()->json(Nyelv::create($validated), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Nyelv $nyelv)
+    public function show($id)
     {
-        //
+        return response()->json(Nyelv::findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Nyelv $nyelv)
+    public function update(Request $request, $id)
     {
-        //
+        $nyelv = Nyelv::findOrFail($id);
+        $nyelv->update($request->all());
+        return response()->json($nyelv);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Nyelv $nyelv)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Nyelv $nyelv)
-    {
-        //
+        Nyelv::destroy($id);
+        return response()->json(['message'=>'Törölve']);
     }
 }
