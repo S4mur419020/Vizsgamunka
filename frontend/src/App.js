@@ -1,5 +1,6 @@
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import HomePage from './Pages/HomePage';
 import ProductListPage from './Pages/ProductListPage';
@@ -11,17 +12,21 @@ import RegistrationPage from './Pages/RegistrationPage';
 import Navigation from './Pages/Navigation';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <Router>
-     <Navigation />
+     {isLoggedIn && <Navigation />}
+
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products" element={<ProductListPage />} />
-        <Route path="/products/:id" element={<ProductDetailPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/register" element={<RegistrationPage />} />
+
+        
+        <Route path="/" element={isLoggedIn ? <HomePage /> : <Navigate to="/login" />} />
+        <Route path="/products" element={isLoggedIn ? <ProductListPage /> : <Navigate to="/login" />} />
+        <Route path="/products/:id" element={isLoggedIn ? <ProductDetailPage /> : <Navigate to="/login" />} />
+        <Route path="/cart" element={isLoggedIn ? <CartPage /> : <Navigate to="/login" />} />
+        <Route path="/checkout" element={isLoggedIn ? <CheckoutPage /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );
