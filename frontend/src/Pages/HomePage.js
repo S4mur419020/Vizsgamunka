@@ -6,12 +6,8 @@ export default function HomePage() {
     <div>
 
       <section>
-        <h1>Üdv a Sneaker qqqqWebshopban</h1>
+        <h1>Üdv a Sneaker Webshopban</h1>
         <p>Vásárolj gyorsan és egyszerűen</p>
-
-        <Link to="/products">
-          <button>Termékek megtekintése</button>
-        </Link>
       </section>
 
       <section>

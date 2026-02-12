@@ -14,7 +14,6 @@ function App() {
   return (
     <Router>
      <Navigation />
-
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductListPage />} />
