@@ -10,8 +10,8 @@ export default function Navigation() {
       <Link to="/cart" style={{ marginRight: "15px" }}>Kosár</Link>
       <Link to="/login" style={{ marginRight: "15px" }}>Bejelentkezés</Link>
       <Link to="/register">Regisztráció</Link>
-      <Link to="/"></Link>
-
+      <Link to="/settings" style={{ marginRight: "15px" }}>Beállítások</Link>
+      <Link to="/stores" style={{ marginRight: "15px" }}>Üzleteink</Link>
     </nav>
   )
 }
