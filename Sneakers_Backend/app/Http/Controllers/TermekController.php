@@ -9,74 +9,39 @@ use Illuminate\Http\Request;
 
 class TermekController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+    public function index()
     {
-        $query = Termekek::with(['marka', 'kategoria', 'valtozatok']);
-
-        if ($request->marka_id) {
-            $query->where('marka_id', $request->marka_id);
-        }
-
-        if ($request->kategoria_id) {
-            $query->where('kategoria_id', $request->kategoria_id);
-        }
-
-        if ($request->elerheto) {
-            $query->where('elerheto', true);
-        }
-
-        return response()->json($query->get());
-    }
-    
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->json(
+            Termek::with(['kategoria','marka','keszlet'])->get()
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoretermekekRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nev' => 'required|string',
+            'ar' => 'required|numeric',
+            'kategoria_id' => 'required|exists:kategoria,id'
+        ]);
+
+        return response()->json(Termek::create($validated), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Termekek $termek)
+    public function show($id)
     {
-        //
+        return response()->json(Termek::findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Termekek $termek)
+    public function update(Request $request, $id)
     {
-        //
+        $termek = Termek::findOrFail($id);
+        $termek->update($request->all());
+        return response()->json($termek);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatetermekekRequest $request, Termekek $termek)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Termekek $termek)
-    {
-        //
+        Termek::destroy($id);
+        return response()->json(['message'=>'Törölve']);
     }
 }

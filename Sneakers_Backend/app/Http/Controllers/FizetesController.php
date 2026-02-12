@@ -8,59 +8,37 @@ use App\Models\Fizetes;
 
 class FizetesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Fizetes::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'rendeles_id' => 'required|exists:rendeles,id',
+            'osszeg' => 'required|numeric',
+            'mod' => 'required|string'
+        ]);
+
+        return response()->json(Fizetes::create($validated), 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(/*StoreFizetesRequest $request*/)
+    public function show($id)
     {
-        //
+        return response()->json(Fizetes::findOrFail($id));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Fizetes $fizetes)
+    public function update(Request $request, $id)
     {
-        //
+        $fizetes = Fizetes::findOrFail($id);
+        $fizetes->update($request->all());
+        return response()->json($fizetes);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Fizetes $fizetes)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(/*UpdateFizetesRequest $request,*/ Fizetes $fizetes)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Fizetes $fizetes)
-    {
-        //
+        Fizetes::destroy($id);
+        return response()->json(['message' => 'Törölve']);
     }
 }

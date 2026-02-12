@@ -8,61 +8,38 @@ use App\Models\termek_valtozatok;
 
 class TermekValtozatokController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return response()->json(
-            Termek_valtozatok::with('termek')->get()
-        );
+        return response()->json(TermekValtozat::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'termek_id' => 'required|exists:termek,id',
+            'meret_id' => 'required|exists:meret,id',
+            'szin' => 'required|string',
+            'keszlet' => 'required|integer'
+        ]);
+
+        return response()->json(TermekValtozat::create($validated), 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Storetermek_valtozatokRequest $request)
+    public function show($id)
     {
-        //
+        return response()->json(TermekValtozat::findOrFail($id));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(termek_valtozatok $termek_valtozatok)
+    public function update(Request $request, $id)
     {
-        //
+        $valtozat = TermekValtozat::findOrFail($id);
+        $valtozat->update($request->all());
+        return response()->json($valtozat);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(termek_valtozatok $termek_valtozatok)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Updatetermek_valtozatokRequest $request, termek_valtozatok $termek_valtozatok)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(termek_valtozatok $termek_valtozatok)
-    {
-        //
+        TermekValtozat::destroy($id);
+        return response()->json(['message'=>'Törölve']);
     }
 }

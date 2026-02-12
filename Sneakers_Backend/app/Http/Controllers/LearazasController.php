@@ -9,59 +9,36 @@ use Illuminate\Http\Request;
 
 class LearazasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Learazas::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'termek_id' => 'required|exists:termek,id',
+            'szazalek' => 'required|numeric|min:0|max:100'
+        ]);
+
+        return response()->json(Learazas::create($validated), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Learazas $learazas)
+    public function show($id)
     {
-        //
+        return response()->json(Learazas::findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Learazas $learazas)
+    public function update(Request $request, $id)
     {
-        //
+        $learazas = Learazas::findOrFail($id);
+        $learazas->update($request->all());
+        return response()->json($learazas);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Learazas $learazas)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Learazas $learazas)
-    {
-        //
+        Learazas::destroy($id);
+        return response()->json(['message'=>'Törölve']);
     }
 }

@@ -9,59 +9,37 @@ use Illuminate\Http\Request;
 
 class TelephelyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Telephely::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'szekhely_id' => 'required|exists:szekhely,id',
+            'nev' => 'required|string',
+            'cim' => 'required|string'
+        ]);
+
+        return response()->json(Telephely::create($validated), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Telephely $telephely)
+    public function show($id)
     {
-        //
+        return response()->json(Telephely::findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Telephely $telephely)
+    public function update(Request $request, $id)
     {
-        //
+        $telephely = Telephely::findOrFail($id);
+        $telephely->update($request->all());
+        return response()->json($telephely);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Telephely $telephely)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Telephely $telephely)
-    {
-        //
+        Telephely::destroy($id);
+        return response()->json(['message'=>'Törölve']);
     }
 }

@@ -8,59 +8,35 @@ use App\Models\markak;
 
 class MarkakController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-         return response()->json(Markak::withCount('termekek')->get());
+        return response()->json(Marka::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nev' => 'required|string'
+        ]);
+
+        return response()->json(Marka::create($validated), 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoremarkakRequest $request)
+    public function show($id)
     {
-        //
+        return response()->json(Marka::findOrFail($id));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(markak $markak)
+    public function update(Request $request, $id)
     {
-        //
+        $marka = Marka::findOrFail($id);
+        $marka->update($request->all());
+        return response()->json($marka);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(markak $markak)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatemarkakRequest $request, markak $markak)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(markak $markak)
-    {
-        //
+        Marka::destroy($id);
+        return response()->json(['message'=>'Törölve']);
     }
 }

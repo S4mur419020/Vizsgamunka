@@ -9,59 +9,36 @@ use Illuminate\Http\Request;
 
 class ArController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Ar::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'termek_id' => 'required|exists:termek,id',
+            'osszeg' => 'required|numeric'
+        ]);
+
+        return response()->json(Ar::create($validated), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ar $ar)
+    public function show($id)
     {
-        //
+        return response()->json(Ar::findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ar $ar)
+    public function update(Request $request, $id)
     {
-        //
+        $ar = Ar::findOrFail($id);
+        $ar->update($request->all());
+        return response()->json($ar);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ar $ar)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ar $ar)
-    {
-        //
+        Ar::destroy($id);
+        return response()->json(['message' => 'Törölve']);
     }
 }
