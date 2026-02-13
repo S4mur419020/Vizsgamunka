@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Rendeles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class RendelesController extends Controller
 {

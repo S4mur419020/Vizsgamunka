@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRegisztracioRequest;
-use App\Http\Requests\UpdateRegisztracioRequest;
-use App\Models\Regisztracio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
 
 class RegisztracioController extends Controller
 {

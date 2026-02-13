@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFizetesRequest;
 use App\Http\Requests\UpdateFizetesRequest;
 use App\Models\Fizetes;
+use Illuminate\Http\Request;
 
 class FizetesController extends Controller
 {

@@ -11,7 +11,7 @@ class SzallitasiCimController extends Controller
 {
     public function index()
     {
-        return response()->json(SzallitasiCim::all());
+        return response()->json(Szallitasi_Cim::all());
     }
 
     public function store(Request $request)
@@ -23,24 +23,24 @@ class SzallitasiCimController extends Controller
             'iranyitoszam' => 'required|string'
         ]);
 
-        return response()->json(SzallitasiCim::create($validated), 201);
+        return response()->json(Szallitasi_Cim::create($validated), 201);
     }
 
     public function show($id)
     {
-        return response()->json(SzallitasiCim::findOrFail($id));
+        return response()->json(Szallitasi_Cim::findOrFail($id));
     }
 
     public function update(Request $request, $id)
     {
-        $cim = SzallitasiCim::findOrFail($id);
+        $cim = Szallitasi_Cim::findOrFail($id);
         $cim->update($request->all());
         return response()->json($cim);
     }
 
     public function destroy($id)
     {
-        SzallitasiCim::destroy($id);
+        Szallitasi_Cim::destroy($id);
         return response()->json(['message'=>'Törölve']);
     }
 }

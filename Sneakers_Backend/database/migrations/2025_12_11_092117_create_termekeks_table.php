@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreignId('kategoria_id')
                 ->constrained('kategoriaks')
                 ->cascadeOnDelete();
-
+            $table->string('kep')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

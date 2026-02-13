@@ -15,14 +15,14 @@ export default function HomePage() {
 
         <div>
           <div>
-            <h3>Termék 1</h3>
-            <p>10 000 Ft</p>
+            <h3>Niek Air Force 1</h3>
+            <p>34 990 Ft</p>
             <Link to="/products/1">Részletek</Link>
           </div>
 
           <div>
-            <h3>Termék 2</h3>
-            <p>15 000 Ft</p>
+            <h3>Adidas Superstar</h3>
+            <p>37 600 Ft</p>
             <Link to="/products/2">Részletek</Link>
           </div>
         </div>

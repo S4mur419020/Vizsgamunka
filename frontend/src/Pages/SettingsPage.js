@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { SettingsContext } from '../context/SettingsContext';
+import SettingsContext  from '../Context/SettingsContext';
 
 export default function SettingsPage() {
   const { darkMode, setDarkMode, language, setLanguage, notifications, setNotifications } =

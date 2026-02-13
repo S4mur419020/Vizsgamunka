@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSzekhelyRequest;
 use App\Http\Requests\UpdateSzekhelyRequest;
 use App\Models\Szekhely;
+use Illuminate\Http\Request;
 
 class SzekhelyController extends Controller
 {

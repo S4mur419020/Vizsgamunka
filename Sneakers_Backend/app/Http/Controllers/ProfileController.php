@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    // GET /api/profile
+    
     public function show(Request $request)
     {
         return response()->json($request->user());
     }
 
-    // PATCH /api/profile
+    
     public function update(ProfileUpdateRequest $request)
     {
         $request->user()->fill($request->validated());
@@ -28,7 +28,7 @@ class ProfileController extends Controller
         return response()->noContent();
     }
 
-    // DELETE /api/profile
+    
     public function destroy(Request $request)
     {
         $request->validate([
