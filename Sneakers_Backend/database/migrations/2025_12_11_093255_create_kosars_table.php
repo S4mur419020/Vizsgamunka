@@ -21,7 +21,7 @@ return new class extends Migration
             $table->dateTime('hozzaadas_datum');
 
             $table->foreign('felhasznalo_id')
-                ->references('felhasznalo_id')   // itt a pontos oszlopnév!
+                ->references('felhasznalo_id')   
                 ->on('felhasznalos')
                 ->onDelete('cascade');
 

@@ -22,7 +22,7 @@ class TermekekSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'nev' => 'Nike Revolution 6',
+                'nev' => ' Nike Revolution 6 ',
                 'kategoria_id' => 2,
                 'marka_id' => 1,
                 'nem' => 'no',
@@ -60,6 +60,7 @@ class TermekekSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                //kell még kép
                 'nev' => 'Adidas Harden Vol. 7',
                 'kategoria_id' => 6,
                 'marka_id' => 2,
@@ -198,6 +199,7 @@ class TermekekSeeder extends Seeder
             ],
             // Balenciaga
             [
+                //kell még kép
                 'nev' => 'Balenciaga Triple S',
                 'kategoria_id' => 17,
                 'marka_id' => 11,
@@ -231,6 +233,7 @@ class TermekekSeeder extends Seeder
 
             // Off-White
             [
+                //kell még kép
                 'nev' => 'Off-White Odsy-1000',
                 'kategoria_id' => 20,
                 'marka_id' => 14,
@@ -264,6 +267,7 @@ class TermekekSeeder extends Seeder
 
             // Allbirds
             [
+                //kell még kép
                 'nev' => 'Allbirds Wool Runner',
                 'kategoria_id' => 25,
                 'marka_id' => 17,
@@ -275,6 +279,7 @@ class TermekekSeeder extends Seeder
 
             // Cariuma
             [
+                //kell még kép
                 'nev' => 'Cariuma OCA Low',
                 'kategoria_id' => 26,
                 'marka_id' => 18,

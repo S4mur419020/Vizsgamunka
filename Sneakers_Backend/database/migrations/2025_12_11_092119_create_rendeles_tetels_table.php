@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('rendeles_tetels', function (Blueprint $table) {
             $table->id('rendelestetel_id');
 
-            $table->unsignedBigInteger('rendeles_id');  // ha van rendeles tábla
-            $table->unsignedBigInteger('termek_id');    // BIGINT, egyezik a termekeks.cikkszam
-            $table->unsignedBigInteger('meret_id');    // egyezik a merets.meretvalasztek típusával
+            $table->unsignedBigInteger('rendeles_id');  
+            $table->unsignedBigInteger('termek_id');    
+            $table->unsignedBigInteger('meret_id');    
             $table->integer('mennyiseg');
             $table->integer('egyseg_ar');
             $table->unsignedBigInteger('fizetes_id');

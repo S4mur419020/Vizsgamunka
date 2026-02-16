@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('nem', 10);
             $table->string('anyag', 50);
             $table->boolean('elerheto')->default(true);
-
+            $table->string('kepUrl', 255);
             $table->foreignId('marka_id')
                 ->constrained('markaks')
                 ->cascadeOnDelete();
