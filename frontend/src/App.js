@@ -15,22 +15,27 @@ import SettingsPage from './Pages/SettingsPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
-      <Router>
-        {isLoggedIn && <Navigation />}
-        <Routes>
-          <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/register" element={<RegistrationPage />} />
-          <Route path="/" element={isLoggedIn ? <HomePage /> : <Navigate to="/login" />} />
-          <Route path="/products" element={isLoggedIn ? <ProductListPage /> : <Navigate to="/login" />} />
-          <Route path="/products/:id" element={isLoggedIn ? <ProductDetailPage /> : <Navigate to="/login" />} />
-          <Route path="/cart" element={isLoggedIn ? <CartPage /> : <Navigate to="/login" />} />
-          <Route path="/checkout" element={isLoggedIn ? <CheckoutPage /> : <Navigate to="/login" />} />
-          <Route path="/settings" element={isLoggedIn ? <SettingsPage /> : <Navigate to="/login" />} />
-          <Route path="/stores" element={isLoggedIn ? <StoresPage /> : <Navigate to="/login" />} />
-        </Routes>
-      </Router>
+    <Router>
+      <Navigation />
+
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+
+        <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/register" element={<RegistrationPage />} />
+
+        <Route path="/products" element={isLoggedIn ? <ProductListPage /> : <Navigate to="/login" />} />
+        <Route path="/products/:id" element={isLoggedIn ? <ProductDetailPage /> : <Navigate to="/login" />} />
+        <Route path="/cart" element={isLoggedIn ? <CartPage /> : <Navigate to="/login" />} />
+        <Route path="/checkout" element={isLoggedIn ? <CheckoutPage /> : <Navigate to="/login" />} />
+        <Route path="/settings" element={isLoggedIn ? <SettingsPage /> : <Navigate to="/login" />} />
+        <Route path="/stores" element={isLoggedIn ? <StoresPage /> : <Navigate to="/login" />} />
+      </Routes>
+    </Router>
   );
 }
+
 
 export default App;
