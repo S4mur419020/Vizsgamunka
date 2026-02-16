@@ -195,7 +195,116 @@ class TermekekSeeder extends Seeder
                 'anyag' => 'bőr',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
+            // Balenciaga
+            [
+                'nev' => 'Balenciaga Triple S',
+                'kategoria_id' => 17,
+                'marka_id' => 11,
+                'nem' => 'ferfi',
+                'anyag' => 'bőr',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            // Alexander McQueen
+            [
+                'nev' => 'Alexander McQueen Oversized Sneaker',
+                'kategoria_id' => 18,
+                'marka_id' => 12,
+                'nem' => 'no',
+                'anyag' => 'bőr',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            // Gucci
+            [
+                'nev' => 'Gucci Rhyton',
+                'kategoria_id' => 19,
+                'marka_id' => 13,
+                'nem' => 'unisex',
+                'anyag' => 'bőr',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            // Off-White
+            [
+                'nev' => 'Off-White Odsy-1000',
+                'kategoria_id' => 20,
+                'marka_id' => 14,
+                'nem' => 'ferfi',
+                'anyag' => 'textil',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            // Maison Margiela
+            [
+                'nev' => 'Maison Margiela Replica',
+                'kategoria_id' => 21,
+                'marka_id' => 15,
+                'nem' => 'unisex',
+                'anyag' => 'bőr',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            // Veja
+            [
+                'nev' => 'Veja V-10',
+                'kategoria_id' => 24,
+                'marka_id' => 16,
+                'nem' => 'unisex',
+                'anyag' => 'textil',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            // Allbirds
+            [
+                'nev' => 'Allbirds Wool Runner',
+                'kategoria_id' => 25,
+                'marka_id' => 17,
+                'nem' => 'ferfi',
+                'anyag' => 'gyapjú',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            // Cariuma
+            [
+                'nev' => 'Cariuma OCA Low',
+                'kategoria_id' => 26,
+                'marka_id' => 18,
+                'nem' => 'no',
+                'anyag' => 'vászon',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            // Adidas x Parley
+            [
+                'nev' => 'Adidas x Parley Ultraboost',
+                'kategoria_id' => 27,
+                'marka_id' => 19,
+                'nem' => 'unisex',
+                'anyag' => 'újrahasznosított textil',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            // Nike Space Hippie
+            [
+                'nev' => 'Nike Space Hippie 04',
+                'kategoria_id' => 28,
+                'marka_id' => 20,
+                'nem' => 'ferfi',
+                'anyag' => 'újrahasznosított textil',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

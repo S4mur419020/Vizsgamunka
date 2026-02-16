@@ -26,7 +26,7 @@ class RendelesTetelSeeder extends Seeder
             'telephely_id' => 1,
         ]);
 
-        // Frissítjük a rendelés összegét
+        
         $rendeles->increment('osszeg', $termek->ar * $mennyiseg);
     }
 }

@@ -14,8 +14,8 @@ class TelephelySeeder extends Seeder
             [
                 'nev' => 'Központi raktár',
                 'szekhely_id' => 1,
-                'tipus' => 'raktar',           // korábban hiányzott
-                'cim' => 'Fő út 2',            // most hozzáadva
+                'tipus' => 'raktar',           
+                'cim' => 'Fő út 2',            
                 'created_at' => now(),
                 'updated_at' => now(),
             ]
