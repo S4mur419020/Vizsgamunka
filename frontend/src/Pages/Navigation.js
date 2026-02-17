@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaUser, FaCog, FaGift } from 'react-icons/fa';
 import '../css/Navigation.css';
 
-export default function Navigation() {
+export default function Navigation({ toggleSettings }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userMenuRef = useRef(null);
 
@@ -18,13 +18,12 @@ export default function Navigation() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  //a return elött rész csak az eltüntetés csinálj, hogy ne csak az ikonra kattintva tünjön el a bejelentkezés
   return (
     <nav style={{ padding: "10px", borderBottom: "1px solid gray", display: "flex", alignItems: "center", gap: "15px" }}>
       <Link to="/">Főoldal</Link>
       <Link to="/products">Cipőink</Link>
       <Link to="/stores">Üzleteink</Link>
-      
+
       <Link to="/cart" title="Kosár">
         <FaGift size={20} />
       </Link>
@@ -53,11 +52,14 @@ export default function Navigation() {
         )}
       </div>
 
-      <Link to="/settings" title="Beállítások">
+      {/* Settings ikon: ne Link legyen, hanem button */}
+      <button 
+        onClick={toggleSettings} 
+        title="Beállítások" 
+        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+      >
         <FaCog size={20} />
-      </Link>
-
-
+      </button>
     </nav>
   );
 }

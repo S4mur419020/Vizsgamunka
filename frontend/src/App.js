@@ -12,7 +12,7 @@ import CheckoutPage from "./Pages/CheckoutPage";
 import LoginPage from "./Pages/LoginPage";
 import RegistrationPage from "./Pages/RegistrationPage";
 import StoresPage from "./Pages/StoresPage";
-import SettingsPage from "./Pages/SettingsPage";
+import { SettingsProvider } from "./context/SettingsContext";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,10 +51,6 @@ function App() {
           element: isLoggedIn ? <CheckoutPage /> : <Navigate to="/login" />,
         },
         {
-          path: "settings",
-          element: isLoggedIn ? <SettingsPage /> : <Navigate to="/login" />,
-        },
-        {
           path: "stores",
           element: isLoggedIn ? <StoresPage /> : <Navigate to="/login" />,
         },
@@ -62,7 +58,11 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <SettingsProvider>
+      <RouterProvider router={router} />
+    </SettingsProvider>
+  );
 }
 
 export default App;

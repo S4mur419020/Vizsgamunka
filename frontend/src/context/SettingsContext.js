@@ -1,7 +1,24 @@
-import React from 'react'
+import React, { createContext, useState } from "react";
 
-export default function SettingsContext() {
+export const SettingsContext = createContext();
+
+export function SettingsProvider({ children }) {
+  const [darkMode, setDarkMode] = useState(false);
+  const [language, setLanguage] = useState("hu");
+  const [notifications, setNotifications] = useState(true);
+
   return (
-    <div>SettingsContext</div>
-  )
+    <SettingsContext.Provider
+      value={{
+        darkMode,
+        setDarkMode,
+        language,
+        setLanguage,
+        notifications,
+        setNotifications,
+      }}
+    >
+      {children}
+    </SettingsContext.Provider>
+  );
 }

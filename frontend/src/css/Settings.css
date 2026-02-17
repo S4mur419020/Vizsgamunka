@@ -1,0 +1,48 @@
+.settings-dropdown {
+    text-align: center;
+    border: 1px solid #1f2937;
+    background-color: #111827;
+    border-radius: 20px;
+}
+
+.settings-section {
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.settings-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+.settings-select {
+    background-color: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 8px;
+    color: white;
+    outline: none;
+}
+
+.settings-close {
+    margin-top: 16px;
+    width: 100%;
+    background: linear-gradient(to right, #06b6d4, #2563eb);
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.settings-close:hover {
+    opacity: 0.9;
+}
+
+.settings-close:active {
+    transform: scale(0.95);
+}
