@@ -18,7 +18,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const router = createBrowserRouter([
-    //Nav nélkül jelenik meg
+    
     {
       path: "/login",
       element: <LoginPage setIsLoggedIn={setIsLoggedIn} />,
@@ -27,7 +27,7 @@ function App() {
       path: "/register",
       element: <RegistrationPage />,
     },
-    //Nav-val jelenik meg
+    
     {
       path: "/",
       element: <Layout />,
