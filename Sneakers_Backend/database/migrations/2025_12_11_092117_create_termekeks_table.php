@@ -18,8 +18,9 @@ return new class extends Migration
             $table->text('leiras')->nullable();
             $table->string('nem', 10);
             $table->string('anyag', 50);
+            $table->integer('ar')->default(0);
             $table->boolean('elerheto')->default(true);
-           
+
             $table->foreignId('marka_id')
                 ->constrained('markaks')
                 ->cascadeOnDelete();
@@ -27,7 +28,7 @@ return new class extends Migration
             $table->foreignId('kategoria_id')
                 ->constrained('kategoriaks')
                 ->cascadeOnDelete();
-            $table->string('kepUrl',255);
+            $table->string('kepUrl', 255);
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
@@ -39,5 +40,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('termekeks');
+
+        Schema::table('termekeks', function (Blueprint $table) {
+            $table->dropColumn('ar');
+        });
     }
 };

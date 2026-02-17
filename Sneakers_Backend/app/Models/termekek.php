@@ -21,7 +21,7 @@ class Termekek extends Model
         'anyag',
         'elerheto',
         'ar',
-        'kep',
+        'kepUrl',
     ];
 
 

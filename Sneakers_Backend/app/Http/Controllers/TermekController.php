@@ -16,8 +16,8 @@ class TermekController extends Controller
         $termekek = Termekek::with(['kategoria', 'marka', 'valtozatok'])->get();
 
         $termekek->map(function ($termek) {
-            if ($termek->kep) {
-                $termek->kep = asset('storage/'. $termek->kep);
+            if ($termek->kepUrl) {
+                $termek->kepUrl = asset('storage/' . $termek->kepUrl);
             }
             return $termek;
         });
@@ -31,12 +31,18 @@ class TermekController extends Controller
             'nev' => 'required|string',
             'ar' => 'required|numeric',
             'kategoria_id' => 'required|exists:kategoria,id',
-            'kep' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'marka_id' => 'required|exists:marka,id',
+            'nem' => 'required|string',
+            'anyag' => 'required|string',
+            'leiras' => 'nullable|string',
+            'elerheto' => 'boolean',
+            'kepUrl' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+
         ]);
 
-        if ($request->hasFile('kep')) {
-            $path = $request->file('kep')->store('termekek', 'public');
-            $validated['kep'] = $path;
+        if ($request->hasFile('kepUrl')) {
+            $path = $request->file('kepUrl')->store('termekek', 'public');
+            $validated['kepUrl'] = $path;
         }
 
         $termek = Termekek::create($validated);
@@ -56,17 +62,23 @@ class TermekController extends Controller
         $validated = $request->validate([
             'nev' => 'sometimes|string',
             'ar' => 'sometimes|numeric',
-            'kategoria_id' => 'sometimes|exists:kategoriak,id',
-            'kep' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'kategoria_id' => 'sometimes|exists:kategoria,id',
+            'marka_id' => 'sometimes|exists:marka,id',
+            'nem' => 'sometimes|string',
+            'anyag' => 'sometimes|string',
+            'leiras' => 'nullable|string',
+            'elerheto' => 'boolean',
+            'kepUrl' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+
         ]);
 
-        if ($request->hasFile('kep')) {
-            if ($termek->kep) {
-                Storage::disk('public')->delete($termek->kep);
+        if ($request->hasFile('kepUrl')) {
+            if ($termek->kepUrl) {
+                Storage::disk('public')->delete($termek->kepUrl);
             }
 
-            $path = $request->file('kep')->store('termekek', 'public');
-            $validated['kep'] = $path;
+            $path = $request->file('kepUrl')->store('termekek', 'public');
+            $validated['kepUrl'] = $path;
         }
 
 
