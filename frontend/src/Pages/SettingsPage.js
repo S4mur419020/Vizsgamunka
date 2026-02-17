@@ -4,7 +4,7 @@ import '../css/Settings.css'
 
 
 export default function SettingsPage({ visible, onClose }) {
-  const { darkMode, setDarkMode, language, setLanguage, notifications, setNotifications } =
+  const { lightMode, setDarkMode, language, setLanguage, notifications, setNotifications } =
     useContext(SettingsContext);
 
   if (!visible) return null;
@@ -43,11 +43,11 @@ export default function SettingsPage({ visible, onClose }) {
       >
         <div className="settings-section">
           <label className="settings-label">
-            Sötét mód
+            Világos mód
             <input
               type="checkbox"
-              checked={darkMode}
-              onChange={() => setDarkMode(!darkMode)}
+              checked={lightMode}
+              onChange={() => setDarkMode(!lightMode)}
             />
           </label>
         </div>

@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaUser, FaCog, FaGift } from 'react-icons/fa';
-import '../css/Navigation.css';
 
-export default function Navigation({ toggleSettings }) {
+export default function Navigation({ toggleSettings, toggleLogin }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userMenuRef = useRef(null);
 
@@ -13,49 +12,25 @@ export default function Navigation({ toggleSettings }) {
         setIsDropdownOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
-    <nav style={{ padding: "10px", borderBottom: "1px solid gray", display: "flex", alignItems: "center", gap: "15px" }}>
+    <nav style={{ padding: "10px", display: "flex", gap: "15px", alignItems: "center" }}>
       <Link to="/">Főoldal</Link>
       <Link to="/products">Cipőink</Link>
       <Link to="/stores">Üzleteink</Link>
 
-      <Link to="/cart" title="Kosár">
-        <FaGift size={20} />
-      </Link>
+      <Link to="/cart"><FaGift size={20} /></Link>
 
-      <div className="user-menu" ref={userMenuRef}>
-        <FaUser
-          size={20}
-          title="Bejelentkezés"
-          onClick={() => setIsDropdownOpen(prev => !prev)}
-          style={{ cursor: 'pointer' }}
-        />
-
-        {isDropdownOpen && (
-          <div className="dropdown">
-            <Link to="/login" className="login-button">
-              BEJELENTKEZÉS
-            </Link>
-
-            <div className="register-box">
-              <span>Még nincs fiókod? </span>
-              <Link to="/register" className="register-link">
-                Regisztráció
-              </Link>
-            </div>
-          </div>
-        )}
+      <div ref={userMenuRef} className="user-menu">
+        <FaUser size={20} style={{ cursor: 'pointer' }} onClick={toggleLogin} />
       </div>
 
-      {/* Settings ikon: ne Link legyen, hanem button */}
-      <button 
-        onClick={toggleSettings} 
-        title="Beállítások" 
+      <button
+        onClick={toggleSettings}
+        title="Beállítások"
         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
       >
         <FaCog size={20} />
