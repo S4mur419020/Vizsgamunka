@@ -15,13 +15,6 @@ class TermekController extends Controller
     {
         $termekek = Termekek::with(['kategoria', 'marka', 'valtozatok'])->get();
 
-        $termekek->map(function ($termek) {
-            if ($termek->kepUrl) {
-                $termek->kepUrl = asset('storage/' . $termek->kepUrl);
-            }
-            return $termek;
-        });
-
         return response()->json($termekek);
     }
 
