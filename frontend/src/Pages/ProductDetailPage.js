@@ -49,7 +49,7 @@ export default function ProductDetailPage() {
             <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
                 <div style={{ flex: '1', minWidth: '300px' }}>
                     <img 
-                        src={termek.kep || 'https://via.placeholder.com/400'} 
+                        src={termek.kepUrl ? `/kepek/${termek.kepUrl}` : "/no-image.png"} 
                         alt={termek.nev} 
                         style={{ width: '100%', borderRadius: '15px', boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }} 
                     />

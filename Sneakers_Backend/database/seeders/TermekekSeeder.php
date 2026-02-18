@@ -72,7 +72,7 @@ class TermekekSeeder extends Seeder
                 'marka_id' => 2,
                 'nem' => 'ferfi',
                 'anyag' => 'primeknit',
-                'kepUrl' => 'AdidasUltraboost22.jpg',
+                'kepUrl' => 'AdidasUlrtaboots22.jpg',
                 'ar' => 69990,
                 'elerheto' => true,
                 'leiras' => 'Prémium futócipő Boost technológiával maximális kényelemért.',
