@@ -5,4 +5,5 @@ export const myAxios = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: false
 });
