@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaUser, FaCog, FaGift } from "react-icons/fa";
+import { FaUser, FaCog, FaShoppingCart } from "react-icons/fa";
 import "../css/Navigation.css";
 
 export default function Navigation({ toggleSettings }) {
@@ -25,7 +25,7 @@ export default function Navigation({ toggleSettings }) {
       <Link to="/stores">Üzleteink</Link>
 
       <Link to="/cart" title="Kosár">
-        <FaGift size={20} />
+        <FaShoppingCart size={20} />
       </Link>
 
       <div className="user-menu" ref={userMenuRef}>
