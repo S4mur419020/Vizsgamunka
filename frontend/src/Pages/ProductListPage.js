@@ -31,18 +31,6 @@ export default function ProductListPage() {
             });
     }, []);
 
-    const addToCart = (termek) => {
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const existingItem = cart.find(item => item.cikkszam === termek.cikkszam);
-        if (existingItem) {
-            existingItem.quantity += 1;
-        } else {
-            cart.push({ ...termek, quantity: 1 });
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        alert(`${termek.nev} bekerült a kosárba!`);
-    };
-
     if (loading) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>Termékek betöltése...</div>;
 
     const filteredProducts = termekek.filter(t => {
@@ -97,7 +85,6 @@ export default function ProductListPage() {
                             <option value="">Mind</option>
                             <option value="ferfi">Férfi</option>
                             <option value="no">Nő</option>
-                            <option value="gyerek">Gyerek</option>
                             <option value="unisex">Unisex</option>
                         </select>
 
@@ -143,7 +130,6 @@ export default function ProductListPage() {
                         <h3>{termek.nev}</h3>
                         <p style={{ color: '#007bff', fontWeight: 'bold' }}>{Number(termek.ar).toLocaleString()} Ft</p>
                         <Link to={`/products/${termek.cikkszam}`} style={{ color: '#aaa', display: 'block', margin: '10px 0' }}>Részletek</Link>
-                        <button onClick={() => addToCart(termek)} style={{ padding: '10px', background: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', width: '100%' }}>KOSÁRBA</button>
                     </div>
                 ))}
             </div>
