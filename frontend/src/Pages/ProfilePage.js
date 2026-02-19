@@ -30,7 +30,7 @@ export default function ProfilePage() {
         if (p.imageDataUrl) setImage(p.imageDataUrl);
       } catch {}
     }
-  }, []);
+  }, [email,firstName]);
 
   const handleImage = (e) => {
     const file = e.target.files?.[0];
