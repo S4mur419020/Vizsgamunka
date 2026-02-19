@@ -1,35 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/Cart.css';
 
 export default function CartPage() {
-  const [items, setItems] = useState([
-    { id: 1, brand: "Márka", name: "Cipő leírás", price: 45000, qty: 1 }
-  ]);
+  
+  const [items, setItems] = useState([]);
 
+  
+  useEffect(() => {
+    const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    setItems(savedCart);
+  }, []);
+
+  
+  const removeItem = (index) => {
+    const newCart = items.filter((_, i) => i !== index);
+    setItems(newCart);
+    localStorage.setItem('cart', JSON.stringify(newCart));
+  };
+
+  
+  const total = items.reduce((sum, item) => {
+    
+    const price = Number(String(item.ar).replace(/[^0-9]/g, '')) || 0;
+    const qty = Number(item.quantity || item.qty) || 0;
+    return sum + (price * qty);
+
+}, 0);
   return (
     <div className="cart-container">
       <div className="cart-layout">
         
         <div className="items-section">
-          {items.map(item => (
-            <div key={item.id} className="cart-item">
-              <div className="item-image">Cipő kép</div>
-              <div className="item-details">
-                <div className="item-header">
-                  <span>{item.brand}</span>
-                  <span>{item.price} Ft</span>
+          {items.length > 0 ? (
+            items.map((item, index) => (
+              <div key={index} className="cart-item">
+                
+                <div className="item-image">
+                  <img src={item.kep} alt={item.nev} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                 </div>
-                <p>{item.name}</p>
-                <div className="qty-controls">
-                   Mennyiség: <input type="number" value={item.qty} readOnly />
-                   <button className="delete-btn">🗑️ Törlés</button>
+                <div className="item-details">
+                  <div className="item-header">
+                    <span>{item.nev}</span>
+                    <span>{item.ar} Ft</span>
+                  </div>
+                 
+                  <p>Méret: <strong>{item.meret}</strong></p>
+                  <div className="qty-controls">
+                     Mennyiség: <input type="number" value={item.mennyiseg} readOnly style={{width: '40px', background: '#222', color: 'white', border: 'none', marginLeft: '5px'}} />
+                     <button className="delete-btn" onClick={() => removeItem(index)}>🗑️ Törlés</button>
+                  </div>
                 </div>
               </div>
+            ))
+          ) : (
+            <div style={{textAlign: 'center', padding: '50px', color: '#888'}}>
+              A kosarad még üres.
             </div>
-          ))}
+          )}
           
           <div className="recommended-box" style={{border: '1px solid #444', height: '200px', marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-             Pluszba ajánlott termékek
+              Pluszba ajánlott termékek
           </div>
         </div>
 
@@ -37,9 +67,12 @@ export default function CartPage() {
           <h2>Összesen:</h2>
           <div className="summary-row">
             <span>Részösszeg</span>
-            <span>45.000 Ft</span>
+            
+            <span>{total.toLocaleString()} Ft</span>
           </div>
-          <button className="checkout-btn">Tovább a fizetéshez</button>
+          <button className="checkout-btn" disabled={items.length === 0}>
+            Tovább a fizetéshez
+          </button>
           <p style={{textAlign: 'center', fontSize: '12px', marginTop: '10px'}}>Kiszállítási idő: 2-3 munkanap</p>
         </div>
 

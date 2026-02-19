@@ -24,21 +24,35 @@ export default function ProductDetailPage() {
     }, [id]);
 
     const addToCart = () => {
-        if (!selectedSize) {
-            alert("Kérlek, válassz méretet!");
-            return;
-        }
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const existingItem = cart.find(item => item.cikkszam === termek.cikkszam && item.valasztottMeret === selectedSize);
+      if (!selectedSize) {
+        alert("Kérlek, válassz méretet!");
+        return;
+    }
 
-        if (existingItem) {
-            existingItem.quantity += 1;
-        } else {
-            cart.push({ ...termek, quantity: 1, valasztottMeret: selectedSize });
-        }
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    
+    const existingItem = cart.find(item => 
+        item.cikkszam === termek.cikkszam && item.valasztottMeret === selectedSize
+    );
 
-        localStorage.setItem('cart', JSON.stringify(cart));
-        alert('Kosárhoz adva!');
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        
+        cart.push({ 
+            ...termek, 
+            quantity: 1, 
+            valasztottMeret: selectedSize,
+            
+            ar: Number(String(termek.ar).replace(/[^0-9]/g, '')),
+            
+            kep: termek.kepUrl ? `/kepek/${termek.kepUrl}` : "/no-image.png"
+        });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert('Kosárhoz adva!');
     };
 
     if (loading) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>Betöltés...</div>;
@@ -121,7 +135,7 @@ export default function ProductDetailPage() {
                         >
                             <option value="">Válassz méretet</option>
                             {meretek.map(m => {
-                                
+
                                 const vanKeszleten = termek.valtozatok && termek.valtozatok.some(v => v.nev.includes(String(m)));
 
                                 return (
@@ -137,23 +151,35 @@ export default function ProductDetailPage() {
                     <div style={{ display: 'flex', gap: '10px', marginBottom: '30px' }}>
                         <button
                             onClick={addToCart}
-                            disabled={!termek.valtozatok?.length}
+                            
+                            disabled={!selectedSize}
                             style={{
                                 flex: '1',
                                 padding: '16px',
-                                background: 'white',
-                                color: 'black',
+                                background: selectedSize ? 'white' : '#555', 
+                                color: selectedSize ? 'black' : '#ccc',
                                 border: 'none',
                                 fontWeight: 'bold',
-                                cursor: termek.valtozatok?.length ? 'pointer' : 'not-allowed',
+                                cursor: selectedSize ? 'pointer' : 'not-allowed',
                                 textTransform: 'uppercase'
                             }}
                         >
-                            {termek.valtozatok?.length ? 'Kosárhoz ad' : 'Nincs készleten'}
+                            {selectedSize ? 'Kosárhoz ad' : 'Válassz méretet!'}
                         </button>
+
                         <button
                             onClick={() => setIsFavorite(!isFavorite)}
-                            style={{ width: '55px', background: '#1a1a1a', border: '1px solid #444', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}
+                            style={{
+                                width: '55px',
+                                background: '#1a1a1a',
+                                border: '1px solid #444',
+                                color: 'white',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '20px'
+                            }}
                         >
                             {isFavorite ? <FaHeart style={{ color: 'red' }} /> : <FaRegHeart />}
                         </button>
