@@ -13,7 +13,8 @@ export default function ProductListPage() {
     const [filter, setFilter] = useState({
         nem: "",
         meret: "",
-        szin: ""
+        szin: "",
+        marka: ""
     });
 
 
@@ -34,11 +35,12 @@ export default function ProductListPage() {
     if (loading) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>Termékek betöltése...</div>;
 
     const filteredProducts = termekek.filter(t => {
-        return (
-            (filter.nem === "" || t.nem === filter.nem) &&
-            (filter.meret === "" || t.meret?.includes(filter.meret)) &&
-            (filter.szin === "" || t.szin?.toLowerCase().includes(filter.szin.toLowerCase()))
-        );
+        const nemPasszol = filter.nem === "" || t.nem === filter.nem;
+        const meretPasszol = filter.meret === "" || (t.meret && t.meret.toString().includes(filter.meret));
+        const szinPasszol = filter.szin === "" || (t.szin && t.szin.toLowerCase().includes(filter.szin.toLowerCase()));
+        const markaPasszol = filter.marka === "" || String(t.marka_id) === String(filter.marka);
+
+        return nemPasszol && meretPasszol && szinPasszol && markaPasszol;
     });
 
 
@@ -105,6 +107,30 @@ export default function ProductListPage() {
                             onChange={(e) => setFilter({ ...filter, szin: e.target.value })}
                             style={{ width: "100%", padding: "10px", marginBottom: "15px" }}
                         />
+
+                        <label>Márka:</label>
+                        <select
+                            value={filter.marka}
+                            onChange={(e) => setFilter({ ...filter, marka: e.target.value })}
+                            style={{
+                                width: "100%",
+                                padding: "10px",
+                                marginBottom: "15px",
+                                background: "#333",
+                                color: "white",
+                                border: "1px solid #444",
+                                borderRadius: "5px"
+                            }}
+                        >
+                            <option value="">Összes márka</option>
+                            <option value="4">Jordan</option>
+                            <option value="5">Adidas / Yeezy</option>
+                            <option value="1">Reebok</option>
+                            <option value="2">Nike</option>
+                            <option value="6">Puma</option>
+                            <option value="7">New Balance</option>
+                            <option value="8">Converse</option>
+                        </select>
                     </div>
                 )}
             </div>
