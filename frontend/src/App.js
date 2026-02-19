@@ -18,7 +18,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const router = createBrowserRouter([
-    
+
     {
       path: "/login",
       element: <LoginPage setIsLoggedIn={setIsLoggedIn} />,
@@ -27,10 +27,10 @@ function App() {
       path: "/register",
       element: <RegistrationPage />,
     },
-    
+
     {
       path: "/",
-      element: <Layout />,
+      element: <Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />,
       children: [
         { index: true, element: <HomePage /> },
 
@@ -53,6 +53,22 @@ function App() {
         {
           path: "stores",
           element: isLoggedIn ? <StoresPage /> : <Navigate to="/login" />,
+        },
+        {
+          path: "account",
+          element: isLoggedIn ? <div style={{ padding: 16 }}>Fiókom</div> : <Navigate to="/login" />,
+        },
+        {
+          path: "orders",
+          element: isLoggedIn ? <div style={{ padding: 16 }}>Rendeléseim oldal</div> : <Navigate to="/login" />,
+        },
+        {
+          path: "discounts",
+          element: isLoggedIn ? <div style={{ padding: 16 }}>Kedvezménykódok oldal</div> : <Navigate to="/login" />,
+        },
+        {
+          path: "benefits",
+          element: isLoggedIn ? <div style={{ padding: 16 }}>Előnyeim oldal</div> : <Navigate to="/login" />,
         },
       ],
     },

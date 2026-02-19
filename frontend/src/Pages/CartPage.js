@@ -10,7 +10,6 @@ export default function CartPage() {
     <div className="cart-container">
       <div className="cart-layout">
         
-        {/* Termék lista */}
         <div className="items-section">
           {items.map(item => (
             <div key={item.id} className="cart-item">
@@ -34,7 +33,6 @@ export default function CartPage() {
           </div>
         </div>
 
-        {/* Összesítő */}
         <div className="summary-panel">
           <h2>Összesen:</h2>
           <div className="summary-row">

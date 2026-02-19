@@ -11,7 +11,6 @@ export default function SettingsPage({ visible, onClose }) {
 
   return (
     <>
-      {/* overlay a háttérhez */}
       <div
         className="settings-overlay"
         onClick={onClose}
@@ -28,7 +27,7 @@ export default function SettingsPage({ visible, onClose }) {
 
       <div
         className="settings-dropdown"
-        onClick={(e) => e.stopPropagation()} // hogy a cardon belüli kattintás ne zárja be
+        onClick={(e) => e.stopPropagation()} 
         style={{
           position: "fixed",
           top: "60px",
