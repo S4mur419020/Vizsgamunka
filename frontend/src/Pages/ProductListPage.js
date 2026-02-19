@@ -23,6 +23,7 @@ export default function ProductListPage() {
         axios.get('http://localhost:8000/api/termekek', { withCredentials: true })
             .then(response => {
                 console.log("Adatok megérkeztek:", response.data);
+                console.table(response.data.map(t => ({ név: t.nev, id: t.marka_id })));
                 setTermekek(response.data);
                 setLoading(false);
             })
@@ -112,24 +113,18 @@ export default function ProductListPage() {
                         <select
                             value={filter.marka}
                             onChange={(e) => setFilter({ ...filter, marka: e.target.value })}
-                            style={{
-                                width: "100%",
-                                padding: "10px",
-                                marginBottom: "15px",
-                                background: "#333",
-                                color: "white",
-                                border: "1px solid #444",
-                                borderRadius: "5px"
-                            }}
+                            style={{ width: "100%", padding: "10px", marginBottom: "15px", background: "#333", color: "white", border: "1px solid #444", borderRadius: "5px" }}
                         >
                             <option value="">Összes márka</option>
+                            <option value="1">Nike</option>
+                            <option value="2">Adidas</option>
+                            <option value="3">Puma</option>
                             <option value="4">Jordan</option>
-                            <option value="5">Adidas / Yeezy</option>
-                            <option value="1">Reebok</option>
-                            <option value="2">Nike</option>
-                            <option value="6">Puma</option>
+                            <option value="5">Reebok</option>
+                            <option value="6">Vans</option>
                             <option value="7">New Balance</option>
                             <option value="8">Converse</option>
+                           
                         </select>
                     </div>
                 )}
