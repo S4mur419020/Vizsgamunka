@@ -32,7 +32,6 @@ export default function AddressesPage() {
     const list = [newAddr, ...addresses];
     setAddresses(list);
     saveToStorage(list);
-    // reset form
     setFullName(""); setPhone(""); setZip(""); setCity(""); setStreet("");
     setCountry("Magyarország");
     setOpenForm(false);
@@ -116,7 +115,6 @@ export default function AddressesPage() {
               </div>
 
               <div className="addr-actions">
-                {/* Később: szerkesztés is jöhet ide */}
                 <button className="btn danger" onClick={() => removeAddress(a.id)}>Törlés</button>
               </div>
             </div>

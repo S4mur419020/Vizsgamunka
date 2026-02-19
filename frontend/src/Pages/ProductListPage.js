@@ -43,7 +43,6 @@ export default function ProductListPage() {
 
     if (loading) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>Termékek betöltése...</div>;
 
-    // 1. SZŰRÉS
     const filteredProducts = termekek.filter(t => {
         const nemPasszol = filter.nem === "" || t.nem === filter.nem;
         const meretPasszol = filter.meret === "" || (t.meret && t.meret.toString().includes(filter.meret));
@@ -55,9 +54,7 @@ export default function ProductListPage() {
             String(t.marka_id) === String(filter.marka)
         ));
         return nemPasszol && meretPasszol && szinPasszol && markaPasszol;
-    });
-
-    // 2. RENDEZÉS 
+    }); 
     const sortedProducts = [...filteredProducts].sort((a, b) => {
         if (sortOrder === "asc") return Number(a.ar) - Number(b.ar);
         if (sortOrder === "desc") return Number(b.ar) - Number(a.ar);

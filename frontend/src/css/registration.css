@@ -25,7 +25,7 @@
     text-align: center;
     text-transform: uppercase;
     background: linear-gradient(to right, #22d3ee, #9333ea);
-    -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 

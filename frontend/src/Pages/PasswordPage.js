@@ -13,7 +13,6 @@ export default function PasswordPage() {
   const save = () => {
     if (pw.length < 6) return alert("Az új jelszó minimum 6 karakter legyen.");
     if (pw !== confirm) return alert("A jelszavak nem egyeznek.");
-    // itt jöhetne API hívás
     setOldPass(""); setPw(""); setConfirm("");
     alert("Jelszó sikeresen frissítve.");
   };

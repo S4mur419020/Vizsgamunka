@@ -4,7 +4,7 @@ import "../css/Profile.css";
 export default function ProfilePage() {
   const userName = localStorage.getItem("userName") || "Felhasználó";
 
-  const [salutation, setSalutation] = useState("ur"); // 'ur' | 'holgy'
+  const [salutation, setSalutation] = useState("ur");
   const [firstName, setFirstName] = useState(userName);
   const [lastName, setLastName] = useState("");
   const [alias, setAlias] = useState("");
@@ -12,10 +12,8 @@ export default function ProfilePage() {
   const [birthDay, setBirthDay] = useState(1);
   const [birthMonth, setBirthMonth] = useState(1);
   const [birthYear, setBirthYear] = useState(2000);
-  const [image, setImage] = useState(null);           // preview url
-  const [imageFile, setImageFile] = useState(null);   // file blob
-
-  // Betöltés localStorage-ból (ha már mentett)
+  const [image, setImage] = useState(null);          
+  const [imageFile, setImageFile] = useState(null);   
   useEffect(() => {
     const stored = localStorage.getItem("profile");
     if (stored) {
@@ -56,7 +54,6 @@ export default function ProfilePage() {
       imageDataUrl: image || null,
     };
     localStorage.setItem("profile", JSON.stringify(data));
-    // opcionálisan a fejlécben megjelenő név frissítése
     if (firstName) localStorage.setItem("userName", firstName);
     alert("Adataid elmentve.");
   };
@@ -67,7 +64,6 @@ export default function ProfilePage() {
       <p className="section-sub">Itt tudod szerkeszteni a személyes adataidat.</p>
 
       <div className="profile-layout">
-        {/* Bal hasáb – űrlap */}
         <div className="profile-left">
           <div className="field">
             <label>Megszólítás (választható)</label>
@@ -138,8 +134,6 @@ export default function ProfilePage() {
 
           <button className="save-btn" onClick={saveProfile}>Adatok mentése</button>
         </div>
-
-        {/* Jobb hasáb – profilkép feltöltés */}
         <div className="profile-right">
           <div className="photo-box">
             {image ? (
