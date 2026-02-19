@@ -2,12 +2,15 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaCog, FaShoppingCart } from "react-icons/fa";
 import "../css/Navigation.css";
+import useTranslation from "../i18n/useTranslation";
 
 export default function Navigation({ toggleSettings, isLoggedIn = false, setIsLoggedIn }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userMenuRef = useRef(null);
   const navigate = useNavigate();
   const userName = localStorage.getItem("userName");
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -27,18 +30,15 @@ export default function Navigation({ toggleSettings, isLoggedIn = false, setIsLo
 
   return (
     <nav className="navbar">
-
       <div className="nav-center">
-        <Link to="/">Főoldal</Link>
-        <Link to="/products">Cipőink</Link>
-        <Link to="/stores">Üzleteink</Link>
+        <Link to="/">{t("nav.home")}</Link>
+        <Link to="/products">{t("nav.products")}</Link>
+        <Link to="/stores">{t("nav.stores")}</Link>
       </div>
-
       <div className="nav-right">
-        <Link to="/cart" title="Kosár" className="icon-button">
+        <Link to="/cart" title={t("nav.cart")} className="icon-button">
           <FaShoppingCart size={20} />
         </Link>
-
         <div className="user-menu" ref={userMenuRef}>
           <button
             className="icon-button"
@@ -52,29 +52,35 @@ export default function Navigation({ toggleSettings, isLoggedIn = false, setIsLo
             {!isLoggedIn ? (
               <>
                 <Link to="/login" className="login-button" onClick={() => setIsDropdownOpen(false)}>
-                  BEJELENTKEZÉS
+                  {t("nav.login")}
                 </Link>
 
                 <div className="register-box">
-                  Még nincs fiókod?{" "}
+                  {t("nav.noAccount")}{" "}
                   <Link to="/register" className="register-link">
-                    Regisztráció
+                    {t("nav.register")}
                   </Link>
                 </div>
               </>
             ) : (
               <>
+                <div className="dropdown-header">{userName || t("nav.account")}</div>
 
-                <div className="dropdown-header">{localStorage.getItem("userName") || "Fiók"}</div>
-                <Link to="/account/profile" className="dropdown-item">Személyes adatok</Link>
-                <Link to="/account/password" className="dropdown-item">Jelszó megváltoztatása</Link>
-                <Link to="/account/addresses" className="dropdown-item">Címeim</Link>
+                <Link to="/account/profile" className="dropdown-item">{t("nav.profile")}</Link>
+                <Link to="/account/password" className="dropdown-item">{t("nav.passwordChange")}</Link>
+                <Link to="/account/addresses" className="dropdown-item">{t("nav.addresses")}</Link>
+
                 <div className="dropdown-divider"></div>
-                <Link to="/account/orders" className="dropdown-item">Rendeléseim</Link>
-                <Link to="/account/discounts" className="dropdown-item">Kedvezménykódok</Link>
-                <Link to="/account/benefits" className="dropdown-item">Előnyeim</Link>
+
+                <Link to="/account/orders" className="dropdown-item">{t("nav.orders")}</Link>
+                <Link to="/account/discounts" className="dropdown-item">{t("nav.discounts")}</Link>
+                <Link to="/account/benefits" className="dropdown-item">{t("nav.benefits")}</Link>
+
                 <div className="dropdown-divider"></div>
-                <button className="dropdown-item dropdown-logout" onClick={logout}>Kijelentkezés</button>
+
+                <button className="dropdown-item dropdown-logout" onClick={logout}>
+                  {t("nav.logout")}
+                </button>
               </>
             )}
           </div>

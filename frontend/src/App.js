@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import "./App.css";
+import { TranslationProvider } from "./i18n/TranslationProvider";
 
 import Layout from "./Pages/Layout";
 
@@ -83,7 +84,9 @@ function App() {
 
   return (
     <SettingsProvider>
-      <RouterProvider router={router} />
+      <TranslationProvider>
+        <RouterProvider router={router} />
+      </TranslationProvider>
     </SettingsProvider>
   );
 }

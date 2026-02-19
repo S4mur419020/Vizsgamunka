@@ -1,0 +1,20 @@
+{
+  "nav.home": "Főoldal",
+  "nav.products": "Cipőink",
+  "nav.stores": "Üzleteink",
+  "nav.cart": "Kosár",
+  "nav.account": "Fiókom",
+
+  "nav.login": "Bejelentkezés",
+  "nav.noAccount": "Még nincs fiókod?",
+  "nav.register": "Regisztráció",
+
+  "nav.profile": "Személyes adatok",
+  "nav.passwordChange": "Jelszó megváltoztatása",
+  "nav.addresses": "Címeim",
+  "nav.orders": "Rendeléseim",
+  "nav.discounts": "Kedvezménykódok",
+  "nav.benefits": "Előnyeim",
+
+  "nav.logout": "Kijelentkezés"
+}

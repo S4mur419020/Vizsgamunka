@@ -1,22 +1,23 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 export const SettingsContext = createContext();
 
 export function SettingsProvider({ children }) {
-  const [darkMode, setDarkMode] = useState(false);
-  const [language, setLanguage] = useState("hu");
-  const [notifications, setNotifications] = useState(true);
+  const stored = JSON.parse(localStorage.getItem("settings") || "{}");
+
+  const [language, setLanguage] = useState(stored.language ?? "hu");
+  const [notifications, setNotifications] = useState(stored.notifications ?? true);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "settings",
+      JSON.stringify({ language, notifications })
+    );
+  }, [language, notifications]);
 
   return (
     <SettingsContext.Provider
-      value={{
-        darkMode,
-        setDarkMode,
-        language,
-        setLanguage,
-        notifications,
-        setNotifications,
-      }}
+      value={{ language, setLanguage, notifications, setNotifications }}
     >
       {children}
     </SettingsContext.Provider>
