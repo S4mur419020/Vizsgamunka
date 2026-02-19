@@ -39,7 +39,19 @@ export default function ProductListPage() {
         const nemPasszol = filter.nem === "" || t.nem === filter.nem;
         const meretPasszol = filter.meret === "" || (t.meret && t.meret.toString().includes(filter.meret));
         const szinPasszol = filter.szin === "" || (t.szin && t.szin.toLowerCase().includes(filter.szin.toLowerCase()));
-        const markaPasszol = filter.marka === "" || String(t.marka_id) === String(filter.marka);
+        const markaPasszol = filter.marka === "" || (t.marka_id && (
+            // NIKE 
+            (filter.marka === "1" && ["1", "9", "20"].includes(String(t.marka_id))) ||
+
+            // JORDAN 
+            (filter.marka === "4" && ["4", "22"].includes(String(t.marka_id))) ||
+
+            // ADIDAS 
+            (filter.marka === "2" && ["2", "10", "19", "23"].includes(String(t.marka_id))) ||
+
+            // Tobbi markak
+            String(t.marka_id) === String(filter.marka)
+        ));
 
         return nemPasszol && meretPasszol && szinPasszol && markaPasszol;
     });
@@ -117,14 +129,19 @@ export default function ProductListPage() {
                         >
                             <option value="">Összes márka</option>
                             <option value="1">Nike</option>
+                            <option value="4">Jordan</option>
                             <option value="2">Adidas</option>
                             <option value="3">Puma</option>
-                            <option value="4">Jordan</option>
                             <option value="5">Reebok</option>
                             <option value="6">Vans</option>
                             <option value="7">New Balance</option>
                             <option value="8">Converse</option>
-                           
+                            <option value="11">Balenciaga</option>
+                            <option value="12">Alexander McQueen</option>
+                            <option value="13">Gucci</option>
+                            <option value="14">Off-White</option>
+                            <option value="15">Maison Margiela</option>
+                            <option value="16">Veja</option>
                         </select>
                     </div>
                 )}
