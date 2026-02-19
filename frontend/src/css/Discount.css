@@ -1,0 +1,30 @@
+.discounts-container {
+  width: 80%;
+  margin: 40px auto;
+  color: white;
+}
+
+.discount-card {
+  background: #141414;
+  border: 1px solid #242424;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.copy-btn {
+  background: #00aaff;
+  border: none;
+  color: #000;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.copy-btn:hover {
+  background: #33bbff;
+}

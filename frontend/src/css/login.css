@@ -25,7 +25,7 @@
     margin-bottom: 24px;
     text-transform: uppercase;
     background: linear-gradient(to right, #22d3ee, #9333ea);
-    -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -88,7 +88,6 @@
     color: #6b7280;
 }
 
-/* Link */
 .register-link {
     color: #22d3ee;
     text-decoration: none;

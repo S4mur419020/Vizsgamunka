@@ -7,6 +7,7 @@ export default function Navigation({ toggleSettings, isLoggedIn = false, setIsLo
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userMenuRef = useRef(null);
   const navigate = useNavigate();
+  const userName = localStorage.getItem("userName");
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -44,6 +45,7 @@ export default function Navigation({ toggleSettings, isLoggedIn = false, setIsLo
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
             <FaUser size={20} />
+            {isLoggedIn && <span className="user-name">{userName}</span>}
           </button>
 
           <div className={`dropdown ${isDropdownOpen ? "open" : ""}`}>
@@ -62,24 +64,17 @@ export default function Navigation({ toggleSettings, isLoggedIn = false, setIsLo
               </>
             ) : (
               <>
-                <Link to="/account" className="dropdown-item">
-                  Fiókom
-                </Link>
-                <Link to="/orders" className="dropdown-item">
-                  Rendeléseim
-                </Link>
-                <Link to="/discounts" className="dropdown-item">
-                  Kedvezménykódok
-                </Link>
-                <Link to="/benefits" className="dropdown-item">
-                  Előnyeim
-                </Link>
 
+                <div className="dropdown-header">{localStorage.getItem("userName") || "Fiók"}</div>
+                <Link to="/account/profile" className="dropdown-item">Személyes adatok</Link>
+                <Link to="/account/password" className="dropdown-item">Jelszó megváltoztatása</Link>
+                <Link to="/account/addresses" className="dropdown-item">Címeim</Link>
                 <div className="dropdown-divider"></div>
-
-                <button className="dropdown-item dropdown-logout" onClick={logout}>
-                  Kijelentkezés
-                </button>
+                <Link to="/account/orders" className="dropdown-item">Rendeléseim</Link>
+                <Link to="/account/discounts" className="dropdown-item">Kedvezménykódok</Link>
+                <Link to="/account/benefits" className="dropdown-item">Előnyeim</Link>
+                <div className="dropdown-divider"></div>
+                <button className="dropdown-item dropdown-logout" onClick={logout}>Kijelentkezés</button>
               </>
             )}
           </div>

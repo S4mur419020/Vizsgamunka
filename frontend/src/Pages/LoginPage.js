@@ -11,6 +11,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
         e.preventDefault();
 
         if (email !== '' && password !== '') {
+            localStorage.setItem("userName", email.split("@")[0]);
             setIsLoggedIn(true);
             navigate("/"); 
         } else {
