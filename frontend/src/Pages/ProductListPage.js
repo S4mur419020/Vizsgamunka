@@ -4,9 +4,14 @@ import axios from 'axios';
 import { FaBars } from "react-icons/fa";
 
 export default function ProductListPage() {
+
+
     const [sortOrder, setSortOrder] = useState("");
     const [termekek, setTermekek] = useState([]);
+    const [selectedSize, setSelectedSize] = useState("");
+    
     const [loading, setLoading] = useState(true);
+
 
     const badgeStyle = {
         background: "#333",
@@ -139,8 +144,8 @@ export default function ProductListPage() {
                         <option value="unisex">Unisex</option>
                     </select>
 
-                    <label>Méret:</label>
-                    <input type="number" placeholder="pl. 42" value={filter.meret} onChange={(e) => setFilter({ ...filter, meret: e.target.value })} style={{ width: "100%", padding: "10px", marginBottom: "15px", background: "#333", color: "white" }} />
+                    
+
 
                     <label>Szín:</label>
                     <input type="text" placeholder="pl. fekete" value={filter.szin} onChange={(e) => setFilter({ ...filter, szin: e.target.value })} style={{ width: "100%", padding: "10px", marginBottom: "15px", background: "#333", color: "white" }} />

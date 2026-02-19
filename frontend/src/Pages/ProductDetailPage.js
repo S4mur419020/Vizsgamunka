@@ -43,10 +43,10 @@ export default function ProductDetailPage() {
 
     if (loading) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>Betöltés...</div>;
     if (!termek) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>Termék nem található.</div>;
-
+    const meretek = [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
     return (
         <div style={{ padding: '20px', color: 'white', maxWidth: '1100px', margin: '0 auto', fontFamily: 'Arial, sans-serif' }}>
-            
+
             <button
                 onClick={() => navigate(-1)}
                 style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', marginBottom: '20px', fontSize: '14px' }}
@@ -55,7 +55,7 @@ export default function ProductDetailPage() {
             </button>
 
             <div style={{ display: 'flex', gap: '50px', flexWrap: 'wrap' }}>
-                
+
                 <div style={{ flex: '1.2', minWidth: '300px' }}>
                     <img
                         src={termek.kepUrl ? `/kepek/${termek.kepUrl}` : "/no-image.png"}
@@ -81,7 +81,7 @@ export default function ProductDetailPage() {
                             {termek.nev}
                         </h1>
                         <p style={{ color: '#aaa', marginBottom: '15px', fontSize: '14px' }}>
-                            Márka: <span style={{color: 'white'}}>{termek.marka?.nev}</span> | Anyag: <span style={{color: 'white'}}>{termek.anyag}</span>
+                            Márka: <span style={{ color: 'white' }}>{termek.marka?.nev}</span> | Anyag: <span style={{ color: 'white' }}>{termek.anyag}</span>
                         </p>
                     </div>
 
@@ -108,46 +108,45 @@ export default function ProductDetailPage() {
                         <select
                             value={selectedSize}
                             onChange={(e) => setSelectedSize(e.target.value)}
-                            style={{ 
-                                width: '100%', 
-                                padding: '12px', 
-                                background: '#1a1a1a', 
-                                color: 'white', 
-                                border: '1px solid #444', 
-                                borderRadius: '4px',
-                                cursor: 'pointer'
+                            style={{
+                                width: "100%",
+                                padding: "12px",
+                                background: "#1a1a1a",
+                                color: "white",
+                                border: "1px solid #444",
+                                borderRadius: "5px",
+                                fontSize: "16px",
+                                cursor: "pointer"
                             }}
                         >
                             <option value="">Válassz méretet</option>
-                            {termek.valtozatok && termek.valtozatok.length > 0 ? (
-                                termek.valtozatok.map((v) => {
-                                    const meret = v.nev.includes('–') ? v.nev.split('–')[1].trim() : v.nev;
-                                    return (
-                                        <option key={v.id} value={meret}>
-                                            {meret} {v.elerheto ? '' : '(Elfogyott)'}
-                                        </option>
-                                    );
-                                })
-                            ) : (
-                                <option disabled>Nincs elérhető méret</option>
-                            )}
+                            {meretek.map(m => {
+                                
+                                const vanKeszleten = termek.valtozatok && termek.valtozatok.some(v => v.nev.includes(String(m)));
+
+                                return (
+                                    <option key={m} value={m}>
+                                        EU {m} {vanKeszleten ? "" : "(Rendelésre)"}
+                                    </option>
+                                );
+                            })}
                         </select>
                     </div>
 
-                   
+
                     <div style={{ display: 'flex', gap: '10px', marginBottom: '30px' }}>
                         <button
                             onClick={addToCart}
                             disabled={!termek.valtozatok?.length}
-                            style={{ 
-                                flex: '1', 
-                                padding: '16px', 
-                                background: 'white', 
-                                color: 'black', 
-                                border: 'none', 
-                                fontWeight: 'bold', 
-                                cursor: termek.valtozatok?.length ? 'pointer' : 'not-allowed', 
-                                textTransform: 'uppercase' 
+                            style={{
+                                flex: '1',
+                                padding: '16px',
+                                background: 'white',
+                                color: 'black',
+                                border: 'none',
+                                fontWeight: 'bold',
+                                cursor: termek.valtozatok?.length ? 'pointer' : 'not-allowed',
+                                textTransform: 'uppercase'
                             }}
                         >
                             {termek.valtozatok?.length ? 'Kosárhoz ad' : 'Nincs készleten'}
@@ -160,7 +159,7 @@ export default function ProductDetailPage() {
                         </button>
                     </div>
 
-                   
+
                     <div style={{ borderTop: '1px solid #333', paddingTop: '20px', marginBottom: '20px' }}>
                         <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>LEÍRÁS</h3>
                         <p style={{ color: '#ccc', fontSize: '14px', lineHeight: '1.6' }}>{termek.leiras}</p>
