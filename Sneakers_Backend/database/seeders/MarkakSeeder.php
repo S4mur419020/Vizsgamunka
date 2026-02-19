@@ -18,7 +18,10 @@ class MarkakSeeder extends Seeder
             'Converse', 'Nike SB', 'Adidas Originals', 'Puma', 'Balenciaga', 
             'Alexander McQueen', 'Gucci', 'Off-White', 'Maison Margiela', 'Veja', 
             'Allbirds', 'Cariuma', 'Adidas x Parley', 'Nike Space Hippie', 
-            'Air Jordan', 'Nike Dunk', 'Adidas Forum', 'Puma Clyde', 'Reebok Question'
+            'Air Jordan', 'Nike Dunk', 'Adidas Forum', 'Puma Clyde', 'Reebok Question',
+            'Maison Mihara Yasuhiro', 'Yeezy', 'Timberland', 'Crocs', 'Jordan', 'Supreme', 
+            'Lanvin', 'Travis Scott', 'Denim Tears', 'BAPE', 'Reebok', 'FILA', 'Vans Vault', 
+            'Champion', 'Skechers', 'Salomon', 'The North Face', 'Ugg', 'Dr. Martens'
         ];
 
         foreach ($markak as $nev) {

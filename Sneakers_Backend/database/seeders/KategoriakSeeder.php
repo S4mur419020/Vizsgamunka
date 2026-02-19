@@ -83,6 +83,18 @@ class KategoriakSeeder extends Seeder
             // Adidas Forum
             ['marka' => 'Adidas Forum', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
+            // Yeezy
+            ['marka' => 'Yeezy', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
+
+            // Timberland
+            ['marka' => 'Timberland', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
+            ['marka' => 'Timberland', 'tipus' => 'Munkavédelmi', 'created_at' => now(), 'updated_at' => now()],
+
+            // Crocs
+            ['marka' => 'Crocs', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
+
+            // Maison Mihara Yasuhiro
+            ['marka' => 'Maison Mihara Yasuhiro', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
