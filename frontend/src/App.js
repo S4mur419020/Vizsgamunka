@@ -74,6 +74,7 @@ function App() {
             { path: "orders", element: <OrdersPage /> },
             { path: "discounts", element: <DiscountsPage /> },
             { path: "benefits", element: <BenefitsPage /> },
+            { path: "checkout", element: <CheckoutPage /> },
           ],
         }
       ],
