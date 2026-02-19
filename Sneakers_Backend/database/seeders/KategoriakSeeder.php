@@ -11,89 +11,83 @@ class KategoriakSeeder extends Seeder
     public function run(): void
     {
         Kategoriak::insert([
-            // Nike
+            // Nike kategóriák
             ['marka' => 'Nike', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
             ['marka' => 'Nike', 'tipus' => 'Sport', 'created_at' => now(), 'updated_at' => now()],
             ['marka' => 'Nike', 'tipus' => 'Utcai viselet', 'created_at' => now(), 'updated_at' => now()],
 
-            // Adidas
+            // Adidas kategóriák
             ['marka' => 'Adidas', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
             ['marka' => 'Adidas', 'tipus' => 'Lifestyle', 'created_at' => now(), 'updated_at' => now()],
             ['marka' => 'Adidas', 'tipus' => 'Kosaras', 'created_at' => now(), 'updated_at' => now()],
 
-            // Puma
+            // Puma kategóriák
             ['marka' => 'Puma', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
             ['marka' => 'Puma', 'tipus' => 'Retro', 'created_at' => now(), 'updated_at' => now()],
 
-            // Jordan
+            // Jordan kategóriák
             ['marka' => 'Jordan', 'tipus' => 'Kosaras', 'created_at' => now(), 'updated_at' => now()],
 
-            // Reebok
+            // Reebok kategóriák
             ['marka' => 'Reebok', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
             ['marka' => 'Reebok', 'tipus' => 'Kosaras', 'created_at' => now(), 'updated_at' => now()],
 
-            // Vans
+            // Vans kategóriák
             ['marka' => 'Vans', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // New Balance
+            // New Balance kategóriák
             ['marka' => 'New Balance', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Converse
+            // Converse kategóriák
             ['marka' => 'Converse', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Nike SB
+            // Nike SB kategóriák
             ['marka' => 'Nike SB', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Adidas Originals
+            // Adidas Originals kategóriák
             ['marka' => 'Adidas Originals', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Balenciaga
+            // Balenciaga kategóriák
             ['marka' => 'Balenciaga', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Alexander McQueen
+            // Alexander McQueen kategóriák
             ['marka' => 'Alexander McQueen', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Gucci
+            // Gucci kategóriák
             ['marka' => 'Gucci', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Off-White
+            // Off-White kategóriák
             ['marka' => 'Off-White', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Maison Margiela
+            // Maison Margiela kategóriák
             ['marka' => 'Maison Margiela', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Veja
+            // Veja kategóriák
             ['marka' => 'Veja', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Allbirds
+            // Allbirds kategóriák
             ['marka' => 'Allbirds', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Cariuma
+            // Cariuma kategóriák
             ['marka' => 'Cariuma', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Adidas x Parley
+            // Adidas x Parley kategóriák
             ['marka' => 'Adidas x Parley', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Nike Space Hippie
+            // Nike Space Hippie kategóriák
             ['marka' => 'Nike Space Hippie', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Air Jordan
+            // Air Jordan kategóriák
             ['marka' => 'Air Jordan', 'tipus' => 'Kosaras', 'created_at' => now(), 'updated_at' => now()],
 
-            // Adidas Forum
-            ['marka' => 'Adidas Forum', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
-
-            // Yeezy
-            ['marka' => 'Yeezy', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
-
-            // Timberland
+            // Timberland kategóriák
             ['marka' => 'Timberland', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
             ['marka' => 'Timberland', 'tipus' => 'Munkavédelmi', 'created_at' => now(), 'updated_at' => now()],
 
-            // Crocs
+            // Crocs kategóriák
             ['marka' => 'Crocs', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
 
-            // Maison Mihara Yasuhiro
+            // Maison Mihara Yasuhiro kategóriák
             ['marka' => 'Maison Mihara Yasuhiro', 'tipus' => 'Divat', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }

@@ -436,12 +436,12 @@ class TermekekSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
+            /*[
                 'nev' => 'Nike Air Force 1 Low 07 Black / White Denim Tears Custom',
                 'kategoria_id' => 32,
                 'marka_id' => 1,
                 'nem' => 'ferfi',
-                'anyag' => 'bor/textil',
+                'anyag' => 'bor',
                 'kepUrl' => 'AF1DenimTears.jpg',
                 'ar' => 89990,
                 'elerheto' => true,
@@ -480,7 +480,7 @@ class TermekekSeeder extends Seeder
                 'kategoria_id' => 35,
                 'marka_id' => 4,
                 'nem' => 'no',
-                'anyag' => 'bor/velúr',
+                'anyag' => 'bor/velur',
                 'kepUrl' => 'Jordan4FrozenMoments.jpg',
                 'ar' => 115000,
                 'elerheto' => true,
@@ -890,7 +890,7 @@ class TermekekSeeder extends Seeder
                 'leiras' => 'A klasszikus piros-fekete színállás csillogó lakkbőr kivitelben.',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ]*/
         ]);
     }
 }
