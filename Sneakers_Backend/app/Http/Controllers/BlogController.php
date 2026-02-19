@@ -6,22 +6,39 @@ use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class BlogController extends Controller
 {
     public function index()
     {
-        return response()->json(Blog::all());
+
+        $user = Auth::user();
+
+        if ($user && $user->jogosultsag_id === 1) {
+            return response()->json(Blog::all());
+        }
+
+        return response()->json(['message' => 'Nincs jogosultságod a megtekintéshez'], 403);
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'cim' => 'required|string',
+            'cim' => 'required|string|max:50',
             'tartalom' => 'required|string'
         ]);
 
-        return response()->json(Blog::create($validated), 201);
+        $blog = Blog::create([
+            'cim' => $validated['cim'],
+            'tartalom' => $validated['tartalom'],
+            'szerzo_id' => Auth::id() ?? 1,
+            'nyelv_id' => 1,
+            'publikacio_datuma' => now()
+        ]);
+
+        return response()->json($blog, 201);
     }
 
     public function show($id)

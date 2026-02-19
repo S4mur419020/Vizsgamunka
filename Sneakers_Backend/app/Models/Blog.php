@@ -11,7 +11,6 @@ class Blog extends Model
     use HasFactory;
 
     protected $fillable=[
-        'id',
         'cim',
         'tartalom',
         'szerzo_id',
