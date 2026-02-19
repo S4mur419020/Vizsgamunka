@@ -1,0 +1,156 @@
+.profile-container {
+    color: #fff;
+}
+
+.section-title {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.section-sub {
+    opacity: .75;
+    margin-bottom: 18px;
+}
+
+.profile-layout {
+    display: grid;
+    grid-template-columns: minmax(320px, 1fr) 320px;
+    gap: 28px;
+}
+
+.profile-left {
+    background: #141414;
+    border: 1px solid #232323;
+    border-radius: 12px;
+    padding: 22px;
+}
+
+.field {
+    margin-bottom: 14px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #2e2e2e;
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.birth-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr;
+    gap: 10px;
+}
+
+.radio-row {
+    display: flex;
+    gap: 16px;
+}
+
+.radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    opacity: .85;
+    cursor: pointer;
+}
+
+.radio input {
+    accent-color: #00aaff;
+}
+
+.radio.checked {
+    opacity: 1;
+}
+
+.save-btn {
+    margin-top: 8px;
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #0077aa;
+    background: #00aaff;
+    color: #071018;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .15s;
+}
+
+.save-btn:hover {
+    filter: brightness(1.05);
+}
+
+.profile-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.photo-box {
+    width: 100%;
+    height: 260px;
+    background: #171717;
+    border: 1px solid #2b2b2b;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+}
+
+.photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-placeholder {
+    text-align: center;
+    opacity: .8;
+}
+
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #222;
+    display: grid;
+    place-items: center;
+    font-size: 34px;
+    margin: 0 auto 10px;
+    border: 1px solid #333;
+}
+
+.upload-btn {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #2b2b2b;
+    background: #1b1b1b;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.upload-btn:hover {
+    background: #222;
+}
+
+.upload-btn input {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .profile-layout {
+        grid-template-columns: 1fr;
+    }
+}

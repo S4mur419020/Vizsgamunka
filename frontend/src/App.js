@@ -13,6 +13,14 @@ import LoginPage from "./Pages/LoginPage";
 import RegistrationPage from "./Pages/RegistrationPage";
 import StoresPage from "./Pages/StoresPage";
 import { SettingsProvider } from "./context/SettingsContext";
+import OrdersPage from "./Pages/OrderPage";
+import AccountPage from "./Pages/AccountPage";
+import DiscountsPage from "./Pages/DiscountPage";
+import BenefitsPage from "./Pages/BenefitsPage";
+import PasswordPage from "./Pages/PasswordPage";
+import ProfilePage from "./Pages/ProfilePage";
+import AddressesPage from "./Pages/AddressesPage";
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -54,22 +62,20 @@ function App() {
           path: "stores",
           element: isLoggedIn ? <StoresPage /> : <Navigate to="/login" />,
         },
+
         {
           path: "account",
-          element: isLoggedIn ? <div style={{ padding: 16 }}>Fiókom</div> : <Navigate to="/login" />,
-        },
-        {
-          path: "orders",
-          element: isLoggedIn ? <div style={{ padding: 16 }}>Rendeléseim oldal</div> : <Navigate to="/login" />,
-        },
-        {
-          path: "discounts",
-          element: isLoggedIn ? <div style={{ padding: 16 }}>Kedvezménykódok oldal</div> : <Navigate to="/login" />,
-        },
-        {
-          path: "benefits",
-          element: isLoggedIn ? <div style={{ padding: 16 }}>Előnyeim oldal</div> : <Navigate to="/login" />,
-        },
+          element: isLoggedIn ? <AccountPage /> : <Navigate to="/login" />,
+          children: [
+            { index: true, element: <ProfilePage /> },            
+            { path: "profile", element: <ProfilePage /> },
+            { path: "password", element: <PasswordPage /> },
+            { path: "addresses", element: <AddressesPage /> },
+            { path: "orders", element: <OrdersPage /> },
+            { path: "discounts", element: <DiscountsPage /> },
+            { path: "benefits", element: <BenefitsPage /> },
+          ],
+        }
       ],
     },
   ]);
