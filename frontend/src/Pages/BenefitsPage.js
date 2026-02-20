@@ -4,7 +4,7 @@ import { FiGift, FiPercent, FiHeart, FiStar, FiBell, FiCalendar } from "react-ic
 export default function BenefitsPage() {
   return (
     <div className="benefits-container">
-      <h1 className="benefits-title">Footshop előnyök</h1>
+      <h1 className="benefits-title">Sneaker Webshop előnyök</h1>
       <p className="benefits-sub">Előnyök, amik már a regisztrációval megilletnek</p>
 
       <div className="benefits-grid">
