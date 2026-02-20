@@ -7,9 +7,7 @@ export default function ProductListPage() {
 
 
     const [sortOrder, setSortOrder] = useState("");
-    const [termekek, setTermekek] = useState([]);
-    
-    
+    const [termekek, setTermekek] = useState([]);    
     const [loading, setLoading] = useState(true);
 
 
