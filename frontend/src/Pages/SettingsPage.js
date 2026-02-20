@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { SettingsContext } from "../context/SettingsContext";
+import ReactCountryFlag from 'react-country-flag';
 import "../css/Settings.css";
 
 export default function SettingsPage({ visible, onClose }) {
@@ -28,15 +29,34 @@ export default function SettingsPage({ visible, onClose }) {
         </label>
         <label className="settings-label">
           Nyelv
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            className="settings-select"
-          >
-            <option value="hu">Magyar</option>
-            <option value="en">Angol</option>
-            <option value="de">Német</option>
-          </select>
+          <div className="flag-container">
+            <ReactCountryFlag
+              countryCode="HU"
+              svg
+              style={{ width: "32px", height: "32px", cursor: "pointer" }}
+              title="Magyar"
+              className={language === "hu" ? "active" : ""}
+              onClick={() => setLanguage("hu")}
+            />
+
+            <ReactCountryFlag
+              countryCode="US"
+              svg
+              style={{ width: "32px", height: "32px", cursor: "pointer" }}
+              title="Angol"
+              className={language === "en" ? "active" : ""}
+              onClick={() => setLanguage("en")}
+            />
+
+            <ReactCountryFlag
+              countryCode="DE"
+              svg
+              style={{ width: "32px", height: "32px", cursor: "pointer" }}
+              title="Német"
+              className={language === "de" ? "active" : ""}
+              onClick={() => setLanguage("de")}
+            />
+          </div>
         </label>
 
         <button className="settings-close" onClick={onClose}>
