@@ -109,7 +109,7 @@ export default function CartPage() {
           <button
             className="checkout-btn"
             disabled={items.length === 0}
-            onClick={() => navigate('/checkout')} 
+            onClick={() => navigate('/account/checkout')} 
           >
             Tovább a fizetéshez
           </button>
