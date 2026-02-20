@@ -13,7 +13,7 @@ export default function ProfilePage() {
   const [birthMonth, setBirthMonth] = useState(1);
   const [birthYear, setBirthYear] = useState(2000);
   const [image, setImage] = useState(null);          
-  const [imageFile, setImageFile] = useState(null);   
+  const [setImageFile] = useState(null);   
   useEffect(() => {
     const stored = localStorage.getItem("profile");
     if (stored) {
