@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext"; 
-import { CipoProvider } from "./context/ShoeContext";
+import { ShoeProvider } from "./context/ShoeContext";
 import { SettingsProvider } from "./context/SettingsContext";
 import { TranslationProvider } from "./i18n/TranslationProvider";
 import "./App.css";
@@ -62,13 +62,13 @@ function App() {
 
   return (
     <AuthProvider>
-      <CipoProvider>
+      <ShoeProvider>
         <SettingsProvider>
           <TranslationProvider>
             <RouterProvider router={router} />
           </TranslationProvider>
         </SettingsProvider>
-      </CipoProvider>
+      </ShoeProvider>
     </AuthProvider>
   );
 }

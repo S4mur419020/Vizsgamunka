@@ -13,19 +13,31 @@ class MarkakSeeder extends Seeder
      */
     public function run(): void
     {
-         $markak = [
-            'Nike', 'Adidas', 'New Balance', 'Asics', 'Under Armour', 'Vans', 
-            'Converse', 'Nike SB', 'Adidas Originals', 'Puma', 'Balenciaga', 
-            'Alexander McQueen', 'Gucci', 'Off-White', 'Maison Margiela', 'Veja', 
-            'Allbirds', 'Cariuma', 'Adidas x Parley', 'Nike Space Hippie', 
-            'Air Jordan', 'Nike Dunk', 'Adidas Forum', 'Puma Clyde', 'Reebok Question',
-            'Maison Mihara Yasuhiro', 'Yeezy', 'Timberland', 'Crocs', 'Jordan', 'Supreme', 
-            'Lanvin', 'Travis Scott', 'Denim Tears', 'BAPE', 'Reebok', 'FILA', 'Vans Vault', 
-            'Champion', 'Skechers', 'Salomon', 'The North Face', 'Ugg', 'Dr. Martens'
+        $markak = [
+            ['id' => 1, 'nev' => 'Nike'],
+            ['id' => 2, 'nev' => 'Adidas'],
+            ['id' => 3, 'nev' => 'Puma'],
+            ['id' => 4, 'nev' => 'Jordan'],
+            ['id' => 5, 'nev' => 'Reebok'],
+            ['id' => 6, 'nev' => 'Vans'],
+            ['id' => 7, 'nev' => 'New Balance'],
+            ['id' => 8, 'nev' => 'Converse'],
+            ['id' => 10, 'nev' => 'Timberland'],
+            ['id' => 11, 'nev' => 'Balenciaga'],
+            ['id' => 12, 'nev' => 'Alexander McQueen'],
+            ['id' => 13, 'nev' => 'Gucci'],
+            ['id' => 14, 'nev' => 'Off-White'],
+            ['id' => 15, 'nev' => 'Maison Margiela'],
+            ['id' => 16, 'nev' => 'Veja'],
+            ['id' => 17, 'nev' => 'Allbirds'],
+            ['id' => 18, 'nev' => 'Cariuma'],
+            ['id' => 22, 'nev' => 'Maison Mihara Yasuhiro'],
+            ['id' => 61, 'nev' => 'Yeezy'],
+            ['id' => 64, 'nev' => 'Crocs'], 
         ];
 
-        foreach ($markak as $nev) {
-            Markak::create(['nev' => $nev]);
+        foreach ($markak as $marka) {
+            Markak::create($marka);
         }
     }
 }

@@ -3,28 +3,82 @@ import React, { createContext, useState, useEffect } from 'react';
 export const ShoeContext = createContext();
 
 export const ShoeProvider = ({ children }) => {
+    const [termekek, setTermekek] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [filter, setFilter] = useState({ nem: "", meret: "", szin: "", marka: "" });
     const [cartItems, setCartItems] = useState([]);
-    const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        setCartItems(JSON.parse(localStorage.getItem('cart')) || []);
-        setOrders(JSON.parse(localStorage.getItem('orders')) || []);
+        const initData = async () => {
+            try {
+                const [resTermekek, resKosar] = await Promise.all([
+                    fetch('http://localhost:8000/api/termekek'),
+                    fetch('http://localhost:8000/api/kosar')
+                ]);
+
+                const termekAdat = await resTermekek.json();
+                const kosarAdat = await resKosar.json();
+
+                setTermekek(termekAdat);
+                setCartItems(kosarAdat);
+                setLoading(false);
+            } catch (error) {
+                console.error("Adatbetöltési hiba:", error);
+                setLoading(false);
+            }
+        };
+        initData();
     }, []);
 
-    const updateCart = (newCart) => {
-        setCartItems(newCart);
-        localStorage.setItem('cart', JSON.stringify(newCart));
+    const szurtTermekek = termekek.filter(t => {
+        const nemPasszol = filter.nem === "" || t.nem === filter.nem;
+        const meretPasszol = filter.meret === "" || (t.meret && t.meret.toString().includes(filter.meret));
+        const szinPasszol = filter.szin === "" || (t.szin && t.szin.toLowerCase().includes(filter.szin.toLowerCase()));
+        const markaPasszol = filter.marka === "" || String(t.marka_id) === String(filter.marka);
+        
+        return nemPasszol && meretPasszol && szinPasszol && markaPasszol;
+    });
+
+    const updateCart = async (termekId, mennyiseg) => {
+        try {
+            const res = await fetch('http://localhost:8000/api/kosar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ termek_id: termekId, mennyiseg: mennyiseg })
+            });
+            const frissitettKosar = await res.json();
+            setCartItems(frissitettKosar);
+        } catch (error) {
+            console.error("Kosár hiba:", error);
+        }
     };
 
-    const finalizeOrder = (order) => {
-        const updatedOrders = [...orders, order];
-        setOrders(updatedOrders);
-        localStorage.setItem('orders', JSON.stringify(updatedOrders));
-        updateCart([]); 
+    const finalizeOrder = async (orderData) => {
+        try {
+            const res = await fetch('http://localhost:8000/api/rendelesek', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderData)
+            });
+            if (res.ok) {
+                setCartItems([]); 
+            }
+        } catch (error) {
+            console.error("Rendelés hiba:", error);
+        }
     };
 
     return (
-        <ShoeContext.Provider value={{ cartItems, updateCart, orders, finalizeOrder }}>
+        <ShoeContext.Provider value={{ 
+            termekek, 
+            szurtTermekek, 
+            loading, 
+            filter, 
+            setFilter, 
+            cartItems, 
+            updateCart, 
+            finalizeOrder 
+        }}>
             {children}
         </ShoeContext.Provider>
     );

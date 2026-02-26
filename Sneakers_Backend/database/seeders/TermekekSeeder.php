@@ -205,7 +205,7 @@ class TermekekSeeder extends Seeder
             [
                 'nev' => 'Nike SB Dunk Low',
                 'kategoria_id' => 15,
-                'marka_id' => 9,
+                'marka_id' => 1,
                 'nem' => 'unisex',
                 'anyag' => 'bőr',
                 'kepUrl' => 'NikeSBDunkLow.jpg',
@@ -219,7 +219,7 @@ class TermekekSeeder extends Seeder
             [
                 'nev' => 'Adidas Originals Gazelle',
                 'kategoria_id' => 16,
-                'marka_id' => 10,
+                'marka_id' => 2,
                 'nem' => 'unisex',
                 'anyag' => 'velúr',
                 'kepUrl' => 'AdidasGazelle.jpg',
@@ -233,7 +233,7 @@ class TermekekSeeder extends Seeder
             [
                 'nev' => 'Air Jordan 1 Mid',
                 'kategoria_id' => 22,
-                'marka_id' => 22,
+                'marka_id' => 4,
                 'nem' => 'ferfi',
                 'anyag' => 'bőr',
                 'kepUrl' => 'AirJordan1Mid.jpg',
@@ -247,7 +247,7 @@ class TermekekSeeder extends Seeder
             [
                 'nev' => 'Adidas Forum Low',
                 'kategoria_id' => 23,
-                'marka_id' => 23,
+                'marka_id' => 2,
                 'nem' => 'unisex',
                 'anyag' => 'bőr',
                 'kepUrl' => 'AdidasForumLow.jpg',
@@ -373,7 +373,7 @@ class TermekekSeeder extends Seeder
             [
                 'nev' => 'Adidas x Parley Ultraboost',
                 'kategoria_id' => 27,
-                'marka_id' => 19,
+                'marka_id' => 2,
                 'nem' => 'unisex',
                 'anyag' => 'újrahasznosított textil',
                 'kepUrl' => 'AdidasXParley.jpg',
@@ -387,7 +387,7 @@ class TermekekSeeder extends Seeder
             [
                 'nev' => 'Nike Space Hippie 04',
                 'kategoria_id' => 28,
-                'marka_id' => 20,
+                'marka_id' => 1,
                 'nem' => 'ferfi',
                 'anyag' => 'újrahasznosított textil',
                 'kepUrl' => 'NikeSpaceHippie04.jpg',
@@ -751,7 +751,7 @@ class TermekekSeeder extends Seeder
             [
                 'nev' => 'Maison Mihara Yasuhiro Peterson OG Sole Canvas Low Black',
                 'kategoria_id' => 56,
-                'marka_id' => 4,
+                'marka_id' => 22,
                 'nem' => 'unisex',
                 'anyag' => 'vászon',
                 'kepUrl' => 'MiharaPeterson.jpg',
@@ -816,7 +816,7 @@ class TermekekSeeder extends Seeder
             [
                 'nev' => 'Yeezy Slide Onyx',
                 'kategoria_id' => 61,
-                'marka_id' => 3,
+                'marka_id' => 61,
                 'nem' => 'unisex',
                 'anyag' => 'EVA hab',
                 'kepUrl' => 'YeezySlideOnyx.jpg',
@@ -842,7 +842,7 @@ class TermekekSeeder extends Seeder
             [
                 'nev' => 'Timberland 6" Premium Waterproof Boot Wheat',
                 'kategoria_id' => 63,
-                'marka_id' => 2,
+                'marka_id' => 10,
                 'nem' => 'unisex',
                 'anyag' => 'nubuk',
                 'kepUrl' => 'TimberlandWheat.jpg',
@@ -855,7 +855,7 @@ class TermekekSeeder extends Seeder
             [
                 'nev' => 'Crocs x Cars Mater',
                 'kategoria_id' => 64,
-                'marka_id' => 5,
+                'marka_id' => 64,
                 'nem' => 'unisex',
                 'anyag' => 'Croslite',
                 'kepUrl' => 'CrocsMater.jpg',
