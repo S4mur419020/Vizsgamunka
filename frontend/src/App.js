@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
-import "./App.css";
+// JAVÍTVA: A képed alapján Auth.Context.js a fájlneved
+import { AuthProvider } from "./context/Auth.Context"; 
+import { CipoProvider } from "./context/CipoContext";
+import { SettingsProvider } from "./context/SettingsContext";
 import { TranslationProvider } from "./i18n/TranslationProvider";
+import "./App.css";
 
 import Layout from "./Pages/Layout";
-
 import HomePage from "./Pages/HomePage";
 import ProductListPage from "./Pages/ProductListPage";
 import ProductDetailPage from "./Pages/ProductDetailPage";
@@ -13,7 +16,6 @@ import CheckoutPage from "./Pages/CheckoutPage";
 import LoginPage from "./Pages/LoginPage";
 import RegistrationPage from "./Pages/RegistrationPage";
 import StoresPage from "./Pages/StoresPage";
-import { SettingsProvider } from "./context/SettingsContext";
 import OrdersPage from "./Pages/OrderPage";
 import AccountPage from "./Pages/AccountPage";
 import DiscountsPage from "./Pages/DiscountPage";
@@ -22,51 +24,30 @@ import PasswordPage from "./Pages/PasswordPage";
 import ProfilePage from "./Pages/ProfilePage";
 import AddressesPage from "./Pages/AddressesPage";
 
-
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  // A routert a függvényen belül hagyjuk
   const router = createBrowserRouter([
-
     {
       path: "/login",
-      element: <LoginPage setIsLoggedIn={setIsLoggedIn} />,
+      element: <LoginPage />, // Kiszettem a setIsLoggedIn-t
     },
     {
       path: "/register",
       element: <RegistrationPage />,
     },
-
     {
       path: "/",
-      element: <Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />,
+      element: <Layout />, // Kiszettem a propokat
       children: [
         { index: true, element: <HomePage /> },
-
-        {
-          path: "products",
-          element: isLoggedIn ? <ProductListPage /> : <Navigate to="/login" />,
-        },
-        {
-          path: "products/:id",
-          element: isLoggedIn ? <ProductDetailPage /> : <Navigate to="/login" />,
-        },
-        {
-          path: "cart",
-          element: isLoggedIn ? <CartPage /> : <Navigate to="/login" />,
-        },
-        {
-          path: "checkout",
-          element: isLoggedIn ? <CheckoutPage /> : <Navigate to="/login" />,
-        },
-        {
-          path: "stores",
-          element: isLoggedIn ? <StoresPage /> : <Navigate to="/login" />,
-        },
-
+        { path: "products", element: <ProductListPage /> },
+        { path: "products/:id", element: <ProductDetailPage /> },
+        { path: "cart", element: <CartPage /> },
+        { path: "checkout", element: <CheckoutPage /> },
+        { path: "stores", element: <StoresPage /> },
         {
           path: "account",
-          element: isLoggedIn ? <AccountPage /> : <Navigate to="/login" />,
+          element: <AccountPage />,
           children: [
             { index: true, element: <ProfilePage /> },            
             { path: "profile", element: <ProfilePage /> },
@@ -75,7 +56,6 @@ function App() {
             { path: "orders", element: <OrdersPage /> },
             { path: "discounts", element: <DiscountsPage /> },
             { path: "benefits", element: <BenefitsPage /> },
-            { path: "checkout", element: <CheckoutPage /> },
           ],
         }
       ],
@@ -83,11 +63,15 @@ function App() {
   ]);
 
   return (
-    <SettingsProvider>
-      <TranslationProvider>
-        <RouterProvider router={router} />
-      </TranslationProvider>
-    </SettingsProvider>
+    <AuthProvider>
+      <CipoProvider>
+        <SettingsProvider>
+          <TranslationProvider>
+            <RouterProvider router={router} />
+          </TranslationProvider>
+        </SettingsProvider>
+      </CipoProvider>
+    </AuthProvider>
   );
 }
 
