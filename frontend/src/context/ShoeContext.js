@@ -5,7 +5,7 @@ export const ShoeContext = createContext();
 export const ShoeProvider = ({ children }) => {
     const [termekek, setTermekek] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [filter, setFilter] = useState({ nem: "", meret: "", szin: "", marka: "" });
+    const [filter, setFilter] = useState({ nem: "", marka: "" });
     const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
@@ -32,11 +32,9 @@ export const ShoeProvider = ({ children }) => {
 
     const szurtTermekek = termekek.filter(t => {
         const nemPasszol = filter.nem === "" || t.nem === filter.nem;
-        const meretPasszol = filter.meret === "" || (t.meret && t.meret.toString().includes(filter.meret));
-        const szinPasszol = filter.szin === "" || (t.szin && t.szin.toLowerCase().includes(filter.szin.toLowerCase()));
         const markaPasszol = filter.marka === "" || String(t.marka_id) === String(filter.marka);
         
-        return nemPasszol && meretPasszol && szinPasszol && markaPasszol;
+        return nemPasszol && markaPasszol;
     });
 
     const updateCart = async (termekId, mennyiseg) => {
