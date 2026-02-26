@@ -1,8 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
 
-export const CipoContext = createContext();
+export const ShoeContext = createContext();
 
-export const CipoProvider = ({ children }) => {
+export const ShoeProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const [orders, setOrders] = useState([]);
 
@@ -24,8 +24,8 @@ export const CipoProvider = ({ children }) => {
     };
 
     return (
-        <CipoContext.Provider value={{ cartItems, updateCart, orders, finalizeOrder }}>
+        <ShoeContext.Provider value={{ cartItems, updateCart, orders, finalizeOrder }}>
             {children}
-        </CipoContext.Provider>
+        </ShoeContext.Provider>
     );
 };

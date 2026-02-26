@@ -1,8 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
-// JAVÍTVA: A képed alapján Auth.Context.js a fájlneved
-import { AuthProvider } from "./context/Auth.Context"; 
-import { CipoProvider } from "./context/CipoContext";
+import { AuthProvider } from "./context/AuthContext"; 
+import { CipoProvider } from "./context/ShoeContext";
 import { SettingsProvider } from "./context/SettingsContext";
 import { TranslationProvider } from "./i18n/TranslationProvider";
 import "./App.css";
@@ -25,11 +24,10 @@ import ProfilePage from "./Pages/ProfilePage";
 import AddressesPage from "./Pages/AddressesPage";
 
 function App() {
-  // A routert a függvényen belül hagyjuk
   const router = createBrowserRouter([
     {
       path: "/login",
-      element: <LoginPage />, // Kiszettem a setIsLoggedIn-t
+      element: <LoginPage />, 
     },
     {
       path: "/register",
@@ -37,7 +35,7 @@ function App() {
     },
     {
       path: "/",
-      element: <Layout />, // Kiszettem a propokat
+      element: <Layout />, 
       children: [
         { index: true, element: <HomePage /> },
         { path: "products", element: <ProductListPage /> },
