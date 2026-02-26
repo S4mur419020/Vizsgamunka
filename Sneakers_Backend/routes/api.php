@@ -123,6 +123,8 @@ Route::prefix('blog')->group(function () {
     Route::delete('{id}', [BlogController::class, 'destroy']);
 });
 
+
+Route::post('/login', [FelhasznaloController::class, 'login']);
 Route::prefix('regisztracio')->group(function () {
     Route::post('/', [RegisztracioController::class, 'store']);
     Route::post('aktivacio', [RegisztracioController::class, 'aktivacio']);
@@ -168,6 +170,3 @@ Route::prefix('nyelvek')->group(function () {
     Route::put('{id}', [NyelvController::class, 'update']);
     Route::delete('{id}', [NyelvController::class, 'destroy']);
 });
-
-
-

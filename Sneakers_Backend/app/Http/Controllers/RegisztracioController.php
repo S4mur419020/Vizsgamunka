@@ -4,23 +4,41 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-
+use App\Models\Felhasznalo;
 
 class RegisztracioController extends Controller
 {
-    public function register(Request $request)
+    public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6'
-        ]);
+        try {
+            
+            $validated = $request->validate([
+                'name' => 'required|string|max:50',
+                'email' => 'required|email|max:50|unique:felhasznalos,email',
+                'password' => 'required|min:6'
+            ]);
 
-        $validated['password'] = Hash::make($validated['password']);
+            
+            $felhasznalo = Felhasznalo::create([
+                'nev' => $validated['name'],
+                'email' => $validated['email'],
+               
+                'jelszo' => $validated['password'], 
+                'telefonszam' => '060000000', 
+                'regisztracio_datuma' => now(),
+                'aktiv' => true,
+                'nyelv_id' => 1,    
+                'szekhely_id' => 1, 
+            ]);
 
-        $user = User::create($validated);
+            return response()->json([
+                'success' => true,
+                'user' => $felhasznalo
+            ], 201);
 
-        return response()->json($user, 201);
+        } catch (\Exception $e) {
+            
+            return response()->json(['message' => 'Hiba: ' . $e->getMessage()], 500);
+        }
     }
 }

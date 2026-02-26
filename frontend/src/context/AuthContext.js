@@ -1,35 +1,56 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    useEffect(() => {
-        const savedName = localStorage.getItem("userName");
-        if (savedName) {
-            setUser({ name: savedName });
-            setIsLoggedIn(true);
+    
+    const login = async (email, password) => {
+        try {
+            const response = await fetch('http://localhost:8000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await response.json();
+            if (response.ok && data.success) {
+                setUser(data.user);
+                return { success: true };
+            }
+            return { success: false, message: data.message || 'Hibás adatok!' };
+        } catch (error) {
+            return { success: false, message: 'A szerver nem elérhető!' };
         }
-    }, []);
-
-    const login = (email) => {
-        const name = email.split("@")[0];
-        localStorage.setItem("userName", name);
-        setUser({ name: name });
-        setIsLoggedIn(true);
     };
 
-    const logout = () => {
-        localStorage.removeItem("userName");
-        setUser(null);
-        setIsLoggedIn(false);
+    
+    const register = async (userData) => {
+        try {
+            const response = await fetch('http://localhost:8000/api/regisztracio', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData),
+            });
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                
+                return { success: true };
+            }
+            return { success: false, message: data.message || 'Regisztrációs hiba!' };
+        } catch (error) {
+            return { success: false, message: 'A szerver nem elérhető!' };
+        }
     };
+
+    const logout = () => setUser(null);
 
     return (
-        <AuthContext.Provider value={{ user, isLoggedIn, login, logout }}>
+        <AuthContext.Provider value={{ user, login, register, logout }}>
             {children}
         </AuthContext.Provider>
     );
 };
+
+export const useAuth = () => useContext(AuthContext);
