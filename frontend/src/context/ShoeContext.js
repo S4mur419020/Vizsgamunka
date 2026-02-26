@@ -18,7 +18,7 @@ export const ShoeProvider = ({ children }) => {
 
                 const termekAdat = await resTermekek.json();
                 const kosarAdat = await resKosar.json();
-
+                console.log("Betölti a termékeket:", termekAdat)
                 setTermekek(termekAdat);
                 setCartItems(kosarAdat);
                 setLoading(false);

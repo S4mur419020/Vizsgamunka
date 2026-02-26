@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { FaBars } from "react-icons/fa";
 import { ShoeContext } from '../context/ShoeContext'; 
 import ShoeFilter from '../Components/Shoefilter';
+import ShoeCard from '../Components/ShoeCard';
 
 export default function ProductListPage() {
     const { szurtTermekek, loading } = useContext(ShoeContext);
@@ -10,6 +10,7 @@ export default function ProductListPage() {
     const [openFilter, setOpenFilter] = useState(false);
 
     if (loading) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>Termékek betöltése...</div>;
+
     const sortedProducts = [...szurtTermekek].sort((a, b) => {
         if (sortOrder === "asc") return Number(a.ar) - Number(b.ar);
         if (sortOrder === "desc") return Number(b.ar) - Number(a.ar);
@@ -33,18 +34,14 @@ export default function ProductListPage() {
 
             <h1 style={{ color: 'white', textAlign: 'center' }}>Cipőink</h1>
             
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px', marginTop: '30px' }}>
+            <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', 
+                gap: '20px', 
+                marginTop: '30px' 
+            }}>
                 {sortedProducts.map(termek => (
-                    <div key={termek.cikkszam} style={{ background: '#1a1a1a', padding: '15px', borderRadius: '10px', color: 'white', border: '1px solid #333', textAlign: 'center' }}>
-                         <img
-                            src={`/kepek/${termek.kepUrl}`}
-                            alt={termek.nev}
-                            style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: "5px" }}
-                        />
-                        <h3>{termek.nev}</h3>
-                        <p style={{ color: '#007bff', fontWeight: 'bold' }}>{Number(termek.ar).toLocaleString()} Ft</p>
-                        <Link to={`/products/${termek.cikkszam}`} style={{ color: '#aaa', display: 'block', margin: '10px 0' }}>Részletek</Link>
-                    </div>
+                    <ShoeCard key={termek.cikkszam} termek={termek} />
                 ))}
             </div>
         </div>
