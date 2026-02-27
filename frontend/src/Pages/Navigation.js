@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaCog, FaShoppingCart } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 import "../css/Navigation.css";
 import useTranslation from "../i18n/useTranslation";
 
@@ -8,7 +9,8 @@ export default function Navigation({ toggleSettings, isLoggedIn = false, setIsLo
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userMenuRef = useRef(null);
   const navigate = useNavigate();
-  const userName = localStorage.getItem("userName");
+  const { user, logout } = useAuth(); 
+  const userName = user ? user.nev : null; 
 
   const { t } = useTranslation();
 
@@ -22,8 +24,8 @@ export default function Navigation({ toggleSettings, isLoggedIn = false, setIsLo
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const logout = () => {
-    setIsLoggedIn(false);
+  const handleLogout = async () => {
+    await logout(); 
     setIsDropdownOpen(false);
     navigate("/");
   };
@@ -78,7 +80,7 @@ export default function Navigation({ toggleSettings, isLoggedIn = false, setIsLo
 
                 <div className="dropdown-divider"></div>
 
-                <button className="dropdown-item dropdown-logout" onClick={logout}>
+                <button className="dropdown-item dropdown-logout" onClick={handleLogout}>
                   {t("nav.logout")}
                 </button>
               </>

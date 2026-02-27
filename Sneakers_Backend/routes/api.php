@@ -26,8 +26,13 @@ use Illuminate\Http\Request;
 
 
 Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+    
+    if (auth('sanctum')->check()) {
+        return response()->json(auth('sanctum')->user());
+    }
+    
+    return response()->json(null, 200); 
+});
 
 Route::prefix('kategoriak')->group(function () {
     Route::get('/', [KategoriakController::class, 'index']);
