@@ -1,87 +1,65 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { myAxios } from "../services/api"; // A te saját api.js fájlod
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const checkUserStatus = async () => {
-            try {
-                const response = await fetch('http://localhost:8000/api/user', {
-                    method: 'GET',
-                    
-                    credentials: 'include', 
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                });
-                if (response.ok) {
-                    const userData = await response.json();
-                    setUser(userData);
-                }
-            } catch (error) {
-                console.error("Nem sikerült azonosítani");
-            } finally {
-                setLoading(false);
-            }
-        };
-        checkUserStatus();
-    }, []);
+    
+    const csrf = () => myAxios.get("/sanctum/csrf-cookie");
 
-    const login = async (email, password) => {
+    
+    const getUser = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/login', {
-                method: 'POST',
-                credentials: 'include', 
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-            });
-            const data = await response.json();
-            if (response.ok && data.success) {
-                setUser(data.user);
-                return { success: true };
-            }
-            return { success: false, message: data.message || 'Hiba!' };
+            const { data } = await myAxios.get('/api/user');
+            setUser(data);
         } catch (error) {
-            return { success: false, message: 'Hiba!' };
+            setUser(null);
+        } finally {
+            setLoading(false);
         }
     };
 
-    const register = async (userData) => {
+  
+    const loginReg = async (adat, vegpont) => {
+        setErrors({}); 
+        await csrf(); 
         try {
-            const response = await fetch('http://localhost:8000/api/regisztracio', {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(userData),
-            });
-            const data = await response.json();
-            return { success: response.ok && data.success, message: data.message };
+            await myAxios.post(vegpont, adat);
+            await getUser(); 
+            
+            return true; 
         } catch (error) {
-            return { success: false, message: 'Hiba!' };
+            if (error.response && error.response.status === 422) {
+                setErrors(error.response.data.errors);
+            }
+            return false;
         }
     };
 
     const logout = async () => {
         try {
-            await fetch('http://localhost:8000/api/logout', { 
-                method: 'POST',
-                credentials: 'include' 
-            });
+            await myAxios.post('/logout');
             setUser(null);
         } catch (error) {
             setUser(null);
         }
     };
 
+    useEffect(() => {
+        getUser();
+    }, []);
+
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+        <AuthContext.Provider value={{ user, errors, loginReg, logout, loading }}>
             {!loading && children}
         </AuthContext.Provider>
     );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export default function useAuthContext() {
+    return useContext(AuthContext);
+}

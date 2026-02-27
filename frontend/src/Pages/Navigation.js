@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaCog, FaShoppingCart } from "react-icons/fa";
-import { useAuth } from "../context/AuthContext";
+import useAuthContext from "../context/AuthContext";
 import "../css/Navigation.css";
 import useTranslation from "../i18n/useTranslation";
 
@@ -9,8 +9,9 @@ export default function Navigation({ toggleSettings, isLoggedIn = false, setIsLo
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userMenuRef = useRef(null);
   const navigate = useNavigate();
-  const { user, logout } = useAuth(); 
-  const userName = user ? user.nev : null; 
+  const { user, logout } = useAuthContext();
+
+  const userName = user ? user.nev : null;
 
   const { t } = useTranslation();
 
@@ -25,7 +26,7 @@ export default function Navigation({ toggleSettings, isLoggedIn = false, setIsLo
   }, []);
 
   const handleLogout = async () => {
-    await logout(); 
+    await logout();
     setIsDropdownOpen(false);
     navigate("/");
   };
