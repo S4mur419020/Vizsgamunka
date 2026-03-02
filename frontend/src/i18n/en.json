@@ -4,30 +4,41 @@
   "nav.stores": "Stores",
   "nav.cart": "Cart",
   "nav.account": "My Account",
-
-  "settings.title": "Settings",
-  "settings.light": "Light mode",
-  "settings.notifications": "Notifications",
-  "settings.language": "Language",
-  "settings.close": "Close",
-
-  "home.welcome": "Welcome to the Sneaker Webshop",
-  "home.subtitle": "Shop fast and easily",
-  "home.featured": "Featured products",
-  "home.details": "Details",
-
-
   "nav.login": "Login",
   "nav.noAccount": "Don't have an account?",
   "nav.register": "Register",
-
   "nav.profile": "Profile",
   "nav.passwordChange": "Change password",
   "nav.addresses": "My addresses",
   "nav.orders": "My orders",
   "nav.discounts": "Discount codes",
   "nav.benefits": "Benefits",
-
-  "nav.logout": "Logout"
-
+  "nav.logout": "Logout",
+  "settings.title": "Settings",
+  "settings.light": "Light mode",
+  "settings.notifications": "Notifications",
+  "settings.language": "Language",
+  "settings.close": "Close",
+  "home.welcome": "Welcome to the Sneaker Webshop",
+  "home.subtitle": "Shop fast and easily",
+  "home.featured": "Featured products",
+  "home.details": "Details",
+  "home.feedback_title": "Tell us your opinion!",
+  "home.subject_placeholder": "Subject",
+  "home.message_placeholder": "Write something...",
+  "home.send_button": "Send",
+  "home.feedback_success": "Feedback sent!",
+  "home.feedback_error": "Error during saving.",
+  "home.why_us": "Why choose us?",
+  "home.fast_shipping": "Fast shipping",
+  "home.secure_payment": "Secure payment",
+  "home.easy_shopping": "Easy shopping",
+  "home.reviews_received": "Admin Panel: Reviews received",
+  "home.no_reviews": "No reviews to display.",
+  "auth.email": "Email Address",
+  "auth.password": "Password",
+  "auth.login_btn": "LOGIN",
+  "auth.full_name": "Full Name",
+  "auth.password_confirm": "Confirm Password",
+  "auth.register_btn": "Register Now"
 }

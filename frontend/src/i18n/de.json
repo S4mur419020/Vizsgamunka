@@ -4,29 +4,41 @@
   "nav.stores": "Geschäfte",
   "nav.cart": "Warenkorb",
   "nav.account": "Konto",
-
   "settings.title": "Einstellungen",
   "settings.light": "Lichtmodus",
   "settings.notifications": "Benachrichtigungen",
   "settings.language": "Sprache",
   "settings.close": "Schließen",
-
   "home.welcome": "Willkommen im Sneaker Webshop",
   "home.subtitle": "Schnell und einfach einkaufen",
   "home.featured": "Ausgewählte Produkte",
   "home.details": "Details",
-
   "nav.login": "Anmelden",
   "nav.noAccount": "Noch kein Konto?",
   "nav.register": "Registrieren",
-
   "nav.profile": "Persönliche Daten",
   "nav.passwordChange": "Passwort ändern",
   "nav.addresses": "Meine Adressen",
   "nav.orders": "Bestellungen",
   "nav.discounts": "Rabattcodes",
   "nav.benefits": "Vorteile",
-
-  "nav.logout": "Abmelden"
-
+  "nav.logout": "Abmelden",
+  "home.feedback_title": "Sagen Sie uns Ihre Meinung!",
+  "home.subject_placeholder": "Betreff",
+  "home.message_placeholder": "Schreiben Sie etwas...",
+  "home.send_button": "Schicken",
+  "home.feedback_success": "Feedback gesendet!",
+  "home.feedback_error": "Fehler beim Speichern.",
+  "home.why_us": "Warum uns wählen?",
+  "home.fast_shipping": "Schneller Versand",
+  "home.secure_payment": "Sichere Bezahlung",
+  "home.easy_shopping": "Einfaches Einkaufen",
+  "home.reviews_received": "Eingegangene Bewertungen",
+  "home.no_reviews": "Keine Bewertungen zum Anzeigen.",
+  "auth.email": "E-Mail-Adresse",
+  "auth.password": "Passwort",
+  "auth.login_btn": "ANMELDEN",
+  "auth.full_name": "Vollständiger Name",
+  "auth.password_confirm": "Passwort bestätigen",
+  "auth.register_btn": "Jetzt registrieren"
 }

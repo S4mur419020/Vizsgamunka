@@ -1,12 +1,14 @@
 import React, { useState } from 'react'; 
 import { useNavigate } from "react-router-dom";
-import useAuthContext from "../context/AuthContext"; 
+import useAuthContext from "../context/AuthContext";
+import useTranslation from "../i18n/useTranslation"; 
 import '../css/Login.css';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { loginReg, errors } = useAuthContext();
+    const { t } = useTranslation()
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -22,10 +24,10 @@ const LoginPage = () => {
     return (
         <div className="login-page">
             <div className="login-card">
-                <h2 className="login-title">Bejelentkezés</h2>
+                <h2 className="login-title">{t('nav.login')}</h2>
                 <form onSubmit={handleLogin} className="login-form">
                     <div className="form-group">
-                        <label className="form-label">E-mail cím</label>
+                        <label className="form-label">{t('auth.email')}</label>
                         <input
                             type="email"
                             value={email}
@@ -38,7 +40,7 @@ const LoginPage = () => {
                     </div>
 
                     <div className="form-group">
-                        <label className="form-label">Jelszó</label>
+                        <label className="form-label">{t('auth.password')}</label>
                         <input
                             type="password"
                             value={password}
@@ -49,7 +51,7 @@ const LoginPage = () => {
                         {errors?.password && <span className="text-danger">{errors.password[0]}</span>}
                     </div>
 
-                    <button type="submit" className="login-button">BELÉPÉS</button>
+                    <button type="submit" className="login-button">{t('auth.login_btn')}</button>
                 </form>
                
             </div>

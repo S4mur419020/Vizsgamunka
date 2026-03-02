@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { myAxios } from "../services/api"; // A te saját api.js fájlod
+import { myAxios } from "../services/api"; 
 
 const AuthContext = createContext();
 

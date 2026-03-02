@@ -11,7 +11,7 @@ export default function Navigation({ toggleSettings }) {
   const navigate = useNavigate();
 
   
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuthContext();
 
  
   const userName = user ? (user.nev || user.name || user.email || "Vendég") : null;
