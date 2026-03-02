@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react'; 
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 import '../css/Login.css';
 
-const LoginPage = ({ setIsLoggedIn }) => {
+const LoginPage = () => {
+   
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    
+    
+    const { login } = useAuth();
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
 
         if (email !== '' && password !== '') {
-            setIsLoggedIn(true);
-            navigate("/"); 
+            
+            const result = await login(email, password);
+
+            if (result.success) {
+                
+                navigate("/"); 
+            } else {
+                
+                alert(result.message || "Hiba a bejelentkezés során!");
+            }
         } else {
             alert("Kérlek töltsd ki a mezőket!");
         }
@@ -21,9 +34,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
     return (
         <div className="login-page">
             <div className="login-card">
-                <h2 className="login-title">
-                    Bejelentkezés
-                </h2>
+                <h2 className="login-title">Bejelentkezés</h2>
 
                 <form onSubmit={handleLogin} className="login-form">
                     <div className="form-group">
@@ -55,13 +66,11 @@ const LoginPage = ({ setIsLoggedIn }) => {
 
                 <p className="register-text">
                     Még nincs fiókod?
-                    <a href="/register" className="register-link">
-                        Regisztrálj itt
-                    </a>
+                    <a href="/register" className="register-link"> Regisztrálj itt</a>
                 </p>
             </div>
         </div>
     );
 };
 
-export default LoginPage;
+export default LoginPage

@@ -17,14 +17,15 @@ class Felhasznalo extends Model
     protected $primaryKey = 'felhasznalo_id';
 
     protected $fillable = [
-        'nev',
-        'email',
-        'jelszo',
-        'telefonszam',
-        'nyelv_id',
-        'szekhely',
-        'aktiv',
-    ];
+    'nev',
+    'email',
+    'jelszo',
+    'telefonszam',
+    'regisztracio_datuma', 
+    'nyelv_id',
+    'szekhely_id',
+    'aktiv',
+];
 
     protected $hidden = [
         'jelszo',

@@ -1,0 +1,33 @@
+{
+  "nav.home": "Home",
+  "nav.products": "Products",
+  "nav.stores": "Stores",
+  "nav.cart": "Cart",
+  "nav.account": "My Account",
+
+  "settings.title": "Settings",
+  "settings.light": "Light mode",
+  "settings.notifications": "Notifications",
+  "settings.language": "Language",
+  "settings.close": "Close",
+
+  "home.welcome": "Welcome to the Sneaker Webshop",
+  "home.subtitle": "Shop fast and easily",
+  "home.featured": "Featured products",
+  "home.details": "Details",
+
+
+  "nav.login": "Login",
+  "nav.noAccount": "Don't have an account?",
+  "nav.register": "Register",
+
+  "nav.profile": "Profile",
+  "nav.passwordChange": "Change password",
+  "nav.addresses": "My addresses",
+  "nav.orders": "My orders",
+  "nav.discounts": "Discount codes",
+  "nav.benefits": "Benefits",
+
+  "nav.logout": "Logout"
+
+}

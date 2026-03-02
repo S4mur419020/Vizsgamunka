@@ -1,82 +1,63 @@
 import React, { useContext } from "react";
 import { SettingsContext } from "../context/SettingsContext";
-import '../css/Settings.css'
-
+import ReactCountryFlag from 'react-country-flag';
+import "../css/Settings.css";
 
 export default function SettingsPage({ visible, onClose }) {
-  const { lightMode, setDarkMode, language, setLanguage, notifications, setNotifications } =
-    useContext(SettingsContext);
+  const {
+    language,
+    setLanguage,
+    notifications,
+    setNotifications,
+  } = useContext(SettingsContext);
 
   if (!visible) return null;
 
   return (
     <>
-      {/* overlay a háttérhez */}
-      <div
-        className="settings-overlay"
-        onClick={onClose}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "rgba(0,0,0,0.3)",
-          zIndex: 999,
-        }}
-      />
+      <div className="settings-overlay" onClick={onClose}></div>
 
-      <div
-        className="settings-dropdown"
-        onClick={(e) => e.stopPropagation()} // hogy a cardon belüli kattintás ne zárja be
-        style={{
-          position: "fixed",
-          top: "60px",
-          right: "20px",
-          width: "300px",
-          backgroundColor: "#111827",
-          padding: "24px",
-          borderRadius: "12px",
-          boxShadow: "0 25px 50px rgba(0,0,0,0.5)",
-          zIndex: 1000,
-        }}
-      >
-        <div className="settings-section">
-          <label className="settings-label">
-            Világos mód
-            <input
-              type="checkbox"
-              checked={lightMode}
-              onChange={() => setDarkMode(!lightMode)}
+      <div className="settings-dropdown" onClick={(e) => e.stopPropagation()}>
+        <h3 className="settings-title">Beállítások</h3>
+        <label className="settings-label">
+          Értesítések
+          <input
+            type="checkbox"
+            checked={notifications}
+            onChange={() => setNotifications((v) => !v)}
+          />
+        </label>
+        <label className="settings-label">
+          Nyelv
+          <div className="flag-container">
+            <ReactCountryFlag
+              countryCode="HU"
+              svg
+              style={{ width: "32px", height: "32px", cursor: "pointer" }}
+              title="Magyar"
+              className={language === "hu" ? "active" : ""}
+              onClick={() => setLanguage("hu")}
             />
-          </label>
-        </div>
 
-        <div className="settings-section">
-          <label className="settings-label">
-            Értesítések
-            <input
-              type="checkbox"
-              checked={notifications}
-              onChange={() => setNotifications(!notifications)}
+            <ReactCountryFlag
+              countryCode="US"
+              svg
+              style={{ width: "32px", height: "32px", cursor: "pointer" }}
+              title="Angol"
+              className={language === "en" ? "active" : ""}
+              onClick={() => setLanguage("en")}
             />
-          </label>
-        </div>
 
-        <div className="settings-section">
-          <label className="settings-label">
-            Nyelv
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              className="settings-select"
-            >
-              <option value="en">Angol</option>
-              <option value="hu">Magyar</option>
-              <option value="de">Német</option>
-            </select>
-          </label>
-        </div>
+            <ReactCountryFlag
+              countryCode="DE"
+              svg
+              style={{ width: "32px", height: "32px", cursor: "pointer" }}
+              title="Német"
+              className={language === "de" ? "active" : ""}
+              onClick={() => setLanguage("de")}
+            />
+          </div>
+        </label>
 
         <button className="settings-close" onClick={onClose}>
           Bezárás

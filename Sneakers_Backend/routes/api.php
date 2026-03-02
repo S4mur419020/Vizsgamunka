@@ -26,8 +26,9 @@ use Illuminate\Http\Request;
 
 
 Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+    
+    return response()->json(auth()->user());
+});
 
 Route::prefix('kategoriak')->group(function () {
     Route::get('/', [KategoriakController::class, 'index']);
@@ -123,6 +124,15 @@ Route::prefix('blog')->group(function () {
     Route::delete('{id}', [BlogController::class, 'destroy']);
 });
 
+
+Route::post('/login', [FelhasznaloController::class, 'login']);
+Route::post('/logout', [FelhasznaloController::class, 'logout']);
+
+
+Route::get('/user', function (Illuminate\Http\Request $request) {
+    return response()->json(auth()->user() ?: ['message' => 'Nincs bejelentkezve']);
+});
+
 Route::prefix('regisztracio')->group(function () {
     Route::post('/', [RegisztracioController::class, 'store']);
     Route::post('aktivacio', [RegisztracioController::class, 'aktivacio']);
@@ -168,6 +178,3 @@ Route::prefix('nyelvek')->group(function () {
     Route::put('{id}', [NyelvController::class, 'update']);
     Route::delete('{id}', [NyelvController::class, 'destroy']);
 });
-
-
-

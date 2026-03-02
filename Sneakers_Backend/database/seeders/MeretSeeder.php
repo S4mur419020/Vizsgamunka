@@ -11,6 +11,17 @@ class MeretSeeder extends Seeder
     public function run(): void
     {
         Meret::insert([
+            ['meretvalasztek' => 25, 'created_at' => now(), 'updated_at' => now()],
+            ['meretvalasztek' => 26, 'created_at' => now(), 'updated_at' => now()],
+            ['meretvalasztek' => 27, 'created_at' => now(), 'updated_at' => now()],
+            ['meretvalasztek' => 28, 'created_at' => now(), 'updated_at' => now()],
+            ['meretvalasztek' => 29, 'created_at' => now(), 'updated_at' => now()],
+            ['meretvalasztek' => 30, 'created_at' => now(), 'updated_at' => now()],
+            ['meretvalasztek' => 31, 'created_at' => now(), 'updated_at' => now()],
+            ['meretvalasztek' => 32, 'created_at' => now(), 'updated_at' => now()],
+            ['meretvalasztek' => 33, 'created_at' => now(), 'updated_at' => now()],
+            ['meretvalasztek' => 34, 'created_at' => now(), 'updated_at' => now()],
+            ['meretvalasztek' => 35, 'created_at' => now(), 'updated_at' => now()],
             ['meretvalasztek' => 36, 'created_at' => now(), 'updated_at' => now()],
             ['meretvalasztek' => 37, 'created_at' => now(), 'updated_at' => now()],
             ['meretvalasztek' => 38, 'created_at' => now(), 'updated_at' => now()],

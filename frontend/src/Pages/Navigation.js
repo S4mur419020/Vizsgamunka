@@ -1,40 +1,119 @@
-import React, { useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { FaUser, FaCog, FaShoppingBag } from 'react-icons/fa';
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaUser, FaCog, FaShoppingCart } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext"; 
+import "../css/Navigation.css";
+import useTranslation from "../i18n/useTranslation";
 
-export default function Navigation({ toggleSettings, toggleLogin }) {
+export default function Navigation({ toggleSettings }) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userMenuRef = useRef(null);
+  const navigate = useNavigate();
 
-  // Ha kell, itt lehet handleClickOutside, ami toggleLogin-t hívja
+  
+  const { user, logout } = useAuth();
+
+ 
+  const userName = user ? (user.nev || user.name || user.email || "Vendég") : null;
+
+  const { t } = useTranslation();
+
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-        // toggleLogin(false) vagy valami állapotkezelés
+        setIsDropdownOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleLogout = async () => {
+    await logout(); 
+    setIsDropdownOpen(false);
+    navigate("/");
+  };
+
   return (
-    <nav style={{ padding: "10px", display: "flex", gap: "15px", alignItems: "center" }}>
-      <Link to="/">Főoldal</Link>
-      <Link to="/products">Cipőink</Link>
-      <Link to="/stores">Üzleteink</Link>
-
-      <Link to="/cart"><FaShoppingBag size={20} /></Link>
-
-      <div ref={userMenuRef} className="user-menu">
-        <FaUser size={20} style={{ cursor: 'pointer' }} onClick={toggleLogin} />
+    <nav className="navbar">
+      <div className="nav-center">
+        <Link to="/">{t("nav.home")}</Link>
+        <Link to="/products">{t("nav.products")}</Link>
+        <Link to="/stores">{t("nav.stores")}</Link>
       </div>
 
-      <button
-        onClick={toggleSettings}
-        title="Beállítások"
-        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
-      >
-        <FaCog size={20} />
-      </button>
+      <div className="nav-right">
+        <Link to="/cart" title={t("nav.cart")} className="icon-button">
+          <FaShoppingCart size={20} />
+        </Link>
+
+        <div className="user-menu" ref={userMenuRef}>
+          <button
+            className="icon-button"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          >
+            <FaUser size={20} />
+            
+            {user && <span className="user-name">{userName}</span>}
+          </button>
+
+          <div className={`dropdown ${isDropdownOpen ? "open" : ""}`}>
+           
+            {!user ? (
+              <>
+                <Link to="/login" className="login-button" onClick={() => setIsDropdownOpen(false)}>
+                  {t("nav.login")}
+                </Link>
+
+                <div className="register-box">
+                  {t("nav.noAccount")}{" "}
+                  <Link to="/register" className="register-link" onClick={() => setIsDropdownOpen(false)}>
+                    {t("nav.register")}
+                  </Link>
+                </div>
+              </>
+            ) : (
+              
+              <>
+                <div className="dropdown-header">{userName || t("nav.account")}</div>
+
+                <Link to="/account/profile" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
+                  {t("nav.profile")}
+                </Link>
+                <Link to="/account/password" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
+                  {t("nav.passwordChange")}
+                </Link>
+                <Link to="/account/addresses" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
+                  {t("nav.addresses")}
+                </Link>
+
+                <div className="dropdown-divider"></div>
+
+                <Link to="/account/orders" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
+                  {t("nav.orders")}
+                </Link>
+                <Link to="/account/discounts" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
+                  {t("nav.discounts")}
+                </Link>
+                <Link to="/account/benefits" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
+                  {t("nav.benefits")}
+                </Link>
+
+                <div className="dropdown-divider"></div>
+
+                <button className="dropdown-item dropdown-logout" onClick={handleLogout}>
+                  {t("nav.logout")}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+
+        <button className="icon-button" onClick={toggleSettings}>
+          <FaCog size={20} />
+        </button>
+      </div>
     </nav>
   );
 }

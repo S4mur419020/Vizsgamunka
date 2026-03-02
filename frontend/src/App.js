@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext"; 
+import { ShoeProvider } from "./context/ShoeContext";
+import { SettingsProvider } from "./context/SettingsContext";
+import { TranslationProvider } from "./i18n/TranslationProvider";
 import "./App.css";
 
 import Layout from "./Pages/Layout";
-
 import HomePage from "./Pages/HomePage";
 import ProductListPage from "./Pages/ProductListPage";
 import ProductDetailPage from "./Pages/ProductDetailPage";
@@ -12,56 +15,61 @@ import CheckoutPage from "./Pages/CheckoutPage";
 import LoginPage from "./Pages/LoginPage";
 import RegistrationPage from "./Pages/RegistrationPage";
 import StoresPage from "./Pages/StoresPage";
-import { SettingsProvider } from "./context/SettingsContext";
+import OrdersPage from "./Pages/OrderPage";
+import AccountPage from "./Pages/AccountPage";
+import DiscountsPage from "./Pages/DiscountPage";
+import BenefitsPage from "./Pages/BenefitsPage";
+import PasswordPage from "./Pages/PasswordPage";
+import ProfilePage from "./Pages/ProfilePage";
+import AddressesPage from "./Pages/AddressesPage";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const router = createBrowserRouter([
-    
     {
       path: "/login",
-      element: <LoginPage setIsLoggedIn={setIsLoggedIn} />,
+      element: <LoginPage />, 
     },
     {
       path: "/register",
       element: <RegistrationPage />,
     },
-    
     {
       path: "/",
-      element: <Layout />,
+      element: <Layout />, 
       children: [
         { index: true, element: <HomePage /> },
-
+        { path: "products", element: <ProductListPage /> },
+        { path: "products/:id", element: <ProductDetailPage /> },
+        { path: "cart", element: <CartPage /> },
+        { path: "checkout", element: <CheckoutPage /> },
+        { path: "stores", element: <StoresPage /> },
         {
-          path: "products",
-          element: isLoggedIn ? <ProductListPage /> : <Navigate to="/login" />,
-        },
-        {
-          path: "products/:id",
-          element: isLoggedIn ? <ProductDetailPage /> : <Navigate to="/login" />,
-        },
-        {
-          path: "cart",
-          element: isLoggedIn ? <CartPage /> : <Navigate to="/login" />,
-        },
-        {
-          path: "checkout",
-          element: isLoggedIn ? <CheckoutPage /> : <Navigate to="/login" />,
-        },
-        {
-          path: "stores",
-          element: isLoggedIn ? <StoresPage /> : <Navigate to="/login" />,
-        },
+          path: "account",
+          element: <AccountPage />,
+          children: [
+            { index: true, element: <ProfilePage /> },            
+            { path: "profile", element: <ProfilePage /> },
+            { path: "password", element: <PasswordPage /> },
+            { path: "addresses", element: <AddressesPage /> },
+            { path: "orders", element: <OrdersPage /> },
+            { path: "discounts", element: <DiscountsPage /> },
+            { path: "benefits", element: <BenefitsPage /> },
+          ],
+        }
       ],
     },
   ]);
 
   return (
-    <SettingsProvider>
-      <RouterProvider router={router} />
-    </SettingsProvider>
+    <AuthProvider>
+      <ShoeProvider>
+        <SettingsProvider>
+          <TranslationProvider>
+            <RouterProvider router={router} />
+          </TranslationProvider>
+        </SettingsProvider>
+      </ShoeProvider>
+    </AuthProvider>
   );
 }
 

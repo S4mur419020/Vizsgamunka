@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('termekeks', function (Blueprint $table) {
             $table->id('cikkszam');
-            $table->string('nev', 50);
+            $table->string('nev', 100);
 
             $table->text('leiras')->nullable();
             $table->string('nem', 10);

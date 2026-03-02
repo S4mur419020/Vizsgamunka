@@ -1,0 +1,143 @@
+.addr-wrap {
+    color: #fff;
+}
+
+.section-title {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.section-sub {
+    opacity: .75;
+    margin-bottom: 18px;
+}
+
+.addr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.addr-add-btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #00aaff;
+    background: transparent;
+    color: #00aaff;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.addr-add-btn:hover {
+    background: rgba(0, 170, 255, .1);
+}
+
+.addr-form {
+    background: #151515;
+    border: 1px solid #242424;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.addr-form .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.addr-form .col label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.addr-form input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #2e2e2e;
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.addr-form .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.btn {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #2e2e2e;
+    background: #1a1a1a;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.btn.ghost:hover {
+    background: #222;
+}
+
+.btn.primary {
+    border-color: #0077aa;
+    background: #00aaff;
+    color: #071018;
+}
+
+.btn.primary:hover {
+    filter: brightness(1.05);
+}
+
+.btn.danger {
+    border-color: #8f2a2a;
+    background: #b23b3b;
+}
+
+.btn.danger:hover {
+    filter: brightness(1.05);
+}
+
+.addr-empty {
+    background: #141414;
+    border: 1px solid #262626;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: left;
+}
+
+.muted {
+    opacity: .75;
+}
+
+.addr-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 14px;
+}
+
+.addr-card {
+    background: #141414;
+    border: 1px solid #262626;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.addr-lines .line {
+    margin-bottom: 4px;
+}
+
+.addr-actions {
+    display: flex;
+    gap: 8px;
+}

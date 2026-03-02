@@ -1,0 +1,15 @@
+.orders-container {
+  width: 80%;
+  margin: 40px auto;
+  color: white;
+}
+
+.orders-empty {
+  background: #141414;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #262626;
+  margin-top: 20px;
+  text-align: center;
+  opacity: 0.8;
+}
