@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaCog, FaShoppingCart } from "react-icons/fa";
-import { useAuth } from "../context/AuthContext"; 
+import useAuthContext from "../context/AuthContext";
 import "../css/Navigation.css";
 import useTranslation from "../i18n/useTranslation";
 
@@ -30,7 +30,7 @@ export default function Navigation({ toggleSettings }) {
   }, []);
 
   const handleLogout = async () => {
-    await logout(); 
+    await logout();
     setIsDropdownOpen(false);
     navigate("/");
   };

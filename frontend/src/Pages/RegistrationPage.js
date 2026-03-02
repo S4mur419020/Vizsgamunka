@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom'; 
+import useAuthContext from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import '../css/Registration.css';
 
 const RegistrationPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        password: ''
+        password: '',
+        password_confirmation: ''
     });
-    const { register } = useAuth();
-    const navigate = useNavigate(); 
+
+
+    const { loginReg, errors } = useAuthContext();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const result = await register(formData);
 
-        if (result.success) {
-            alert('Sikeres regisztráció! Kérlek, jelentkezz be.');
-            navigate('/login'); 
-        } else {
-            alert(result.message);
+        const success = await loginReg(formData, "/api/regisztracio");
+
+        if (success) {
+            navigate("/login");
         }
     };
 
@@ -29,54 +30,41 @@ const RegistrationPage = () => {
     };
 
     return (
-    <div className="register-page">
-        <div className="register-card">
-            <h2 className="register-title">Regisztráció</h2>
-            <form onSubmit={handleSubmit} className="register-form">
-                
-                <div className="register-group">
-                    <label className="register-label">Teljes név</label>
-                    <input 
-                        type="text" 
-                        name="name" 
-                        className="register-input"
-                        placeholder="Minta János" 
-                        onChange={handleChange} 
-                        required 
-                    />
-                </div>
+        <div className="register-page">
+            <div className="register-card">
+                <h2 className="register-title">Regisztráció</h2>
+                <form onSubmit={handleSubmit} className="register-form">
 
-                <div className="register-group">
-                    <label className="register-label">E-mail cím</label>
-                    <input 
-                        type="email" 
-                        name="email" 
-                        className="register-input"
-                        placeholder="jani@gmail.com" 
-                        onChange={handleChange} 
-                        required 
-                    />
-                </div>
+                    <div className="register-group">
+                        <label className="register-label">Teljes név</label>
+                        <input type="text" name="name" className="register-input" onChange={handleChange} required />
 
-                <div className="register-group">
-                    <label className="register-label">Jelszó</label>
-                    <input 
-                        type="password" 
-                        name="password" 
-                        className="register-input"
-                        placeholder="••••••••" 
-                        onChange={handleChange} 
-                        required 
-                    />
-                </div>
+                        {errors?.name && <span className="text-danger">{errors.name[0]}</span>}
+                    </div>
 
-                <button type="submit" className="register-button">
-                    Regisztrálok
-                </button>
-            </form>
+                    <div className="register-group">
+                        <label className="register-label">E-mail cím</label>
+                        <input type="email" name="email" className="register-input" onChange={handleChange} required />
+                        {errors?.email && <span className="text-danger">{errors.email[0]}</span>}
+                    </div>
+
+                    <div className="register-group">
+                        <label className="register-label">Jelszó</label>
+                        <input type="password" name="password" className="register-input" onChange={handleChange} required />
+                        {errors?.password && <span className="text-danger">{errors.password[0]}</span>}
+                    </div>
+
+
+                    <div className="register-group">
+                        <label className="register-label">Jelszó újra</label>
+                        <input type="password" name="password_confirmation" className="register-input" onChange={handleChange} required />
+                    </div>
+
+                    <button type="submit" className="register-button">Regisztrálok</button>
+                </form>
+            </div>
         </div>
-    </div>
-);
+    );
 };
 
 export default RegistrationPage;
