@@ -15,7 +15,6 @@ class Felhasznalo extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'felhasznalos';
-
     protected $primaryKey = 'felhasznalo_id';
 
    
@@ -59,5 +58,13 @@ class Felhasznalo extends Authenticatable
     public function nyelv()
     {
         return $this->belongsTo(Nyelv::class, 'nyelv_id');
+    }
+
+    public function getAttribute($key)
+    {
+        if ($key === 'password') {
+            return $this->jelszo;
+        }
+        return parent::getAttribute($key);
     }
 }

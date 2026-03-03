@@ -24,14 +24,12 @@ class FelhasznaloController extends Controller
         ]);
 
         try {
-            
             $credentials = [
                 'email' => $request->email,
                 'password' => $request->password
             ];
 
             if (Auth::attempt($credentials)) {
-                
                 $request->session()->regenerate();
 
                 return response()->json([
@@ -41,14 +39,12 @@ class FelhasznaloController extends Controller
                 ], 200);
             }
 
-            // 4. Hibás adatok
             return response()->json([
                 'success' => false,
                 'message' => 'Hibás e-mail cím vagy jelszó!'
             ], 401);
 
         } catch (\Exception $e) {
-            
             return response()->json([
                 'success' => false,
                 'message' => 'Szerver hiba történt!',
@@ -56,15 +52,10 @@ class FelhasznaloController extends Controller
             ], 500);
         }
     }
-    public function getAuthPassword()
-    {
-        return $this->jelszo; 
-    }
 
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
@@ -78,11 +69,12 @@ class FelhasznaloController extends Controller
     {
         $validated = $request->validate([
             'nev' => 'required|string|max:255',
-            'email' => 'required|email|unique:felhasznalok,email',
+            'email' => 'required|email|unique:felhasznalok,email', 
             'jelszo' => 'required|string|min:6',
         ]);
 
         $validated['jelszo'] = Hash::make($validated['jelszo']);
+        
         $felhasznalo = Felhasznalo::create($validated);
 
         return response()->json($felhasznalo, 201);
@@ -92,6 +84,4 @@ class FelhasznaloController extends Controller
     {
         return response()->json(Felhasznalo::findOrFail($id));
     }
-
-    
 }

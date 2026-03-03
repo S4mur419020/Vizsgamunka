@@ -24,12 +24,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisztracioController;
 use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-*/
-
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
