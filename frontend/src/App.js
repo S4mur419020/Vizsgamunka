@@ -1,6 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext"; 
+import { AuthProvider } from "./context/AuthContext";
 import { ShoeProvider } from "./context/ShoeContext";
 import { SettingsProvider } from "./context/SettingsContext";
 import { TranslationProvider } from "./i18n/TranslationProvider";
@@ -22,12 +22,25 @@ import BenefitsPage from "./Pages/BenefitsPage";
 import PasswordPage from "./Pages/PasswordPage";
 import ProfilePage from "./Pages/ProfilePage";
 import AddressesPage from "./Pages/AddressesPage";
+import AdminSidebar from "./Components/admin/AdminSidebar";
+import AdminContents from "./Components/admin/AdminContents";
+import AdminUsersPage from "./Pages/AdminPages/Users";
+import AdminStatisticsPage from "./Pages/AdminPages/Statistic";
 
 function App() {
   const router = createBrowserRouter([
     {
+      path: "/admin",
+      element: <AdminContents sidebar={<AdminSidebar />} />,
+      children: [
+        { index: true, element: <Navigate to="users" /> },
+        { path: "users", element: <AdminUsersPage /> },
+        { path: "statistics", element: <AdminStatisticsPage /> },
+      ],
+    },
+    {
       path: "/login",
-      element: <LoginPage />, 
+      element: <LoginPage />,
     },
     {
       path: "/register",
@@ -35,7 +48,7 @@ function App() {
     },
     {
       path: "/",
-      element: <Layout />, 
+      element: <Layout />,
       children: [
         { index: true, element: <HomePage /> },
         { path: "products", element: <ProductListPage /> },
@@ -47,7 +60,7 @@ function App() {
           path: "account",
           element: <AccountPage />,
           children: [
-            { index: true, element: <ProfilePage /> },            
+            { index: true, element: <ProfilePage /> },
             { path: "profile", element: <ProfilePage /> },
             { path: "password", element: <PasswordPage /> },
             { path: "addresses", element: <AddressesPage /> },

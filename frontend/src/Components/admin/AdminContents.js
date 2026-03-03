@@ -1,6 +1,13 @@
-import {Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import AdminSidebar from "./AdminSidebar"; // ha külön importálod
 
 function AdminContents() {
-    return <Outlet />;
+    return (
+        <div className="admin-layout" style={{ display: "flex" }}>
+            <AdminSidebar />
+            <Outlet />
+        </div>
+    );
 }
+
 export default AdminContents;

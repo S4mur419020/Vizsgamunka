@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Line, Doughnut } from "react-chartjs-2";
 import axios from "axios";
-import "./Statistics.css";
+import "../AdminCss/Statistic.css";
 import {
   Chart as ChartJS,
   CategoryScale,
