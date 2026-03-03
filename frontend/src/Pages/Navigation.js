@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaCog, FaShoppingCart } from "react-icons/fa";
-import useAuthContext from "../context/AuthContext";
+import  useAuthContext  from "../context/AuthContext";
 import "../css/Navigation.css";
 import useTranslation from "../i18n/useTranslation";
 
@@ -11,7 +11,7 @@ export default function Navigation({ toggleSettings }) {
   const navigate = useNavigate();
 
   
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuthContext();
 
  
   const userName = user ? (user.nev || user.name || user.email || "Vendég") : null;
