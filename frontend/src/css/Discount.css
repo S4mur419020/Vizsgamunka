@@ -39,31 +39,23 @@
   color: #b0b0b0;
   margin: 4px 0;
   font-size: 0.95rem;
-}
+} 
 
-
-.dicount-code {
+.coupon-display {
   background: #242424;
-  padding: 12px 20px;
+  padding: 10px 18px;
   border-radius: 8px;
-  border: 1px dashed #444;
-  text-align: center;
+  border: 1px dashed #00aaff;
+  display: inline-block;
+  margin: 12px 0;
 }
 
-.dicount-code p:first-child {
-  font-family: monospace;
+.coupon-display code {
+  font-family: 'JetBrains Mono', monospace; 
+  color: #00aaff;
+  font-weight: bold;
   font-size: 1.2rem;
   letter-spacing: 2px;
-  color: #fff;
-  margin: 0;
-  font-weight: bold;
-}
-
-.dicount-code p:last-child {
-  font-size: 0.75rem;
-  color: #ff4d4d;
-  margin-top: 4px;
-  text-transform: uppercase;
 }
 
 .copy-btn {
@@ -76,6 +68,10 @@
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
+  min-width: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .copy-btn:hover {
@@ -87,6 +83,10 @@
   transform: scale(0.95);
 }
 
+.copy-btn.copied {
+  background: #28a745 !important;
+  box-shadow: 0 0 15px rgba(40, 167, 69, 0.4);
+}
 
 @media (max-width: 600px) {
   .discount-card {
@@ -95,25 +95,7 @@
     align-items: stretch;
   }
 
-  .dicount-code {
-    margin: 10px 0;
+  .coupon-display {
+    margin: 10px auto;
   }
-}
-
-
-
-.copy-btn.copied {
-  background: #28a745 !important;
- 
-  box-shadow: 0 0 15px rgba(40, 167, 69, 0.4);
-}
-
-
-.copy-btn {
-  
-  min-width: 140px;
-  
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

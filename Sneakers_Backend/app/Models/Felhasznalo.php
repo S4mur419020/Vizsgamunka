@@ -2,49 +2,69 @@
 
 namespace App\Models;
 
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
-class Felhasznalo extends Model
-{
-    /** @use HasFactory<\Database\Factories\FelhasznaloFactory> */
-    use HasFactory;
 
+class Felhasznalo extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'felhasznalos';
-
     protected $primaryKey = 'felhasznalo_id';
 
+   
+    public $incrementing = true;
+
     protected $fillable = [
-    'nev',
-    'email',
-    'jelszo',
-    'telefonszam',
-    'regisztracio_datuma', 
-    'nyelv_id',
-    'szekhely_id',
-    'aktiv',
-];
+        'nev',
+        'email',
+        'jelszo',
+        'telefonszam',
+        'regisztracio_datuma', 
+        'nyelv_id',
+        'szekhely_id',
+        'aktiv',
+    ];
 
     protected $hidden = [
         'jelszo',
+        'remember_token', 
     ];
 
     protected $casts = [
         'aktiv' => 'boolean',
-        'created_at' => 'datetime',
+        'regisztracio_datuma' => 'datetime',
     ];
+
+    
+    public function getAuthPassword()
+    {
+        return $this->jelszo;
+    }
 
     
     public function setJelszoAttribute($value)
     {
-        $this->attributes['jelszo'] = Hash::make($value);
+        if (!empty($value)) {
+            $this->attributes['jelszo'] = Hash::needsRehash($value) ? Hash::make($value) : $value;
+        }
     }
 
-    
     public function nyelv()
     {
         return $this->belongsTo(Nyelv::class, 'nyelv_id');
+    }
+
+    public function getAttribute($key)
+    {
+        if ($key === 'password') {
+            return $this->jelszo;
+        }
+        return parent::getAttribute($key);
     }
 }

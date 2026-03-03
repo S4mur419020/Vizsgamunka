@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('felhasznalos', function (Blueprint $table) {
             $table->id('felhasznalo_id');
             $table->string('nev', 50);
-            $table->string('email', 50);
+            $table->string('email', 50)->unique;
             $table->string('jelszo', 255);
-            $table->string('telefonszam', 50);
-            $table->dateTime('regisztracio_datuma');
+            $table->string('telefonszam', 50)->nullable();
+            $table->dateTime('regisztracio_datuma')->useCurrent();
             $table->boolean('aktiv');
             $table->foreignId('nyelv_id')->constrained('nyelvs')->onDelete('cascade');
             $table->foreignId('szekhely_id')->constrained('szekhelies')->onDelete('cascade');

@@ -25,10 +25,10 @@ use App\Http\Controllers\RegisztracioController;
 use Illuminate\Http\Request;
 
 
-Route::get('/user', function (Request $request) {
-    
-    return response()->json(auth()->user());
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
+
 
 Route::prefix('kategoriak')->group(function () {
     Route::get('/', [KategoriakController::class, 'index']);
@@ -62,6 +62,7 @@ Route::prefix('termek_valtozatok')->group(function () {
     Route::delete('{id}', [TermekValtozatokController::class, 'destroy']);
 });
 
+
 Route::prefix('kosar')->group(function () {
     Route::get('/', [KosarController::class, 'index']);
     Route::get('{id}', [KosarController::class, 'show']);
@@ -94,6 +95,7 @@ Route::prefix('fizetesek')->group(function () {
     Route::delete('{id}', [FizetesController::class, 'destroy']);
 });
 
+
 Route::prefix('felhasznalok')->group(function () {
     Route::get('/', [FelhasznaloController::class, 'index']);
     Route::get('{id}', [FelhasznaloController::class, 'show']);
@@ -101,6 +103,21 @@ Route::prefix('felhasznalok')->group(function () {
     Route::put('{id}', [FelhasznaloController::class, 'update']);
     Route::delete('{id}', [FelhasznaloController::class, 'destroy']);
 });
+
+Route::prefix('profile')->group(function () {
+    Route::get('/', [ProfileController::class, 'index']);
+    Route::get('{id}', [ProfileController::class, 'show']);
+    Route::post('/', [ProfileController::class, 'store']);
+    Route::put('{id}', [ProfileController::class, 'update']);
+    Route::delete('{id}', [ProfileController::class, 'destroy']);
+    Route::put('jelszo/{id}', [ProfileController::class, 'updatePassword']);
+});
+
+Route::prefix('regisztracio')->group(function () {
+    Route::post('/', [RegisztracioController::class, 'store']);
+    Route::post('aktivacio', [RegisztracioController::class, 'aktivacio']);
+});
+
 
 Route::prefix('keszlet')->group(function () {
     Route::get('/', [KeszletController::class, 'index']);
@@ -122,29 +139,6 @@ Route::prefix('blog')->group(function () {
     Route::post('/', [BlogController::class, 'store']);
     Route::put('{id}', [BlogController::class, 'update']);
     Route::delete('{id}', [BlogController::class, 'destroy']);
-});
-
-
-Route::post('/login', [FelhasznaloController::class, 'login']);
-Route::post('/logout', [FelhasznaloController::class, 'logout']);
-
-
-Route::get('/user', function (Illuminate\Http\Request $request) {
-    return response()->json(auth()->user() ?: ['message' => 'Nincs bejelentkezve']);
-});
-
-Route::prefix('regisztracio')->group(function () {
-    Route::post('/', [RegisztracioController::class, 'store']);
-    Route::post('aktivacio', [RegisztracioController::class, 'aktivacio']);
-});
-
-Route::prefix('profile')->group(function () {
-    Route::get('/', [ProfileController::class, 'index']);
-    Route::get('{id}', [ProfileController::class, 'show']);
-    Route::post('/', [ProfileController::class, 'store']);
-    Route::put('{id}', [ProfileController::class, 'update']);
-    Route::delete('{id}', [ProfileController::class, 'destroy']);
-    Route::put('jelszo/{id}', [ProfileController::class, 'updatePassword']);
 });
 
 Route::prefix('szallitasi_cimek')->group(function () {
@@ -178,3 +172,7 @@ Route::prefix('nyelvek')->group(function () {
     Route::put('{id}', [NyelvController::class, 'update']);
     Route::delete('{id}', [NyelvController::class, 'destroy']);
 });
+
+
+Route::post('/login', [FelhasznaloController::class, 'login']);
+Route::post('/logout', [FelhasznaloController::class, 'logout']);

@@ -1,51 +1,33 @@
 import React, { useState } from 'react'; 
 import "../css/Discount.css";
+import useTranslation from "../i18n/useTranslation";
 
 export default function DiscountsPage() {
+  const { t } = useTranslation();
   const couponCode = "7X4K-29QZ";
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = () => {
-    
     navigator.clipboard.writeText(couponCode).then(() => {
-     
       setIsCopied(true);
-
-      
-      setTimeout(() => {
-        setIsCopied(false);
-      }, 2000);
-    }).catch(err => {
-      console.error('Hiba a másolás során: ', err);
+      setTimeout(() => setIsCopied(false), 2000);
     });
   };
 
   return (
     <div className="discounts-container">
-      <h1>Kedvezménykódok</h1>
-
+      <h1>{t('discounts.title')}</h1>
       <div className="discount-card">
         <div className="discount-info">
-          <h3>10% kedvezmény</h3>
-          <p>Akár a következő rendelésedre</p>
-          <p>Használd a kedvezménykódot a rendelés első lépésében.</p>
-        </div>
+          <h3>10% {t('discounts.title_suffix')}</h3> 
+          <div className="coupon-display">
+            <code>{couponCode}</code>
+          </div>
 
-        <div className="dicount-code">
-          <p style={{ fontWeight: 'bold' }}>{couponCode}</p>
-          <p>Kód érvényesség: 3 nap</p>
+          <p>{t('discounts.validity')}: 3 {t('discounts.days')}</p>
         </div>
-
-        
-        <button
-          className={`copy-btn ${isCopied ? 'copied' : ''}`}
-          onClick={handleCopy}
-          style={{
-            backgroundColor: isCopied ? '#28a745' : '#00c3ff', 
-            transition: 'background-color 0.3s ease'
-          }}
-        >
-          {isCopied ? '✓ Kimásolva!' : 'Kód másolása'}
+        <button className={`copy-btn ${isCopied ? 'copied' : ''}`} onClick={handleCopy}>
+          {isCopied ? '✓' : t('discounts.copy')}
         </button>
       </div>
     </div>
