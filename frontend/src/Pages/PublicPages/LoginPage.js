@@ -1,8 +1,8 @@
 import React, { useState } from 'react'; 
 import { useNavigate } from "react-router-dom";
-import useAuthContext from "../context/AuthContext";
-import useTranslation from "../i18n/useTranslation"; 
-import '../css/Login.css';
+import useAuthContext from '../../context/AuthContext';
+import useTranslation from '../../i18n/useTranslation';
+import '../../css/PublicCss/Login.css';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');

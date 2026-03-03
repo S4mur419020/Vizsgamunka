@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { FaBars } from "react-icons/fa";
-import { ShoeContext } from '../context/ShoeContext'; 
-import ShoeFilter from '../Components/Shoefilter';
-import ShoeCard from '../Components/ShoeCard';
+import { ShoeContext } from '../../context/ShoeContext';
+import ShoeFilter from '../../Components/public/Shoefilter';
+import ShoeCard from '../../Components/public/ShoeCard';
 
 export default function ProductListPage() {
     const { szurtTermekek, loading } = useContext(ShoeContext);

@@ -1,6 +1,6 @@
-import "../css/Benefits.css";
+import '../../css/PublicCss/Benefits.css';
 import { FiGift, FiPercent, FiHeart, FiStar, FiBell, FiCalendar } from "react-icons/fi"; 
-import useTranslation from "../i18n/useTranslation"; 
+import useTranslation from '../../i18n/useTranslation';
 
 export default function BenefitsPage() {
   const { t } = useTranslation();

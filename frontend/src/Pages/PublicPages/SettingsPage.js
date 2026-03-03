@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { SettingsContext } from "../context/SettingsContext";
-import useTranslation from "../i18n/useTranslation"; 
+import { SettingsContext } from '../../context/SettingsContext';
+import useTranslation from '../../i18n/useTranslation'; 
 import ReactCountryFlag from 'react-country-flag';
-import "../css/Settings.css";
+import "../../css/PublicCss/Settings.css";
 
 export default function SettingsPage({ visible, onClose }) {
   const {

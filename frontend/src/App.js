@@ -6,27 +6,28 @@ import { SettingsProvider } from "./context/SettingsContext";
 import { TranslationProvider } from "./i18n/TranslationProvider";
 import "./App.css";
 
-import Layout from "./Pages/Layout";
-import HomePage from "./Pages/HomePage";
-import ProductListPage from "./Pages/ProductListPage";
-import ProductDetailPage from "./Pages/ProductDetailPage";
-import CartPage from "./Pages/CartPage";
-import CheckoutPage from "./Pages/CheckoutPage";
-import LoginPage from "./Pages/LoginPage";
-import RegistrationPage from "./Pages/RegistrationPage";
-import StoresPage from "./Pages/StoresPage";
-import OrdersPage from "./Pages/OrderPage";
-import AccountPage from "./Pages/AccountPage";
-import DiscountsPage from "./Pages/DiscountPage";
-import BenefitsPage from "./Pages/BenefitsPage";
-import PasswordPage from "./Pages/PasswordPage";
-import ProfilePage from "./Pages/ProfilePage";
-import AddressesPage from "./Pages/AddressesPage";
+import Layout from "./Pages/PublicPages/Layout";
+import HomePage from "./Pages/PublicPages/HomePage";
+import ProductListPage from "./Pages/PublicPages/ProductListPage";
+import ProductDetailPage from "./Pages/PublicPages/ProductDetailPage";
+import CartPage from "./Pages/PublicPages/CartPage";
+import CheckoutPage from "./Pages/PublicPages/CheckoutPage";
+import LoginPage from "./Pages/PublicPages/LoginPage";
+import RegistrationPage from "./Pages/PublicPages/RegistrationPage";
+import StoresPage from "./Pages/PublicPages/StoresPage";
+import OrdersPage from "./Pages/PublicPages/OrderPage";
+import AccountPage from "./Pages/PublicPages/AccountPage";
+import DiscountsPage from "./Pages/PublicPages/DiscountPage";
+import BenefitsPage from "./Pages/PublicPages/BenefitsPage";
+import PasswordPage from "./Pages/PublicPages/PasswordPage";
+import ProfilePage from "./Pages/PublicPages/ProfilePage";
+import AddressesPage from "./Pages/PublicPages/AddressesPage";
+import SettingsPage from "./Pages/PublicPages/SettingsPage"; 
+
 import AdminSidebar from "./Components/admin/AdminSidebar";
 import AdminContents from "./Components/admin/AdminContents";
 import Users from "./Pages/AdminPages/Users";
 import Statistics from "./Pages/AdminPages/Statistic";
-import SettingsPage from "./Pages/AccountPage";
 
 
 function App() {

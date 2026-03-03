@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import "../css/Account.css";
-import useTranslation from "../i18n/useTranslation";
+import '../../css/PublicCss/Account.css'
+import useTranslation from '../../i18n/useTranslation';
 
 export default function AccountPage() {
     const loc = useLocation();

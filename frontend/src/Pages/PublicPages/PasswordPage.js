@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import "../css/Password.css";
-import useTranslation from "../i18n/useTranslation"; // Fordító importálása
+import "../../css/PublicCss/Password.css";
+import useTranslation from '../../i18n/useTranslation';
 
 export default function PasswordPage() {
   const { t } = useTranslation();

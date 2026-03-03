@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import useTranslation from "../i18n/useTranslation";
-import useAuthContext from "../context/AuthContext"; 
-import { myAxios } from "../services/api"; 
+import useTranslation from '../../i18n/useTranslation';
+import useAuthContext from '../../context/AuthContext'; 
+import { myAxios } from '../../services/api'; 
 
 export default function HomePage() {
   const { t } = useTranslation();

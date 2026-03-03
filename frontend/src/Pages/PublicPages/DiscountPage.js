@@ -1,6 +1,6 @@
 import React, { useState } from 'react'; 
-import "../css/Discount.css";
-import useTranslation from "../i18n/useTranslation";
+import "../../css/PublicCss/Discount.css";
+import useTranslation from '../../i18n/useTranslation';
 
 export default function DiscountsPage() {
   const { t } = useTranslation();

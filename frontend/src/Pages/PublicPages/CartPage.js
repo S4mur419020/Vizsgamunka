@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../css/Cart.css';
+import '../../css/PublicCss/Cart.css';
 
 export default function CartPage() {
   const navigate = useNavigate();
