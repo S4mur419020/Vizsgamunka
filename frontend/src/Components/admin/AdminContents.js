@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import AdminSidebar from "./AdminSidebar"; // ha külön importálod
+import AdminSidebar from "./AdminSidebar";
 
 function AdminContents() {
     return (

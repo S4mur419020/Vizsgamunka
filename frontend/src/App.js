@@ -24,8 +24,10 @@ import ProfilePage from "./Pages/ProfilePage";
 import AddressesPage from "./Pages/AddressesPage";
 import AdminSidebar from "./Components/admin/AdminSidebar";
 import AdminContents from "./Components/admin/AdminContents";
-import AdminUsersPage from "./Pages/AdminPages/Users";
-import AdminStatisticsPage from "./Pages/AdminPages/Statistic";
+import Users from "./Pages/AdminPages/Users";
+import Statistics from "./Pages/AdminPages/Statistic";
+import SettingsPage from "./Pages/AccountPage";
+
 
 function App() {
   const router = createBrowserRouter([
@@ -33,9 +35,14 @@ function App() {
       path: "/admin",
       element: <AdminContents sidebar={<AdminSidebar />} />,
       children: [
-        { index: true, element: <Navigate to="users" /> },
-        { path: "users", element: <AdminUsersPage /> },
-        { path: "statistics", element: <AdminStatisticsPage /> },
+        { index: true, element: <Navigate to="products" /> },
+        { path: "products", element: <ProductListPage /> },
+        { path: "orders", element: <OrdersPage /> },  
+        { path: "customers", element: <Users /> },   
+        { path: "discounts", element: <DiscountsPage /> },
+        { path: "settings", element: <SettingsPage /> },
+        { path: "users", element: <Users /> },
+        { path: "statistics", element: <Statistics /> },
       ],
     },
     {

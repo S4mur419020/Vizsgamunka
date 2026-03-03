@@ -28,16 +28,15 @@ ChartJS.register(
 export default function Statistics() {
   const [termekek, setTermekek] = useState([]);
   const [valtozatok, setValtozatok] = useState([]);
-  const [brandsMap, setBrandsMap] = useState({}); // márka_id -> név
+  const [brandsMap, setBrandsMap] = useState({}); 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const termekRes = await axios.get("/api/termekek");
         const valtozatRes = await axios.get("/api/termek_valtozatok");
-        const brandsRes = await axios.get("/api/markak"); // feltételezzük, hogy van endpoint a márkákhoz
-
-        // Márkák map ID -> név
+        const brandsRes = await axios.get("/api/markak"); 
+      
         const map = {};
         brandsRes.data.forEach(b => (map[b.id] = b.nev));
         setBrandsMap(map);
@@ -52,7 +51,6 @@ export default function Statistics() {
     fetchData();
   }, []);
 
-  // Line chart: elérhető variációk darabszáma termék név szerint
   const lineData = {
     labels: termekek.map(t => t.nev),
     datasets: [
@@ -68,7 +66,6 @@ export default function Statistics() {
     ],
   };
 
-  // Doughnut chart: márkák aránya
   const brandCounts = termekek.reduce((acc, t) => {
     const brandName = brandsMap[t.marka_id] || "Ismeretlen";
     acc[brandName] = (acc[brandName] || 0) + 1;
