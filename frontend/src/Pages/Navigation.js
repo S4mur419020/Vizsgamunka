@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaCog, FaShoppingCart } from "react-icons/fa";
-import useAuthContext from "../context/AuthContext";
+import  useAuthContext  from "../context/AuthContext";
 import "../css/Navigation.css";
 import useTranslation from "../i18n/useTranslation";
 
