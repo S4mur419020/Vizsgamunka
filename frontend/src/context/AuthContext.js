@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
     
     const csrf = () => myAxios.get("/sanctum/csrf-cookie");
 
-    
     const getUser = async () => {
         try {
             const { data } = await myAxios.get('/api/user');
@@ -23,37 +22,40 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    
     const loginReg = async (adat, vegpont) => {
-        setErrors({}); 
+    setErrors({});
+    try {
+       
         await csrf(); 
-        try {
-            await myAxios.post(vegpont, adat);
-            await getUser(); 
-            return true; 
-        } catch (error) {
-            if (error.response && error.response.status === 422) {
-                setErrors(error.response.data.errors);
-            }
-            return false;
-        }
-    };
 
-  
+        
+        await myAxios.post(vegpont, adat);
+
+        await getUser();
+        window.location.href = '/';
+    } catch (error) {
+        if (error.response && error.response.status === 422) {
+            setErrors(error.response.data.errors);
+        }
+        console.error("Login hiba:", error.response);
+    }
+};
+
     const logout = async () => {
         try {
+            
+            await csrf();
             await myAxios.post('/api/logout');
-            setUser(null);
         } catch (error) {
             console.error("Logout hiba:", error);
         } finally {
+            
             setUser(null);
-            localStorage.removeItem('user'); 
-            window.location.href = '/'; 
+            setErrors({});
+            window.location.href = '/login';
         }
     };
 
-    
     useEffect(() => {
         getUser();
     }, []);

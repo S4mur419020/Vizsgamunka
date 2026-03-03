@@ -30,9 +30,8 @@ export default function Navigation({ toggleSettings }) {
   }, []);
 
   const handleLogout = async () => {
-    await logout();
     setIsDropdownOpen(false);
-    navigate("/");
+    await logout();
   };
 
   return (
