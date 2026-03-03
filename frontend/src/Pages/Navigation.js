@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaUser, FaCog, FaShoppingCart } from "react-icons/fa";
 import useAuthContext from "../context/AuthContext";
 import "../css/Navigation.css";
@@ -8,7 +8,6 @@ import useTranslation from "../i18n/useTranslation";
 export default function Navigation({ toggleSettings }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userMenuRef = useRef(null);
-  const navigate = useNavigate();
 
   
   const { user, logout } = useAuthContext();

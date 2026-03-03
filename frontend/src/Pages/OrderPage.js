@@ -7,6 +7,7 @@ export default function OrderPage() {
   const { t } = useTranslation();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     myAxios.get('/api/rendelesek') 
@@ -22,7 +23,9 @@ export default function OrderPage() {
 
   if (loading) return <div className="loading">Betöltés...</div>;
 
-  const totalSpent = orders.reduce((sum, order) => sum + (Number(order.osszeg) || 0), 0);
+  const totalSpent = Array.isArray(orders) 
+    ? orders.reduce((sum, order) => sum + Number(order.ar), 0) 
+    : 0;
 
   return (
     <div className="orders-container">
