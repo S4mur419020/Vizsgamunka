@@ -1,0 +1,148 @@
+.home-container {
+    background: #121212;
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.home-hero {
+    text-align: center;
+    padding: 40px 0;
+}
+
+
+.featured-section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.featured-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.product-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 15px;
+    width: 260px;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.product-card img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.details-link {
+    color: #00e5ff;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.details-link:hover {
+    text-decoration: underline;
+}
+
+.feedback-section {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.feedback-input, .feedback-textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background: #1e1e1e;
+    color: white;
+    outline: none;
+}
+
+.feedback-input:focus, .feedback-textarea:focus {
+    box-shadow: 0 0 0 2px #00e5ff;
+}
+
+.feedback-textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.send-btn {
+    background: #00e5ff;
+    border: none;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #000;
+    transition: background 0.2s;
+}
+
+.send-btn:hover {
+    background: #00b8cc;
+}
+
+.admin-blog-panel {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #00e5ff;
+    border-radius: 10px;
+}
+
+.admin-blog-panel h2 {
+    color: #00e5ff;
+}
+
+.blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.blog-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.why-us-section {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    margin: 10px 0;
+    opacity: 0.9;
+}
+
+hr.divider {
+    margin: 50px 0;
+    opacity: 0.1;
+}

@@ -18,7 +18,6 @@ export default function CartPage() {
         const response = await myAxios.get('/api/kosar');
         const loggedInUserId = user?.felhasznalo_id || user?.id;
         const myCart = response.data.filter(item => item.felhasznalo_id === loggedInUserId);
-
         setCartItems(myCart);
       } catch (error) {
         console.error("Hiba a kosár lekérésekor:", error);
@@ -27,33 +26,21 @@ export default function CartPage() {
       }
     };
 
-    if (user) {
-      fetchCart();
-    } else {
-      setLoading(false);
-    }
+    if (user) fetchCart();
+    else setLoading(false);
   }, [user]);
 
-  
   const handleRemove = async (kosarId) => {
     try {
-      
       await myAxios.delete(`/api/kosar/${kosarId}`);
-
-      
       setCartItems(prevItems => prevItems.filter(item => item.kosar_id !== kosarId));
-
-      console.log("Sikeres törlés ID:", kosarId);
     } catch (error) {
-      console.error("Törlési hiba részletei:", error.response?.data);
       alert("Hiba történt a törlés során!");
     }
   };
 
- 
   const subtotal = cartItems.reduce((acc, item) => {
-    const ar = item.termek?.ar || 0;
-    return acc + (Number(ar) * item.mennyiseg);
+    return acc + (Number(item.termek?.ar || 0) * item.mennyiseg);
   }, 0);
 
   const discountAmount = isApplied ? Math.round(subtotal * 0.1) : 0;
@@ -68,87 +55,80 @@ export default function CartPage() {
     }
   };
 
-  const handleCheckout = () => {
-    if (cartItems.length === 0) return alert("Üres a kosarad!");
-    navigate("/checkout");
-  };
-
-  if (loading) return <div style={{ color: 'white', textAlign: 'center', padding: '50px' }}>Betöltés...</div>;
+  if (loading) return <div className="empty-cart-msg">Betöltés...</div>;
 
   return (
-    <div className="cart-page-container" style={{ display: 'flex', padding: '40px', gap: '40px', color: 'white', background: '#000', minHeight: '100vh' }}>
-      <div className="cart-items-section" style={{ flex: 2 }}>
+    <div className="cart-page-container">
+      <div className="cart-items-section">
         {cartItems.length > 0 ? (
           cartItems.map((item) => (
-            <div key={item.kosar_id} style={{ display: 'flex', alignItems: 'center', gap: '20px', padding: '20px 0', borderBottom: '1px solid #222' }}>
+            <div key={item.kosar_id} className="cart-item-row">
               <img
                 src={item.termek?.kepUrl ? `/kepek/${item.termek.kepUrl}` : "/no-image.png"}
                 alt={item.termek?.nev}
-                style={{ width: '100px', borderRadius: '8px', background: 'white' }}
+                className="cart-item-image"
               />
-              <div style={{ flex: 1 }}>
-                <h3 style={{ margin: 0 }}>{item.termek?.nev}</h3>
-                <p style={{ color: '#888', margin: '5px 0' }}>Méret: {item.meret_id}</p>
-                <button
-                  onClick={() => handleRemove(item.kosar_id)}
-                  style={{ background: 'none', border: 'none', color: '#ff4d4d', cursor: 'pointer' }}
-                >
+              <div className="cart-item-info">
+                <h3>{item.termek?.nev}</h3>
+                <p>Méret: {item.meret_id}</p>
+                <button onClick={() => handleRemove(item.kosar_id)} className="remove-btn">
                   Eltávolítás
                 </button>
               </div>
-              <div style={{ fontWeight: 'bold' }}>{item.mennyiseg} db</div>
-              <div style={{ fontWeight: 'bold' }}>{Number(item.termek?.ar || 0).toLocaleString()} Ft</div>
+              <div className="cart-item-quantity">{item.mennyiseg} db</div>
+              <div className="cart-item-price">{Number(item.termek?.ar || 0).toLocaleString()} Ft</div>
             </div>
           ))
         ) : (
-          <div style={{ textAlign: 'center', marginTop: '100px', color: '#666' }}>A kosarad még üres.</div>
+          <div className="empty-cart-msg">A kosarad még üres.</div>
         )}
       </div>
-      <div className="cart-summary-section" style={{ flex: 1 }}>
-        <div style={{ border: '1px solid #333', padding: '30px', borderRadius: '4px', position: 'sticky', top: '20px' }}>
-          <h2 style={{ textAlign: 'center', marginTop: 0, fontSize: '24px' }}>Összesen:</h2>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', margin: '20px 0', color: '#ccc' }}>
+      <div className="cart-summary-section">
+        <div className="summary-box">
+          <h2 className="summary-title">Összesen:</h2>
+
+          <div className="summary-row">
             <span>Részösszeg:</span>
             <span>{subtotal.toLocaleString()} Ft</span>
           </div>
 
-          <div style={{ marginBottom: '20px' }}>
+          <div className="coupon-container">
             {!isApplied ? (
-              <div style={{ display: 'flex', gap: '5px', flexDirection: 'column' }}>
+              <>
                 <input
                   type="text"
                   placeholder="Kuponkód..."
                   value={couponCode}
+                  className="coupon-input"
                   onChange={(e) => setCouponCode(e.target.value)}
-                  style={{ background: '#000', border: '1px solid #444', color: 'white', padding: '12px', borderRadius: '4px' }}
                 />
-                <button onClick={handleApplyCoupon} style={{ background: '#111', border: '1px solid #444', color: 'white', padding: '10px', cursor: 'pointer', fontSize: '12px' }}>
+                <button onClick={handleApplyCoupon} className="coupon-btn">
                   Kupon aktiválása
                 </button>
-              </div>
+              </>
             ) : (
-              <div style={{ background: '#1a1a1a', padding: '10px', borderRadius: '4px', color: '#28a745', fontSize: '13px', textAlign: 'center', border: '1px solid #28a745' }}>
+              <div className="coupon-applied">
                 ✓ 10% kedvezmény aktiválva
               </div>
             )}
           </div>
 
           {isApplied && (
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#ff4d4d', marginBottom: '15px', fontSize: '14px' }}>
+            <div className="summary-row discount-row">
               <span>Kedvezmény:</span>
               <span>- {discountAmount.toLocaleString()} Ft</span>
             </div>
           )}
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '20px', fontWeight: 'bold', borderTop: '1px solid #333', paddingTop: '20px' }}>
+          <div className="total-row">
             <span>Fizetendő:</span>
             <span>{finalTotal.toLocaleString()} Ft</span>
           </div>
 
           <button
-            onClick={handleCheckout}
-            style={{ width: '100%', background: 'transparent', border: '1px solid white', color: 'white', padding: '15px', marginTop: '30px', cursor: 'pointer', fontWeight: 'bold', fontSize: '16px' }}
+            onClick={() => cartItems.length > 0 ? navigate("/checkout") : alert("Üres a kosarad!")}
+            className="checkout-btn"
           >
             Tovább a fizetéshez
           </button>

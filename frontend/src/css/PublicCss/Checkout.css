@@ -1,0 +1,102 @@
+.checkout-container {
+    padding: 40px;
+    color: white;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.checkout-title {
+    text-align: center;
+    color: #00c3ff;
+    margin-bottom: 30px;
+}
+
+.checkout-form {
+    display: grid;
+    gap: 15px;
+}
+
+.checkout-section-title {
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+/* Input mezők alapstílusa */
+.checkout-input {
+    padding: 12px;
+    background: #222;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.checkout-input:focus {
+    border-color: #00c3ff;
+}
+
+/* Irányítószám és város elrendezése */
+.address-row {
+    display: flex;
+    gap: 10px;
+}
+
+.zip-input {
+    flex: 1;
+}
+
+.city-input {
+    flex: 2;
+}
+
+/* Összesítő és gomb szekció */
+.checkout-summary {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+    border: 1px solid #333;
+}
+
+.total-amount {
+    margin: 0 0 15px 0;
+}
+
+.submit-order-btn {
+    width: 100%;
+    padding: 15px;
+    background: white;
+    color: black;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.submit-order-btn:hover {
+    background: #e0e0e0;
+}
+
+.submit-order-btn:active {
+    transform: scale(0.98);
+}
+
+.submit-order-btn:disabled {
+    background: #555;
+    color: #888;
+    cursor: not-allowed;
+}
+
+/* Betöltés állapot */
+.checkout-loading {
+    color: white;
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2rem;
+}

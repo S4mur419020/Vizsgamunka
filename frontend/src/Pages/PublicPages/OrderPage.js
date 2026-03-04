@@ -35,33 +35,31 @@ export default function OrderPage() {
           <div className="orders-list">
             {orders.map((order) => (
               <div key={order.rendeles_id} className="order-card">
-                {/* 1. JAVÍTÁS: Header oszlopba rendezése */}
-                <div className="order-header" style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                <div className="order-header">
                   <span>{t('orders.number')}: <strong>#{order.rendeles_id}</strong></span>
                   <span>{t('orders.date')}: {new Date(order.datum).toLocaleDateString()}</span>
                 </div>
 
                 <div className="order-items">
                   {order.tetel && order.tetel.map((item, index) => (
-                    <div key={index} className="order-item-row" style={{ display: 'flex', alignItems: 'center', margin: '15px 0', borderBottom: '1px solid #333', paddingBottom: '10px' }}>
+                    <div key={index} className="order-item-row">
                       <img
+                        className="order-item-image"
                         src={item.termek?.kepUrl
                           ? `/kepek/${item.termek.kepUrl}`
                           : `/kepek/default.png`
                         }
                         alt={item.termek?.nev || 'Cipő'}
-                        style={{ width: "70px", height: "70px", objectFit: "cover", borderRadius: "8px", marginRight: "15px" }}
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = "/kepek/default.png";
                         }}
                       />
                       <div className="order-item-details">
-                        <span style={{ display: 'block', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                        <span className="order-item-name">
                           {item.termek?.nev || item.termek_nev || 'Ismeretlen termék'}
                         </span>
-
-                        <span style={{ color: '#ccc' }}>
+                        <span className="order-item-price">
                           {item.mennyiseg} db x {Number(item.ar || item.termek?.ar || 0).toLocaleString()} Ft
                         </span>
                       </div>
@@ -69,8 +67,7 @@ export default function OrderPage() {
                   ))}
                 </div>
 
-                {/* 2. JAVÍTÁS: Footer oszlopba rendezése */}
-                <div className="order-footer" style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
+                <div className="order-footer">
                   <div className="status">
                     <strong>{t('orders.status')}:</strong> {order.allapot}
                   </div>
@@ -82,9 +79,9 @@ export default function OrderPage() {
             ))}
           </div>
 
-          <div className="total-summary" style={{ marginTop: '30px', textAlign: 'center', padding: '20px', background: '#1a1a1a', borderRadius: '10px' }}>
+          <div className="total-summary">
             <h2>Összesen elköltött összeg:</h2>
-            <div className="grand-total" style={{ fontSize: '2rem', color: '#007bff', fontWeight: 'bold' }}>
+            <div className="grand-total">
               {totalSpent.toLocaleString()} Ft
             </div>
           </div>
