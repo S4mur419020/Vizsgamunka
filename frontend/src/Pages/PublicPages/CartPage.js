@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD:frontend/src/Pages/CartPage.js
-import { myAxios } from '../services/api';
-import useAuthContext from '../context/AuthContext';
-import '../css/Cart.css';
-=======
 import '../../css/PublicCss/Cart.css';
->>>>>>> 37f9513a0373be783cec0638b37578af53c094cb:frontend/src/Pages/PublicPages/CartPage.js
+import { myAxios } from '../../services/api';
+import useAuthContext from '../../context/AuthContext';
 
 export default function CartPage() {
   const navigate = useNavigate();

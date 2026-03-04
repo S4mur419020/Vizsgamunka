@@ -30,7 +30,6 @@ import AdminContents from "./Components/admin/AdminContents";
 import Users from "./Pages/AdminPages/Users";
 import Statistics from "./Pages/AdminPages/Statistic";
 
-
 function App() {
   const router = createBrowserRouter([
     {
@@ -56,7 +55,7 @@ function App() {
       element: <RegistrationPage />,
     },
     {
-      path: "/public",
+      path: "/", 
       element: <Layout />,
       children: [
         { index: true, element: <HomePage /> },

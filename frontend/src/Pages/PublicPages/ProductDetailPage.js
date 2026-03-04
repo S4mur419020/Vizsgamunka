@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { myAxios } from '../services/api';
-import useAuthContext from '../context/AuthContext';
+import { myAxios } from '../../services/api';
+import useAuthContext from '../../context/AuthContext';
 import { FaHeart, FaRegHeart, FaUndoAlt, FaPercent } from 'react-icons/fa';
 
 export default function ProductDetailPage() {

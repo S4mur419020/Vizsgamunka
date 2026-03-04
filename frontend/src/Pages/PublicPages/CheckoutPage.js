@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { myAxios } from '../services/api';
-import useAuthContext from '../context/AuthContext';
+import { myAxios } from '../../services/api';
+import useAuthContext from '../../context/AuthContext';;
 
 export default function CheckoutPage() {
     const navigate = useNavigate();

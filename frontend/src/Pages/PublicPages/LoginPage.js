@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import useAuthContext from '../../context/AuthContext';
 import useTranslation from '../../i18n/useTranslation';
@@ -13,12 +13,11 @@ const LoginPage = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-       
         const success = await loginReg({ email, password }, "/api/login");
-    
-    if (success) {
-        navigate("/"); 
-    }
+
+        if (success) {
+            navigate("/");
+        }
     };
 
     return (
@@ -35,7 +34,7 @@ const LoginPage = () => {
                             className="form-input"
                             required
                         />
-                       
+
                         {errors?.email && <span className="text-danger">{errors.email[0]}</span>}
                     </div>
 
@@ -53,7 +52,7 @@ const LoginPage = () => {
 
                     <button type="submit" className="login-button">{t('auth.login_btn')}</button>
                 </form>
-               
+
             </div>
         </div>
     );

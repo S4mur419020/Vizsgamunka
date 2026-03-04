@@ -6,7 +6,7 @@ import ShoeCard from '../../Components/public/ShoeCard';
 
 export default function ProductListPage() {
     const { szurtTermekek, loading } = useContext(ShoeContext);
-    const [sortOrder, setSortOrder] = useState("");
+    const [sortOrder] = useState("");
     const [openFilter, setOpenFilter] = useState(false);
 
     if (loading) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>Termékek betöltése...</div>;
