@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import "../css/Order.css";
-import useTranslation from "../i18n/useTranslation";
-import { myAxios } from "../services/api"; 
+import "../../css/PublicCss/Order.css";
+import useTranslation from '../../i18n/useTranslation';
+import { myAxios } from '../../services/api'; 
 
 export default function OrderPage() {
   const { t } = useTranslation();

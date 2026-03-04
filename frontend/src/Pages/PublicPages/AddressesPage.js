@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import "../css/Addresses.css";
-import useTranslation from "../i18n/useTranslation";
-import { myAxios } from "../services/api";
+import "../../css/PublicCss/Addresses.css";
+import useTranslation from '../../i18n/useTranslation';
+import { myAxios } from '../../services/api';
 
 export default function AddressesPage() {
   const { t } = useTranslation();

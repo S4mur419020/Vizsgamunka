@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import useAuthContext from '../context/AuthContext';
-import useTranslation from "../i18n/useTranslation"; 
+import useAuthContext from '../../context/AuthContext';
+import useTranslation from '../../i18n/useTranslation';
 import { useNavigate } from 'react-router-dom';
-import '../css/Registration.css';
+import '../../css/PublicCss/Registration.css';
 
 const RegistrationPage = () => {
     const [formData, setFormData] = useState({

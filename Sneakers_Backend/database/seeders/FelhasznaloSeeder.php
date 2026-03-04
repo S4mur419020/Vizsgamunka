@@ -16,7 +16,7 @@ class FelhasznaloSeeder extends Seeder
             [
                 'nev' => 'Teszt Felhasznalo 1',
                 'email' => 'teszt1@example.com',
-                'jelszo' => Hash::make('password'), // A bcrypt is jó, de a Hash::make a szabvány
+                'jelszo' => Hash::make('password'),
                 'telefonszam' => '0612345678',
                 'regisztracio_datuma' => now(),
                 'aktiv' => true,

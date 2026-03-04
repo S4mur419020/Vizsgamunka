@@ -5,7 +5,6 @@ function Users() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Backend adatainak lekérése
   useEffect(() => {
     fetch("http://localhost:8000/api/felhasznalok")
       .then((res) => {
@@ -13,7 +12,7 @@ function Users() {
         return res.json();
       })
       .then((data) => {
-        setUsers(data); // backendből érkező teljes lista
+        setUsers(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -21,8 +20,6 @@ function Users() {
         setLoading(false);
       });
   }, []);
-
-  // Törlés backendből és frissítés a frontenden
   const handleDelete = async (id) => {
     if (!window.confirm("Biztosan törlöd a felhasználót?")) return;
 
@@ -33,7 +30,6 @@ function Users() {
 
       if (!res.ok) throw new Error("Törlés sikertelen");
 
-      // Frontend frissítése
       setUsers(users.filter((user) => user.felhasznalo_id !== id));
     } catch (err) {
       alert(err.message);

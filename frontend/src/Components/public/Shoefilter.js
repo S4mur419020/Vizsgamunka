@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ShoeContext } from '../context/ShoeContext';
+import { ShoeContext } from '../../context/ShoeContext';
 
 export default function ShoeFilter() {
     const { filter, setFilter } = useContext(ShoeContext);

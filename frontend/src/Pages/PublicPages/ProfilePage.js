@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import "../css/Profile.css";
-import useTranslation from "../i18n/useTranslation";
-import useAuthContext from "../context/AuthContext";
-import { myAxios } from "../services/api";
+import "../../css/PublicCss/Profile.css";
+import useTranslation from '../../i18n/useTranslation';
+import useAuthContext from '../../context/AuthContext';
+import { myAxios } from '../../services/api';
 
 export default function ProfilePage() {
   const { t } = useTranslation();
