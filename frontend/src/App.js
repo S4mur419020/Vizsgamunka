@@ -22,8 +22,9 @@ import BenefitsPage from "./Pages/PublicPages/BenefitsPage";
 import PasswordPage from "./Pages/PublicPages/PasswordPage";
 import ProfilePage from "./Pages/PublicPages/ProfilePage";
 import AddressesPage from "./Pages/PublicPages/AddressesPage";
-import SettingsPage from "./Pages/PublicPages/SettingsPage"; 
+import SettingsPage from "./Pages/PublicPages/SettingsPage";
 
+import AdminShoes from "./Pages/AdminPages/Admin";
 import AdminSidebar from "./Components/admin/AdminSidebar";
 import AdminContents from "./Components/admin/AdminContents";
 import Users from "./Pages/AdminPages/Users";
@@ -37,9 +38,9 @@ function App() {
       element: <AdminContents sidebar={<AdminSidebar />} />,
       children: [
         { index: true, element: <Navigate to="products" /> },
-        { path: "products", element: <ProductListPage /> },
-        { path: "orders", element: <OrdersPage /> },  
-        { path: "customers", element: <Users /> },   
+        { path: "products", element: <AdminShoes /> },
+        { path: "orders", element: <OrdersPage /> },
+        { path: "customers", element: <Users /> },
         { path: "discounts", element: <DiscountsPage /> },
         { path: "settings", element: <SettingsPage /> },
         { path: "users", element: <Users /> },
@@ -55,7 +56,7 @@ function App() {
       element: <RegistrationPage />,
     },
     {
-      path: "/",
+      path: "/public",
       element: <Layout />,
       children: [
         { index: true, element: <HomePage /> },

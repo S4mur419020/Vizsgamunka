@@ -1,0 +1,65 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+import AdminShoeCards from "../../Components/admin/AdminShoeCards";
+import useAuthContext from "../../context/AuthContext";
+
+export default function Admin() {
+    const { user } = useAuthContext();
+    const [termekekLista, setTermekekLista] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchTermekek() {
+            try {
+                const res = await axios.get("http://localhost:8000/api/termekek", {
+                    withCredentials: true
+                });
+                setTermekekLista(res.data);
+            } catch (err) {
+                console.error("Hiba a termékek lekérésekor:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchTermekek();
+    }, []);
+
+    function handleSzerkeszt(termek) {
+        console.log("Szerkesztés:", termek);
+    }
+
+    async function handleTorol(termekId) {
+        if (!window.confirm("Biztosan törlöd ezt a terméket?")) return;
+
+        try {
+            await axios.delete(`http://localhost:8000/api/termekek/${termekId}`, {
+                withCredentials: true
+            });
+            setTermekekLista(prev => prev.filter(t => t.id !== termekId));
+        } catch (err) {
+            console.error("Hiba a termék törlésekor:", err);
+        }
+    }
+
+    if (!user || user.role !== "admin") {
+        return (
+            <div style={{ padding: "2rem", color: "red", textAlign: "center" }}>
+                Nincs jogosultságod az admin felület megtekintéséhez.
+            </div>
+        );
+    }
+
+    if (loading) return <p>Betöltés...</p>;
+    if (!termekekLista.length) return <p>Nincs elérhető termék.</p>;
+
+    return (
+        <div style={{ padding: "2rem" }}>
+            <h1>Admin – Termékek</h1>
+            <AdminShoeCards
+                termekek={termekekLista}
+                onSzerkeszt={handleSzerkeszt}
+                onTorol={handleTorol}
+            />
+        </div>
+    );
+}
