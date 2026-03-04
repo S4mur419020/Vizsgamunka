@@ -13,7 +13,7 @@ class RendelesController extends Controller
     public function index()
     {
         return response()->json(
-            Rendeles::with(['tetel', 'felhasznalo'])->get()
+            Rendeles::with(['tetel.termek', 'felhasznalo'])->get()
         );
     }
 

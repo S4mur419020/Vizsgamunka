@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "../../css/PublicCss/Order.css";
 import useTranslation from '../../i18n/useTranslation';
-import { myAxios } from '../../services/api'; 
+import { myAxios } from '../../services/api';
 
 export default function OrderPage() {
   const { t } = useTranslation();
@@ -9,7 +9,7 @@ export default function OrderPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    myAxios.get('/api/rendelesek') 
+    myAxios.get('/api/rendelesek')
       .then(res => {
         setOrders(res.data);
         setLoading(false);
@@ -22,8 +22,8 @@ export default function OrderPage() {
 
   if (loading) return <div className="loading">Betöltés...</div>;
 
-  const totalSpent = Array.isArray(orders) 
-    ? orders.reduce((sum, order) => sum + Number(order.osszeg || 0), 0) 
+  const totalSpent = Array.isArray(orders)
+    ? orders.reduce((sum, order) => sum + Number(order.osszeg || 0), 0)
     : 0;
 
   return (
@@ -35,25 +35,32 @@ export default function OrderPage() {
           <div className="orders-list">
             {orders.map((order) => (
               <div key={order.rendeles_id} className="order-card">
-                <div className="order-header">
+                {/* 1. JAVÍTÁS: Header oszlopba rendezése */}
+                <div className="order-header" style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
                   <span>{t('orders.number')}: <strong>#{order.rendeles_id}</strong></span>
                   <span>{t('orders.date')}: {new Date(order.datum).toLocaleDateString()}</span>
                 </div>
 
-               
                 <div className="order-items">
                   {order.tetel && order.tetel.map((item, index) => (
                     <div key={index} className="order-item-row" style={{ display: 'flex', alignItems: 'center', margin: '15px 0', borderBottom: '1px solid #333', paddingBottom: '10px' }}>
-                      <img 
-                        
-                        src={`/kepek/${item.termek?.kepUrl || 'default.png'}`} 
-                        alt={item.termek_nev} 
+                      <img
+                        src={item.termek?.kepUrl
+                          ? `/kepek/${item.termek.kepUrl}`
+                          : `/kepek/default.png`
+                        }
+                        alt={item.termek?.nev || 'Cipő'}
                         style={{ width: "70px", height: "70px", objectFit: "cover", borderRadius: "8px", marginRight: "15px" }}
-                        onError={(e) => { e.target.src = "/kepek/default.png"; }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "/kepek/default.png";
+                        }}
                       />
                       <div className="order-item-details">
-                        <span style={{ display: 'block', fontWeight: 'bold', fontSize: '1.1rem' }}>{item.termek_nev}</span>
-                        
+                        <span style={{ display: 'block', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                          {item.termek?.nev || item.termek_nev || 'Ismeretlen termék'}
+                        </span>
+
                         <span style={{ color: '#ccc' }}>
                           {item.mennyiseg} db x {Number(item.ar || item.termek?.ar || 0).toLocaleString()} Ft
                         </span>
@@ -62,7 +69,8 @@ export default function OrderPage() {
                   ))}
                 </div>
 
-                <div className="order-footer">
+                {/* 2. JAVÍTÁS: Footer oszlopba rendezése */}
+                <div className="order-footer" style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
                   <div className="status">
                     <strong>{t('orders.status')}:</strong> {order.allapot}
                   </div>
@@ -73,11 +81,11 @@ export default function OrderPage() {
               </div>
             ))}
           </div>
-          
+
           <div className="total-summary" style={{ marginTop: '30px', textAlign: 'center', padding: '20px', background: '#1a1a1a', borderRadius: '10px' }}>
             <h2>Összesen elköltött összeg:</h2>
             <div className="grand-total" style={{ fontSize: '2rem', color: '#007bff', fontWeight: 'bold' }}>
-                {totalSpent.toLocaleString()} Ft
+              {totalSpent.toLocaleString()} Ft
             </div>
           </div>
         </>
