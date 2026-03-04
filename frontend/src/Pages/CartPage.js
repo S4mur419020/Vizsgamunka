@@ -1,26 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { myAxios } from '../services/api';
+import useAuthContext from '../context/AuthContext';
 import '../css/Cart.css';
 
 export default function CartPage() {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
   const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [couponCode, setCouponCode] = useState("");
   const [isApplied, setIsApplied] = useState(false);
 
-  
   useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
-    setCartItems(savedCart);
-  }, []);
+    const fetchCart = async () => {
+      try {
+        const response = await myAxios.get('/api/kosar');
+        const loggedInUserId = user?.felhasznalo_id || user?.id;
+        const myCart = response.data.filter(item => item.felhasznalo_id === loggedInUserId);
+
+        setCartItems(myCart);
+      } catch (error) {
+        console.error("Hiba a kosár lekérésekor:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user) {
+      fetchCart();
+    } else {
+      setLoading(false);
+    }
+  }, [user]);
 
   
-  const subtotal = cartItems.reduce((acc, item) => acc + (Number(item.ar) * item.quantity), 0);
+  const handleRemove = async (kosarId) => {
+    try {
+      
+      await myAxios.delete(`/api/kosar/${kosarId}`);
 
-  
+      
+      setCartItems(prevItems => prevItems.filter(item => item.kosar_id !== kosarId));
+
+      console.log("Sikeres törlés ID:", kosarId);
+    } catch (error) {
+      console.error("Törlési hiba részletei:", error.response?.data);
+      alert("Hiba történt a törlés során!");
+    }
+  };
+
+ 
+  const subtotal = cartItems.reduce((acc, item) => {
+    const ar = item.termek?.ar || 0;
+    return acc + (Number(ar) * item.mennyiseg);
+  }, 0);
+
   const discountAmount = isApplied ? Math.round(subtotal * 0.1) : 0;
-
-  
   const finalTotal = subtotal - discountAmount;
 
   const handleApplyCoupon = () => {
@@ -34,53 +70,40 @@ export default function CartPage() {
 
   const handleCheckout = () => {
     if (cartItems.length === 0) return alert("Üres a kosarad!");
-
-    
-    const newOrder = {
-      id: Math.floor(Math.random() * 900000) + 100000,
-      datum: new Date().toLocaleString(),
-      termekek: cartItems,
-      osszeg: finalTotal, 
-      statusz: "Feldolgozás alatt",
-      couponApplied: isApplied
-    };
-
-    const existingOrders = JSON.parse(localStorage.getItem('orders')) || [];
-    localStorage.setItem('orders', JSON.stringify([...existingOrders, newOrder]));
-
-   
-    localStorage.removeItem('cart');
-    alert("Rendelés sikeresen leadva!");
-    navigate("/account/orders"); 
+    navigate("/checkout");
   };
+
+  if (loading) return <div style={{ color: 'white', textAlign: 'center', padding: '50px' }}>Betöltés...</div>;
 
   return (
     <div className="cart-page-container" style={{ display: 'flex', padding: '40px', gap: '40px', color: 'white', background: '#000', minHeight: '100vh' }}>
-
-      
       <div className="cart-items-section" style={{ flex: 2 }}>
         {cartItems.length > 0 ? (
-          cartItems.map((item, index) => (
-            <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '20px', padding: '20px 0', borderBottom: '1px solid #222' }}>
-              <img src={item.kep} alt={item.nev} style={{ width: '100px', borderRadius: '8px', background: 'white' }} />
+          cartItems.map((item) => (
+            <div key={item.kosar_id} style={{ display: 'flex', alignItems: 'center', gap: '20px', padding: '20px 0', borderBottom: '1px solid #222' }}>
+              <img
+                src={item.termek?.kepUrl ? `/kepek/${item.termek.kepUrl}` : "/no-image.png"}
+                alt={item.termek?.nev}
+                style={{ width: '100px', borderRadius: '8px', background: 'white' }}
+              />
               <div style={{ flex: 1 }}>
-                <h3 style={{ margin: 0 }}>{item.nev}</h3>
-                <p style={{ color: '#888', margin: '5px 0' }}>Méret: {item.valasztottMeret}</p>
+                <h3 style={{ margin: 0 }}>{item.termek?.nev}</h3>
+                <p style={{ color: '#888', margin: '5px 0' }}>Méret: {item.meret_id}</p>
+                <button
+                  onClick={() => handleRemove(item.kosar_id)}
+                  style={{ background: 'none', border: 'none', color: '#ff4d4d', cursor: 'pointer' }}
+                >
+                  Eltávolítás
+                </button>
               </div>
-              <div style={{ fontWeight: 'bold' }}>{item.quantity} db</div>
-              <div style={{ fontWeight: 'bold' }}>{Number(item.ar).toLocaleString()} Ft</div>
+              <div style={{ fontWeight: 'bold' }}>{item.mennyiseg} db</div>
+              <div style={{ fontWeight: 'bold' }}>{Number(item.termek?.ar || 0).toLocaleString()} Ft</div>
             </div>
           ))
         ) : (
           <div style={{ textAlign: 'center', marginTop: '100px', color: '#666' }}>A kosarad még üres.</div>
         )}
-
-        <div style={{ marginTop: '30px', border: '1px solid #222', padding: '40px', textAlign: 'center' }}>
-          <p style={{ color: '#888' }}>Pluszba ajánlott termékek</p>
-        </div>
       </div>
-
-     
       <div className="cart-summary-section" style={{ flex: 1 }}>
         <div style={{ border: '1px solid #333', padding: '30px', borderRadius: '4px', position: 'sticky', top: '20px' }}>
           <h2 style={{ textAlign: 'center', marginTop: 0, fontSize: '24px' }}>Összesen:</h2>
@@ -90,7 +113,6 @@ export default function CartPage() {
             <span>{subtotal.toLocaleString()} Ft</span>
           </div>
 
-         
           <div style={{ marginBottom: '20px' }}>
             {!isApplied ? (
               <div style={{ display: 'flex', gap: '5px', flexDirection: 'column' }}>
@@ -101,10 +123,7 @@ export default function CartPage() {
                   onChange={(e) => setCouponCode(e.target.value)}
                   style={{ background: '#000', border: '1px solid #444', color: 'white', padding: '12px', borderRadius: '4px' }}
                 />
-                <button
-                  onClick={handleApplyCoupon}
-                  style={{ background: '#111', border: '1px solid #444', color: 'white', padding: '10px', cursor: 'pointer', fontSize: '12px', textTransform: 'uppercase' }}
-                >
+                <button onClick={handleApplyCoupon} style={{ background: '#111', border: '1px solid #444', color: 'white', padding: '10px', cursor: 'pointer', fontSize: '12px' }}>
                   Kupon aktiválása
                 </button>
               </div>
@@ -129,27 +148,12 @@ export default function CartPage() {
 
           <button
             onClick={handleCheckout}
-            style={{
-              width: '100%',
-              background: 'transparent',
-              border: '1px solid white',
-              color: 'white',
-              padding: '15px',
-              marginTop: '30px',
-              cursor: 'pointer',
-              fontWeight: 'bold',
-              fontSize: '16px'
-            }}
+            style={{ width: '100%', background: 'transparent', border: '1px solid white', color: 'white', padding: '15px', marginTop: '30px', cursor: 'pointer', fontWeight: 'bold', fontSize: '16px' }}
           >
             Tovább a fizetéshez
           </button>
-
-          <p style={{ textAlign: 'center', fontSize: '11px', color: '#666', marginTop: '15px' }}>
-            Kiszállítási idő: 2-3 munkanap
-          </p>
         </div>
       </div>
-
     </div>
   );
 }

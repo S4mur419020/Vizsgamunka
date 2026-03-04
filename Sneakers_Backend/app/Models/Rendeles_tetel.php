@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rendeles_tetel extends Model
 {
-    /** @use HasFactory<\Database\Factories\RendelesTetelFactory> */
     use HasFactory;
 
+    protected $table = 'rendeles_tetels'; 
+    protected $primaryKey = 'rendelestetel_id'; 
+
     protected $fillable = [
-        'rendelestetel_id',
         'rendeles_id',
         'termek_id',
         'meret_id',
@@ -20,16 +21,20 @@ class Rendeles_tetel extends Model
         'fizetes_id',
         'telephely_id'
     ];
+
     public function rendeles()
     {
-        return $this->belongsTo(Rendeles::class, 'rendeles_id');
+        return $this->belongsTo(Rendeles::class, 'rendeles_id', 'rendeles_id');
     }
+
     public function termek()
     {
+
         return $this->belongsTo(Termekek::class, 'termek_id');
     }
-    public function telephely()
+
+    /*public function telephely()
     {
         return $this->belongsTo(Telephely::class, 'telephely_id');
-    }
+    }*/
 }

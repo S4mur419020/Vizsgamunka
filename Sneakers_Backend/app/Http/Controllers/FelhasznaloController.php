@@ -17,10 +17,10 @@ class FelhasznaloController extends Controller
 
     public function login(Request $request)
     {
-        // 1. Validáció
+        
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required', 
+            'password' => 'required',
         ]);
 
         try {
@@ -43,7 +43,6 @@ class FelhasznaloController extends Controller
                 'success' => false,
                 'message' => 'Hibás e-mail cím vagy jelszó!'
             ], 401);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -69,12 +68,12 @@ class FelhasznaloController extends Controller
     {
         $validated = $request->validate([
             'nev' => 'required|string|max:255',
-            'email' => 'required|email|unique:felhasznalok,email', 
+            'email' => 'required|email|unique:felhasznalok,email',
             'jelszo' => 'required|string|min:6',
         ]);
 
         $validated['jelszo'] = Hash::make($validated['jelszo']);
-        
+
         $felhasznalo = Felhasznalo::create($validated);
 
         return response()->json($felhasznalo, 201);
@@ -83,5 +82,16 @@ class FelhasznaloController extends Controller
     public function show(string $id)
     {
         return response()->json(Felhasznalo::findOrFail($id));
+    }
+
+    public function showProfile(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Nincs bejelentkezve'], 401);
+        }
+
+        return response()->json($user);
     }
 }

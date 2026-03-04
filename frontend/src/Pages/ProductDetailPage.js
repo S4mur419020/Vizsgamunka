@@ -1,63 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { myAxios } from '../services/api';
+import useAuthContext from '../context/AuthContext';
 import { FaHeart, FaRegHeart, FaUndoAlt, FaPercent } from 'react-icons/fa';
 
 export default function ProductDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { user } = useAuthContext();
     const [termek, setTermek] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedSize, setSelectedSize] = useState("");
     const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/termekek/${id}`, { withCredentials: true })
+        myAxios.get(`/api/termekek/${id}`)
             .then(response => {
                 setTermek(response.data);
                 setLoading(false);
             })
             .catch(error => {
-                console.error("Hiba:", error);
+                console.error("Hiba a termék betöltésekor:", error);
                 setLoading(false);
             });
     }, [id]);
 
-    const addToCart = () => {
-      if (!selectedSize) {
-        alert("Kérlek, válassz méretet!");
-        return;
-    }
+    const addToCart = async () => {
+        if (!selectedSize) {
+            alert("Kérlek, válassz méretet!");
+            return;
+        }
 
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    
-    const existingItem = cart.find(item => 
-        item.cikkszam === termek.cikkszam && item.valasztottMeret === selectedSize
-    );
+        if (!user) {
+            alert("Jelentkezz be a vásárláshoz!");
+            navigate('/login');
+            return;
+        }
 
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        
-        cart.push({ 
-            ...termek, 
-            quantity: 1, 
-            valasztottMeret: selectedSize,
-            
-            ar: Number(String(termek.ar).replace(/[^0-9]/g, '')),
-            
-            kep: termek.kepUrl ? `/kepek/${termek.kepUrl}` : "/no-image.png"
-        });
-    }
+        try {
+            const payload = {
+                felhasznalo_id: user.felhasznalo_id || user.id,
+                termek_id: termek.cikkszam || termek.id,
+                meret_id: Number(selectedSize),
+                mennyiseg: 1,
+                hozzaadas_datum: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            };
 
-    localStorage.setItem('cart', JSON.stringify(cart));
-    alert('Kosárhoz adva!');
+            console.log("Küldés előtt ellenőrizd ezt a konzolon:", payload);
+
+            await myAxios.post('/api/kosar', payload);
+            alert('Sikeresen kosárhoz adva!');
+        } catch (error) {
+            console.error("Szerver válasza:", error.response?.data);
+            alert("Hiba! Nézd meg a konzolt a részletekért.");
+        }
     };
 
     if (loading) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>Betöltés...</div>;
     if (!termek) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>Termék nem található.</div>;
+
     const meretek = [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
+
     return (
         <div style={{ padding: '20px', color: 'white', maxWidth: '1100px', margin: '0 auto', fontFamily: 'Arial, sans-serif' }}>
 
@@ -135,9 +138,7 @@ export default function ProductDetailPage() {
                         >
                             <option value="">Válassz méretet</option>
                             {meretek.map(m => {
-
                                 const vanKeszleten = termek.valtozatok && termek.valtozatok.some(v => v.nev.includes(String(m)));
-
                                 return (
                                     <option key={m} value={m}>
                                         EU {m} {vanKeszleten ? "" : "(Rendelésre)"}
@@ -147,16 +148,14 @@ export default function ProductDetailPage() {
                         </select>
                     </div>
 
-
                     <div style={{ display: 'flex', gap: '10px', marginBottom: '30px' }}>
                         <button
                             onClick={addToCart}
-                            
                             disabled={!selectedSize}
                             style={{
                                 flex: '1',
                                 padding: '16px',
-                                background: selectedSize ? 'white' : '#555', 
+                                background: selectedSize ? 'white' : '#555',
                                 color: selectedSize ? 'black' : '#ccc',
                                 border: 'none',
                                 fontWeight: 'bold',
@@ -184,7 +183,6 @@ export default function ProductDetailPage() {
                             {isFavorite ? <FaHeart style={{ color: 'red' }} /> : <FaRegHeart />}
                         </button>
                     </div>
-
 
                     <div style={{ borderTop: '1px solid #333', paddingTop: '20px', marginBottom: '20px' }}>
                         <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>LEÍRÁS</h3>

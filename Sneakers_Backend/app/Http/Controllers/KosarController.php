@@ -11,17 +11,21 @@ class KosarController extends Controller
 {
     public function index()
     {
-        return response()->json(Kosar::with(['termek','felhasznalo'])->get());
+        return response()->json(Kosar::with(['termek', 'felhasznalo'])->get());
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'felhasznalo_id' => 'required|exists:users,id',
-            'termek_id' => 'required|exists:termek,id',
-            'mennyiseg' => 'required|integer|min:1'
+            'felhasznalo_id' => 'required',
+            'termek_id'      => 'required',
+            'meret_id'       => 'required', 
+            'mennyiseg'      => 'required|integer|min:1',
         ]);
 
+        $validated['hozzaadas_datum'] = now();
+
+        
         return response()->json(Kosar::create($validated), 201);
     }
 
@@ -40,6 +44,6 @@ class KosarController extends Controller
     public function destroy($id)
     {
         Kosar::destroy($id);
-        return response()->json(['message'=>'Törölve']);
+        return response()->json(['message' => 'Törölve']);
     }
 }
