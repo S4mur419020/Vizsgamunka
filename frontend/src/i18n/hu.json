@@ -92,5 +92,15 @@
   "benefits.raffle.title": "2x raffle nyeremény esély",
   "benefits.raffle.text": "Footshop Club tagként megduplázódik az esélyed, hogy megnyerd a raffle-eket.",
   "benefits.notification.title": "Elsőként értesülhetsz kedvezményekről",
-  "benefits.notification.text": "A regisztráció része, hogy értesülsz az új kollekciókról, limitált termékekről és akciókról."
-} 
+  "benefits.notification.text": "A regisztráció része, hogy értesülsz az új kollekciókról, limitált termékekről és akciókról.",
+  "addresses": "Címeim",
+  "adress.article":"Meg tudod változtatni a szállítási és számlázási címedet, amikor rendelsz. Egyéb címeket is megadhatsz, melyek hasznosak lehetnek ajándékküldésre,vagy munkahelyre való rendelés esetén.",
+  "add_new_address": "Új cím hozzáadása",
+  "no_addresses": " Még nem adtál hozzá címeket",
+  "zip_code": "Irányítószám",
+  "city": "Város",
+  "street": "Utca, házszám",
+  "please_login": "Kérlek, jelentkezz be a mentéshez!",
+  "save": "Mentés",
+  "cancel": "Mégse"
+}

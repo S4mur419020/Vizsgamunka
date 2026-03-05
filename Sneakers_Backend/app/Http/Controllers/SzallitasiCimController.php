@@ -2,45 +2,102 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSzallitasi_cimRequest;
-use App\Http\Requests\UpdateSzallitasi_cimRequest;
 use App\Models\Szallitasi_cim;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SzallitasiCimController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Szallitasi_Cim::all());
+        return response()->json(Szallitasi_cim::where('felhasznalo_id', $request->user()->id)->get());
     }
 
     public function store(Request $request)
     {
+
+        $userId = Auth::id() ?? $request->felhasznalo_id;
+
+        if (!$userId) {
+            return response()->json([
+                'message' => 'Hitelesítési hiba: A szerver nem azonosította a felhasználót.',
+                'auth_check' => Auth::check(), 
+            ], 401);
+        }
+
         $validated = $request->validate([
-            'felhasznalo_id' => 'required|exists:users,id',
-            'cim' => 'required|string',
-            'varos' => 'required|string',
-            'iranyitoszam' => 'required|string'
+            'orszag'       => 'required|string|max:50',
+            'iranyitoszam' => 'required|string|max:10',
+            'varos'        => 'required|string|max:50',
+            'street'       => 'required|string|max:100',
+            'ceg'          => 'nullable|string',
+            'telefonszam'  => 'nullable|string',
+            'megjegyzes'   => 'nullable|string',
         ]);
 
-        return response()->json(Szallitasi_Cim::create($validated), 201);
+        $cim = Szallitasi_cim::create([
+            'felhasznalo_id' => $userId,
+            'orszag'         => $validated['orszag'],
+            'iranyitoszam'   => $validated['iranyitoszam'],
+            'varos'          => $validated['varos'],
+            'utca_szam'      => $validated['street'],
+            'ceg'            => $request->ceg,
+            'telefonszam'    => $request->telefonszam,
+            'megjegyzes'     => $request->megjegyzes,
+        ]);
+
+        return response()->json($cim, 201);
+    }
+
+    /**
+     * AZ UPDATE METÓDUS - EZT HIÁNYOLTAD
+     */
+    public function update(Request $request, $id)
+    {
+
+        $cim = Szallitasi_cim::where('szallitasi_cim_id', $id)
+            ->where('felhasznalo_id', $request->user()->id)
+            ->firstOrFail();
+
+
+        $validated = $request->validate([
+            'firstName'    => 'sometimes|string|max:50',
+            'lastName'     => 'sometimes|string|max:50',
+            'orszag'       => 'sometimes|string|max:50',
+            'iranyitoszam' => 'sometimes|string|max:10',
+            'varos'        => 'sometimes|string|max:50',
+            'street'       => 'sometimes|string|max:100',
+            'ceg'          => 'nullable|string|max:100',
+            'telefonszam'  => 'nullable|string|max:20',
+            'megjegyzes'   => 'nullable|string',
+        ]);
+
+
+        $cim->update([
+            'orszag'       => $validated['orszag'] ?? $cim->orszag,
+            'iranyitoszam' => $validated['iranyitoszam'] ?? $cim->iranyitoszam,
+            'varos'        => $validated['varos'] ?? $cim->varos,
+            'utca_szam'    => $validated['street'] ?? $cim->utca_szam,
+            'ceg'          => $validated['ceg'] ?? $cim->ceg,
+            'telefonszam'  => $validated['telefonszam'] ?? $cim->telefonszam,
+            'megjegyzes'   => $validated['megjegyzes'] ?? $cim->megjegyzes,
+        ]);
+
+        return response()->json($cim);
     }
 
     public function show($id)
     {
-        return response()->json(Szallitasi_Cim::findOrFail($id));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $cim = Szallitasi_Cim::findOrFail($id);
-        $cim->update($request->all());
-        return response()->json($cim);
+        return response()->json(Szallitasi_cim::where('felhasznalo_id', Auth::id())->findOrFail($id));
     }
 
     public function destroy($id)
     {
-        Szallitasi_Cim::destroy($id);
-        return response()->json(['message'=>'Törölve']);
+        $cim = Szallitasi_cim::where('szallitasi_cim_id', $id)
+            ->where('felhasznalo_id', Auth::id())
+            ->firstOrFail();
+
+        $cim->delete();
+        return response()->json(['message' => 'Törölve']);
     }
 }

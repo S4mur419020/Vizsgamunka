@@ -1,68 +1,98 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "../../css/PublicCss/Addresses.css";
 import useTranslation from '../../i18n/useTranslation';
 import { myAxios } from '../../services/api';
+import AddressForm from "../../Components/public/AddressForm";
+import AddressCard from "../../Components/public/AddressCard";
+import { ShoeContext } from "../../context/ShoeContext";
 
 export default function AddressesPage() {
   const { t } = useTranslation();
   const [addresses, setAddresses] = useState([]);
+  const [countries, setCountries] = useState([]);
   const [openForm, setOpenForm] = useState(false);
-  const [formData, setFormData] = useState({ fullName: "", phone: "", zip: "", city: "", street: "", country: "Magyarország" });
+  const { user } = useContext(ShoeContext);
 
   useEffect(() => {
     fetchAddresses();
+    myAxios.get('/api/regiok')
+      .then(res => setCountries(res.data))
+      .catch(err => console.error("Hiba a régiók betöltésekor:", err));
   }, []);
 
   const fetchAddresses = async () => {
     try {
       const res = await myAxios.get('/api/szallitasi_cimek');
       setAddresses(res.data);
-    } catch (err) { console.error("Hiba a címek lekérésekor"); }
+    } catch (err) {
+      console.error("Címek betöltése sikertelen", err);
+    }
   };
 
-  const addAddress = async (e) => {
-    e.preventDefault();
+  const handleSave = async (formData) => {
     try {
-      await myAxios.post('/api/addresses', formData);
-      fetchAddresses(); 
-      setOpenForm(false);
-      setFormData({ fullName: "", phone: "", zip: "", city: "", street: "", country: "Magyarország" });
-    } catch (err) { alert("Hiba a mentés során!"); }
-  };
+      const payload = {
+        felhasznalo_id: user?.id || user?.felhasznalo_id,
+        firstName: user?.keresztnev || "Vezetéknév",
+        lastName: user?.vezeteknev || "Keresztnév",
+        orszag: formData.country,
+        iranyitoszam: formData.zip,
+        varos: formData.city,
+        street: formData.street, 
+        megjegyzes: formData.comment || "",
+        ceg: formData.company || "",
+        telefonszam: formData.phone || ""
+      };
 
-  const removeAddress = async (id) => {
-    if (!window.confirm("Biztosan törlöd?")) return;
-    try {
-      await myAxios.delete(`/api/addresses/${id}`);
-      setAddresses(addresses.filter(a => a.id !== id));
-    } catch (err) { alert("Hiba a törlés során!"); }
+      const res = await myAxios.post('/api/szallitasi_cimek', payload);
+
+      if (res.status === 200 || res.status === 201) {
+        await fetchAddresses(); // Ez frissíti a listát, és eltünteti a "Nincs cím" szöveget
+        setOpenForm(false);
+      }
+    } catch (err) {
+      console.error("Mentési hiba (nézd a Response fület!):", err.response?.data);
+      alert(t('save_error') || "Hiba történt a mentés során!");
+    }
   };
 
   return (
     <div className="addr-wrap">
-      <h1 className="section-title">{t('addresses.title')}</h1>
-      <div className="addr-header">
-        <button className="addr-add-btn" onClick={() => setOpenForm(!openForm)}>
-          {openForm ? t('settings.close') : t('addresses.add_new')}
-        </button>
-      </div>
+      <h1 className="section-title">{t('addresses') || 'Címeim'}</h1>
 
-      {openForm && (
-        <form className="addr-form" onSubmit={addAddress}>
-          <input placeholder="Név" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} required />
-          <input placeholder="Város" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} required />
-          <button type="submit" className="btn primary">{t('profile.save')}</button>
-        </form>
-      )}
+      {/* Ez a leírás a JSON-ból jön, és középen marad a CSS miatt */}
+      <p className="addr-description">{t('adress.article')}</p>
 
-      <div className="addr-grid">
-        {addresses.map(a => (
-          <div className="addr-card" key={a.id}>
-            <p>{a.fullName}<br/>{a.zip} {a.city}, {a.street}</p>
-            <button className="btn danger" onClick={() => removeAddress(a.id)}>Törlés</button>
+      {!openForm ? (
+        <>
+          <button className="btn-add" onClick={() => setOpenForm(true)}>
+            {t('add_new_address') || 'Új cím hozzáadása'}
+          </button>
+
+          <div className="addr-grid">
+            {addresses.length > 0 ? (
+              addresses.map(a => (
+                <AddressCard
+                  key={a.szallitasi_cim_id}
+                  address={a}
+                  onRemove={fetchAddresses}
+                  t={t}
+                />
+              ))
+            ) : (
+              /* Ez a szöveg automatikusan eltűnik, ha az addresses.length > 0 */
+              <p className="no-addr-msg">ⓘ {t('no_addresses') || 'Még nem adtál hozzá címeket'}</p>
+            )}
           </div>
-        ))}
-      </div>
+        </>
+      ) : (
+        <AddressForm
+          onSave={handleSave}
+          onCancel={() => setOpenForm(false)}
+          t={t}
+          initialCountries={countries}
+        />
+      )}
     </div>
   );
 }

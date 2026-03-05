@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { myAxios } from '.././services/api';
 
 export const ShoeContext = createContext();
 
@@ -7,23 +8,23 @@ export const ShoeProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState({ nem: "", marka: "" });
     const [cartItems, setCartItems] = useState([]);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const initData = async () => {
             try {
-                const [resTermekek, resKosar] = await Promise.all([
-                    fetch('http://localhost:8000/api/termekek'),
-                    fetch('http://localhost:8000/api/kosar')
+                const [resUser, resTermekek, resKosar] = await Promise.all([
+                    myAxios.get('/api/user').catch(() => ({ data: null })), 
+                    myAxios.get('/api/termekek'),
+                    myAxios.get('/api/kosar')
                 ]);
 
-                const termekAdat = await resTermekek.json();
-                const kosarAdat = await resKosar.json();
-                console.log("Betölti a termékeket:", termekAdat)
-                setTermekek(termekAdat);
-                setCartItems(kosarAdat);
-                setLoading(false);
+                setUser(resUser.data);
+                setTermekek(resTermekek.data);
+                setCartItems(resKosar.data);
             } catch (error) {
                 console.error("Adatbetöltési hiba:", error);
+            } finally {
                 setLoading(false);
             }
         };
@@ -33,19 +34,13 @@ export const ShoeProvider = ({ children }) => {
     const szurtTermekek = termekek.filter(t => {
         const nemPasszol = filter.nem === "" || t.nem === filter.nem;
         const markaPasszol = filter.marka === "" || String(t.marka_id) === String(filter.marka);
-        
         return nemPasszol && markaPasszol;
     });
 
     const updateCart = async (termekId, mennyiseg) => {
         try {
-            const res = await fetch('http://localhost:8000/api/kosar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ termek_id: termekId, mennyiseg: mennyiseg })
-            });
-            const frissitettKosar = await res.json();
-            setCartItems(frissitettKosar);
+            const res = await myAxios.post('/api/kosar', { termek_id: termekId, mennyiseg: mennyiseg });
+            setCartItems(res.data);
         } catch (error) {
             console.error("Kosár hiba:", error);
         }
@@ -53,12 +48,8 @@ export const ShoeProvider = ({ children }) => {
 
     const finalizeOrder = async (orderData) => {
         try {
-            const res = await fetch('http://localhost:8000/api/rendelesek', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(orderData)
-            });
-            if (res.ok) {
+            const res = await myAxios.post('/api/rendelesek', orderData);
+            if (res.status === 200 || res.status === 201) {
                 setCartItems([]); 
             }
         } catch (error) {
@@ -68,6 +59,8 @@ export const ShoeProvider = ({ children }) => {
 
     return (
         <ShoeContext.Provider value={{ 
+            user, 
+            setUser,
             termekek, 
             szurtTermekek, 
             loading, 

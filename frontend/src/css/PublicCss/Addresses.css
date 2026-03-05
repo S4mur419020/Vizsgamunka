@@ -1,143 +1,167 @@
 .addr-wrap {
-    color: #fff;
+    padding: 2rem;
+    color: #ffffff;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .section-title {
-    font-size: 26px;
-    font-weight: 800;
-    margin-bottom: 6px;
-}
-
-.section-sub {
-    opacity: .75;
-    margin-bottom: 18px;
-}
-
-.addr-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.addr-add-btn {
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #00aaff;
-    background: transparent;
     color: #00aaff;
-    cursor: pointer;
-    font-weight: 700;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    text-align: center;
 }
 
-.addr-add-btn:hover {
-    background: rgba(0, 170, 255, .1);
+.btn-add {
+    background-color: #00aaff;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    transition: background 0.3s;
+}
+
+.btn-add:hover {
+    background-color: #0088cc;
 }
 
 .addr-form {
-    background: #151515;
-    border: 1px solid #242424;
+    background-color: #1a1a1a;
+    padding: 2rem;
     border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 16px;
+    border: 1px solid #333;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.addr-form .row {
+.form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 10px;
+    gap: 1.5rem;
 }
 
-.addr-form .col label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-}
-
-.addr-form input {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid #2e2e2e;
-    background: #1a1a1a;
+.addr-form input,
+.addr-form select,
+.addr-form textarea {
+    background-color: #262626;
+    border: 1px solid #444;
     color: #fff;
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.addr-form .actions {
+.addr-form input:focus,
+.addr-form select:focus,
+.addr-form textarea:focus {
+    border-color: #00aaff;
+    box-shadow: 0 0 8px rgba(0, 170, 255, 0.3);
+}
+
+.addr-form textarea,
+.addr-form input[placeholder*="Alias"],
+.addr-form input[placeholder*="Utca"] {
+    grid-column: span 2;
+}
+
+.addr-form input[placeholder*="Telefonszám"],
+.addr-form input[placeholder*="Cég"] {
+    grid-column: span 1;
+}
+
+.form-buttons {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
-    margin-top: 8px;
+    gap: 1rem;
+    margin-top: 2rem;
+    grid-column: span 2;
 }
 
-.btn {
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: 1px solid #2e2e2e;
-    background: #1a1a1a;
-    color: #fff;
+.btn-save {
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-weight: bold;
     cursor: pointer;
-    font-weight: 700;
+    transition: transform 0.2s;
 }
 
-.btn.ghost:hover {
-    background: #222;
+.btn-save:hover {
+    background-color: #0088cc;
+    transform: translateY(-2px);
 }
 
-.btn.primary {
-    border-color: #0077aa;
-    background: #00aaff;
-    color: #071018;
+.btn-close {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
-.btn.primary:hover {
-    filter: brightness(1.05);
+.btn-close:hover {
+    background-color: #333;
 }
 
-.btn.danger {
-    border-color: #8f2a2a;
-    background: #b23b3b;
-}
-
-.btn.danger:hover {
-    filter: brightness(1.05);
-}
-
-.addr-empty {
-    background: #141414;
-    border: 1px solid #262626;
-    border-radius: 12px;
-    padding: 20px;
-    text-align: left;
-}
-
-.muted {
-    opacity: .75;
-}
 
 .addr-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.addr-grid > p {
+    grid-column: 1 / -1;
+    text-align: center;  
+    color: #888;        
+    margin-top: 2rem;   
+    font-size: 1.1rem;   
+    width: 100%;
 }
 
 .addr-card {
-    background: #141414;
-    border: 1px solid #262626;
-    border-radius: 12px;
-    padding: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    padding: 1.5rem;
+    border-radius: 10px;
+    position: relative;
+    transition: border-color 0.3s;
 }
 
-.addr-lines .line {
-    margin-bottom: 4px;
+.addr-card:hover {
+    border-color: #00aaff;
 }
 
-.addr-actions {
-    display: flex;
-    gap: 8px;
+.addr-card-header {
+    border-bottom: 1px solid #333;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    color: #00aaff;
+    font-size: 1.1rem;
+}
+
+.addr-description {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
+}
+
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .addr-form textarea,
+    .addr-form input {
+        grid-column: span 1;
+    }
 }

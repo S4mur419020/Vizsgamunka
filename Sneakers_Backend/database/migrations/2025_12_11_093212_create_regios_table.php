@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('regios', function (Blueprint $table) {
             $table->string('szabvany', 50)->primary();
+            $table->string('nev', 100);
+            $table->timestamps();
         });
     }
 

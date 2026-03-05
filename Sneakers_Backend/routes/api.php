@@ -29,6 +29,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::prefix('regiok')->group(function () {
+    Route::get('/', [RegioController::class, 'index']);
+    Route::get('{id}', [RegioController::class, 'show']);
+    Route::post('/', [RegioController::class, 'store']);
+    Route::put('{id}', [RegioController::class, 'update']);
+    Route::delete('{id}', [RegioController::class, 'destroy']);
+});
 
 Route::prefix('kategoriak')->group(function () {
     Route::get('/', [KategoriakController::class, 'index']);
@@ -141,12 +148,12 @@ Route::prefix('blog')->group(function () {
     Route::delete('{id}', [BlogController::class, 'destroy']);
 });
 
-Route::prefix('szallitasi_cimek')->group(function () {
-    Route::get('/', [SzallitasiCimController::class, 'index']);
-    Route::get('{id}', [SzallitasiCimController::class, 'show']);
-    Route::post('/', [SzallitasiCimController::class, 'store']);
-    Route::put('{id}', [SzallitasiCimController::class, 'update']);
-    Route::delete('{id}', [SzallitasiCimController::class, 'destroy']);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/szallitasi_cimek', [SzallitasiCimController::class, 'index']);
+    Route::post('/szallitasi_cimek', [SzallitasiCimController::class, 'store']);
+    Route::get('/szallitasi_cimek/{id}', [SzallitasiCimController::class, 'show']);
+    Route::put('/szallitasi_cimek/{id}', [SzallitasiCimController::class, 'update']);
+    Route::delete('/szallitasi_cimek/{id}', [SzallitasiCimController::class, 'destroy']);
 });
 
 Route::prefix('telephelyek')->group(function () {
@@ -173,6 +180,13 @@ Route::prefix('nyelvek')->group(function () {
     Route::delete('{id}', [NyelvController::class, 'destroy']);
 });
 
+Route::prefix('learazasok')->group(function () {
+    Route::get('/', [LearazasController::class, 'index']);
+    Route::get('{id}', [LearazasController::class, 'show']);
+    Route::post('/', [LearazasController::class, 'store']);
+    Route::put('{id}', [LearazasController::class, 'update']);
+    Route::delete('{id}', [LearazasController::class, 'destroy']);
+});
 
 Route::post('/login', [FelhasznaloController::class, 'login']);
 Route::post('/logout', [FelhasznaloController::class, 'logout']);

@@ -11,7 +11,7 @@ class RegioController extends Controller
 {
     public function index()
     {
-        return response()->json(Regio::all());
+        return response()->json(\App\Models\Regio::all());
     }
 
     public function store(Request $request)
