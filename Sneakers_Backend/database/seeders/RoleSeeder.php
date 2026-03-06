@@ -15,11 +15,9 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1️⃣ Szerepek létrehozása
         $adminRole = Role::create(['name' => 'admin']);
         $userRole = Role::create(['name' => 'felhasznalo']);
 
-        // 2️⃣ Felhasználók létrehozása és szerephez rendelése
         User::create([
             'name' => 'Admin Felhasználó',
             'email' => 'admin@example.com',

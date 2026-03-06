@@ -25,6 +25,10 @@ export default function Admin() {
         fetchTermekek();
     }, []);
 
+    if (!user || user.role !== "admin") {
+        return null;
+    }
+
     function handleSzerkeszt(termek) {
         console.log("Szerkesztés:", termek);
     }
@@ -42,14 +46,6 @@ export default function Admin() {
         }
     }
 
-    if (!user || user.role !== "admin") {
-        return (
-            <div style={{ padding: "2rem", color: "red", textAlign: "center" }}>
-                Nincs jogosultságod az admin felület megtekintéséhez.
-            </div>
-        );
-    }
-
     if (loading) return <p>Betöltés...</p>;
     if (!termekekLista.length) return <p>Nincs elérhető termék.</p>;
 
@@ -58,12 +54,12 @@ export default function Admin() {
             <aside className="admin-sidebar">
                 <h2>Admin Panel</h2>
                 <button className="active">Termékek</button>
-                <button >Felhasználók</button>
-                <button >Rendelések</button>
+                <button>Felhasználók</button>
+                <button>Rendelések</button>
             </aside>
 
             <main className="admin-main">
-                <h1>Admin – Termékek</h1>
+                <h1>Admin Termékek</h1>
                 <AdminShoeCards
                     termekek={termekekLista}
                     onSzerkeszt={handleSzerkeszt}
