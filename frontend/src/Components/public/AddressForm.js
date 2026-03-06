@@ -7,17 +7,17 @@ export default function AddressForm({ onSave, onCancel, t, initialCountries }) {
     city: "",
     street: "",
     comment: "",
-    company: "", // ÚJ
-    phone: ""    // ÚJ
+    company: "",
+    phone: ""
   });
 
   return (
     <form className="addr-form" onSubmit={(e) => { e.preventDefault(); onSave(formData); }}>
       <div className="form-grid">
-        <select 
-          className="full-width" 
-          value={formData.country} 
-          onChange={e => setFormData({...formData, country: e.target.value})}
+        <select
+          className="full-width"
+          value={formData.country}
+          onChange={e => setFormData({ ...formData, country: e.target.value })}
         >
           {initialCountries.length === 0 ? (
             <option value="">{t('loading') || 'Betöltés...'}</option>
@@ -28,15 +28,13 @@ export default function AddressForm({ onSave, onCancel, t, initialCountries }) {
           )}
         </select>
 
-        <input placeholder={t('zip_code') || 'Irányítószám'} value={formData.zip} onChange={e => setFormData({...formData, zip: e.target.value})} required />
-        <input placeholder={t('city') || 'Város'} value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} required />
-        <input className="full-width" placeholder={t('street') || 'Utca, házszám'} value={formData.street} onChange={e => setFormData({...formData, street: e.target.value})} required />
-        
-        {/* Visszarakott mezők: Cég és Telefonszám */}
-        <input placeholder={t('company') || 'Cég (nem kötelező)'} value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})} />
-        <input placeholder={t('phone') || 'Telefonszám'} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+        <input placeholder={t('zip_code') || 'Irányítószám'} value={formData.zip} onChange={e => setFormData({ ...formData, zip: e.target.value })} required />
+        <input placeholder={t('city') || 'Város'} value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} required />
+        <input className="full-width" placeholder={t('street') || 'Utca, házszám'} value={formData.street} onChange={e => setFormData({ ...formData, street: e.target.value })} required />
+        <input placeholder={t('company') || 'Cég (nem kötelező)'} value={formData.company} onChange={e => setFormData({ ...formData, company: e.target.value })} />
+        <input placeholder={t('phone') || 'Telefonszám'} value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} />
 
-        <textarea className="full-width" placeholder={t('comment') || 'Megjegyzés'} value={formData.comment} onChange={e => setFormData({...formData, comment: e.target.value})} />
+        <textarea className="full-width" placeholder={t('comment') || 'Megjegyzés'} value={formData.comment} onChange={e => setFormData({ ...formData, comment: e.target.value })} />
       </div>
 
       <div className="form-buttons">

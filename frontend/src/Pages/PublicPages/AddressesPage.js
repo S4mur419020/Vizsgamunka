@@ -47,7 +47,7 @@ export default function AddressesPage() {
       const res = await myAxios.post('/api/szallitasi_cimek', payload);
 
       if (res.status === 200 || res.status === 201) {
-        await fetchAddresses(); // Ez frissíti a listát, és eltünteti a "Nincs cím" szöveget
+        await fetchAddresses(); 
         setOpenForm(false);
       }
     } catch (err) {
@@ -59,8 +59,6 @@ export default function AddressesPage() {
   return (
     <div className="addr-wrap">
       <h1 className="section-title">{t('addresses') || 'Címeim'}</h1>
-
-      {/* Ez a leírás a JSON-ból jön, és középen marad a CSS miatt */}
       <p className="addr-description">{t('adress.article')}</p>
 
       {!openForm ? (
@@ -80,7 +78,6 @@ export default function AddressesPage() {
                 />
               ))
             ) : (
-              /* Ez a szöveg automatikusan eltűnik, ha az addresses.length > 0 */
               <p className="no-addr-msg">ⓘ {t('no_addresses') || 'Még nem adtál hozzá címeket'}</p>
             )}
           </div>
