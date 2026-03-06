@@ -57,9 +57,9 @@ export default function Admin() {
         <div className="admin-layout">
             <aside className="admin-sidebar">
                 <h2>Admin Panel</h2>
-                <a href="#" className="active">Termékek</a>
-                <a href="#">Felhasználók</a>
-                <a href="#">Rendelések</a>
+                <button className="active">Termékek</button>
+                <button >Felhasználók</button>
+                <button >Rendelések</button>
             </aside>
 
             <main className="admin-main">

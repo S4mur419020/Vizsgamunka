@@ -14,9 +14,9 @@ class FelhasznaloSeeder extends Seeder
         // így a Model beállításai (pl. primaryKey) érvényesülnek.
         $adatok = [
             [
-                'nev' => 'Teszt Felhasznalo 1',
+                'nev' => 'Főadmin',
                 'email' => 'teszt1@example.com',
-                'jelszo' => Hash::make('password'),
+                'jelszo' => Hash::make('123456'),
                 'telefonszam' => '0612345678',
                 'regisztracio_datuma' => now(),
                 'aktiv' => true,
