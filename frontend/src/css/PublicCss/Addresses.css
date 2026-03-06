@@ -26,7 +26,6 @@
     gap: 1.5rem;
 }
 
-/* Ez rakja helyre a széles mezőket és a gombokat */
 .addr-form .full-width {
     grid-column: span 2;
 }
@@ -74,7 +73,40 @@
     cursor: pointer;
 }
 
-/* Kártyák elrendezése */
+
+.btn-add {
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto 2rem auto; 
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-add:hover {
+    background-color: #0088cc;
+    box-shadow: 0 0 15px rgba(0, 170, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-add:active {
+    transform: translateY(0);
+}
+
+.addr-description {
+    text-align: center;
+    color: #aaa;
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.6;
+}
+
 .addr-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

@@ -14,11 +14,19 @@ export default function AddressesPage() {
   const { user } = useContext(ShoeContext);
 
   useEffect(() => {
-    fetchAddresses();
-    myAxios.get('/api/regiok')
-      .then(res => setCountries(res.data))
-      .catch(err => console.error("Hiba a régiók betöltésekor:", err));
-  }, []);
+    if (user) {
+      fetchAddresses();
+    }
+    const fetchRegions = async () => {
+      try {
+        const res = await myAxios.get('/api/regiok');
+        setCountries(res.data);
+      } catch (err) {
+        console.error("Hiba a régiók betöltésekor:", err);
+      }
+    };
+    fetchRegions();
+  }, [user]);
 
   const fetchAddresses = async () => {
     try {
