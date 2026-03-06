@@ -94,13 +94,17 @@
   "benefits.notification.title": "Elsőként értesülhetsz kedvezményekről",
   "benefits.notification.text": "A regisztráció része, hogy értesülsz az új kollekciókról, limitált termékekről és akciókról.",
   "addresses": "Címeim",
-  "adress.article":"Meg tudod változtatni a szállítási és számlázási címedet, amikor rendelsz. Egyéb címeket is megadhatsz, melyek hasznosak lehetnek ajándékküldésre,vagy munkahelyre való rendelés esetén.",
+  "adress.article": "Meg tudod változtatni a szállítási és számlázási címedet, amikor rendelsz. Egyéb címeket is megadhatsz, melyek hasznosak lehetnek ajándékküldésre,vagy munkahelyre való rendelés esetén.",
   "add_new_address": "Új cím hozzáadása",
-  "no_addresses": " Még nem adtál hozzá címeket",
-  "zip_code": "Irányítószám",
-  "city": "Város",
+  "no_addresses": "Még nem adtál hozzá címeket",
   "street": "Utca, házszám",
-  "please_login": "Kérlek, jelentkezz be a mentéshez!",
+  "city": "Város",
+  "zip_code": "Irányítószám",
+  "company": "Cég (nem kötelező)",
+  "phone": "Telefonszám",
+  "comment": "Megjegyzés",
   "save": "Mentés",
-  "cancel": "Mégse"
+  "cancel": "Mégse",
+  "confirm_delete": "Biztosan törlöd ezt a címet?",
+  "loading": "Betöltés..."
 }

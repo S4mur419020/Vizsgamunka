@@ -92,5 +92,19 @@
   "benefits.raffle.title": "2x Raffle-Gewinnchance",
   "benefits.raffle.text": "Als Footshop Club-Mitglied verdoppeln sich deine Chancen, die Raffles zu gewinnen.",
   "benefits.notification.title": "Erfahre als Erster von Rabatten",
-  "benefits.notification.text": "Die Registrierung beinhaltet, dass du über neue Kollektionen, limitierte Produkte und Aktionen informiert wirst."
+  "benefits.notification.text": "Die Registrierung beinhaltet, dass du über neue Kollektionen, limitierte Produkte und Aktionen informiert wirst.",
+  "addresses": "Meine Adressen",
+  "adress.article": "Sie können Ihre Liefer- und Rechnungsadressen bei der Bestellung ändern. Sie können auch weitere Adressen angeben, die für den Versand von Geschenken oder für Bestellungen an Ihren Arbeitsplatz nützlich sein können.",
+  "add_new_address": "Neue Adresse hinzufügen",
+  "no_addresses": "Sie haben noch keine Adressen hinzugefügt",
+  "street": "Straße, Hausnummer",
+  "city": "Stadt",
+  "zip_code": "Postleitzahl",
+  "company": "Firma (optional)",
+  "phone": "Telefonnummer",
+  "comment": "Anmerkung",
+  "save": "Speichern",
+  "cancel": "Abbrechen",
+  "confirm_delete": "Sind Sie sicher, dass Sie diese Adresse löschen möchten?",
+  "loading": "Wird geladen..."
 }

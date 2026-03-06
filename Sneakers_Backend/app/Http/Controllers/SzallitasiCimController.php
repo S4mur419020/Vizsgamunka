@@ -10,7 +10,13 @@ class SzallitasiCimController extends Controller
 {
     public function index(Request $request)
     {
-        return response()->json(Szallitasi_cim::where('felhasznalo_id', $request->user()->id)->get());
+        $userId = Auth::id();
+
+        if (!$userId) {
+            return response()->json(Szallitasi_cim::all());
+        }
+
+        return response()->json(Szallitasi_cim::where('felhasznalo_id', $userId)->get());
     }
 
     public function store(Request $request)
@@ -21,7 +27,7 @@ class SzallitasiCimController extends Controller
         if (!$userId) {
             return response()->json([
                 'message' => 'Hitelesítési hiba: A szerver nem azonosította a felhasználót.',
-                'auth_check' => Auth::check(), 
+                'auth_check' => Auth::check(),
             ], 401);
         }
 
@@ -29,7 +35,7 @@ class SzallitasiCimController extends Controller
             'orszag'       => 'required|string|max:50',
             'iranyitoszam' => 'required|string|max:10',
             'varos'        => 'required|string|max:50',
-            'street'       => 'required|string|max:100',
+            'utca_szam'    => 'required|string|max:100',
             'ceg'          => 'nullable|string',
             'telefonszam'  => 'nullable|string',
             'megjegyzes'   => 'nullable|string',
@@ -40,7 +46,7 @@ class SzallitasiCimController extends Controller
             'orszag'         => $validated['orszag'],
             'iranyitoszam'   => $validated['iranyitoszam'],
             'varos'          => $validated['varos'],
-            'utca_szam'      => $validated['street'],
+            'utca_szam'      => $validated['utca_szam'],
             'ceg'            => $request->ceg,
             'telefonszam'    => $request->telefonszam,
             'megjegyzes'     => $request->megjegyzes,
@@ -49,9 +55,6 @@ class SzallitasiCimController extends Controller
         return response()->json($cim, 201);
     }
 
-    /**
-     * AZ UPDATE METÓDUS - EZT HIÁNYOLTAD
-     */
     public function update(Request $request, $id)
     {
 
@@ -66,7 +69,7 @@ class SzallitasiCimController extends Controller
             'orszag'       => 'sometimes|string|max:50',
             'iranyitoszam' => 'sometimes|string|max:10',
             'varos'        => 'sometimes|string|max:50',
-            'street'       => 'sometimes|string|max:100',
+            'utca_szam'    => 'required|string|max:100',
             'ceg'          => 'nullable|string|max:100',
             'telefonszam'  => 'nullable|string|max:20',
             'megjegyzes'   => 'nullable|string',
@@ -77,7 +80,7 @@ class SzallitasiCimController extends Controller
             'orszag'       => $validated['orszag'] ?? $cim->orszag,
             'iranyitoszam' => $validated['iranyitoszam'] ?? $cim->iranyitoszam,
             'varos'        => $validated['varos'] ?? $cim->varos,
-            'utca_szam'    => $validated['street'] ?? $cim->utca_szam,
+            'utca_szam'    => $validated['utca_szam'] ?? $cim->utca_szam,
             'ceg'          => $validated['ceg'] ?? $cim->ceg,
             'telefonszam'  => $validated['telefonszam'] ?? $cim->telefonszam,
             'megjegyzes'   => $validated['megjegyzes'] ?? $cim->megjegyzes,

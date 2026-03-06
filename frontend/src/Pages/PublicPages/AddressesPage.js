@@ -33,26 +33,29 @@ export default function AddressesPage() {
     try {
       const payload = {
         felhasznalo_id: user?.id || user?.felhasznalo_id,
-        firstName: user?.keresztnev || "Vezetéknév",
-        lastName: user?.vezeteknev || "Keresztnév",
+        /*firstName: user?.keresztnev || "Vezetéknév",
+        lastName: user?.vezeteknev || "Keresztnév",*/
         orszag: formData.country,
         iranyitoszam: formData.zip,
         varos: formData.city,
-        street: formData.street, 
+        utca_szam: formData.street,
         megjegyzes: formData.comment || "",
         ceg: formData.company || "",
         telefonszam: formData.phone || ""
       };
 
+      console.log("Küldés alatt álló adatok:", payload);
+
       const res = await myAxios.post('/api/szallitasi_cimek', payload);
 
       if (res.status === 200 || res.status === 201) {
-        await fetchAddresses(); 
+        await fetchAddresses();
         setOpenForm(false);
       }
     } catch (err) {
+      console.error("Backend hiba:", err.response?.data);
       console.error("Mentési hiba (nézd a Response fület!):", err.response?.data);
-      alert(t('save_error') || "Hiba történt a mentés során!");
+      alert(t('Hiba A MENTÉS SORÁN!!!!!') || "Hiba történt a mentés során!");
     }
   };
 

@@ -92,5 +92,19 @@
   "benefits.raffle.title": "2x raffle win chance",
   "benefits.raffle.text": "As a Footshop Club member, your chances of winning raffles are doubled.",
   "benefits.notification.title": "Be the first to know about discounts",
-  "benefits.notification.text": "Part of registration is staying informed about new collections, limited products, and deals."  
+  "benefits.notification.text": "Part of registration is staying informed about new collections, limited products, and deals.",
+  "addresses": "My Addresses",
+  "adress.article": "You can change your shipping and billing addresses when you place an order. You can also provide other addresses, which can be useful for sending gifts or ordering to your workplace.",
+  "add_new_address": "Add New Address",
+  "no_addresses": "You haven't added any addresses yet",
+  "street": "Street, house number",
+  "city": "City",
+  "zip_code": "Zip Code",
+  "company": "Company (optional)",
+  "phone": "Phone number",
+  "comment": "Comment",
+  "save": "Save",
+  "cancel": "Cancel",
+  "confirm_delete": "Are you sure you want to delete this address?",
+  "loading": "Loading..."
 }
