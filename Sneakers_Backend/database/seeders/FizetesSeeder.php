@@ -25,7 +25,7 @@ class FizetesSeeder extends Seeder
                 'tranzakcio_id' => null,
                 'statusz' => 'függőben',
                 'datum' => now(),
-                'felhasznalo_id' => 2,
+                'felhasznalo_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

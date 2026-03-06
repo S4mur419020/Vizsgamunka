@@ -17,7 +17,7 @@ class FelhasznaloController extends Controller
 
     public function login(Request $request)
     {
-        
+
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -70,6 +70,7 @@ class FelhasznaloController extends Controller
             'nev' => 'required|string|max:255',
             'email' => 'required|email|unique:felhasznalok,email',
             'jelszo' => 'required|string|min:6',
+            'role_id' => 'nullable|exists:roles,id',
         ]);
 
         $validated['jelszo'] = Hash::make($validated['jelszo']);

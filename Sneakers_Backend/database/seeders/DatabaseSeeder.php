@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Felhasznalo;
+
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -21,6 +21,14 @@ class DatabaseSeeder extends Seeder
             NyelvSeeder::class,
             SzekhelySeeder::class,
             TelephelySeeder::class,
+<<<<<<< HEAD
+=======
+
+            //Szerepek
+            RoleSeeder::class,
+
+            // Felhasználók 
+>>>>>>> dcff1c4f31d4497179c03c0d1d74a618220453bf
             FelhasznaloSeeder::class,
             KategoriakSeeder::class,
             MarkakSeeder::class,

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('aktiv');
             $table->foreignId('nyelv_id')->constrained('nyelvs')->onDelete('cascade');
             $table->foreignId('szekhely_id')->constrained('szekhelies')->onDelete('cascade');
+            $table->foreignId('role_id')->nullable()->constrained('roles')->onDelete('set null');
             $table->timestamps();
         });
     }
