@@ -9,6 +9,15 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role && $this->role->name === 'admin';
+    }
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 

@@ -22,16 +22,7 @@ class FelhasznaloSeeder extends Seeder
                 'aktiv' => true,
                 'nyelv_id' => 1,
                 'szekhely_id' => 1,
-            ],
-            [
-                'nev' => 'Teszt Felhasznalo 2',
-                'email' => 'teszt2@example.com',
-                'jelszo' => Hash::make('password'),
-                'telefonszam' => '0612345679',
-                'regisztracio_datuma' => now(),
-                'aktiv' => true,
-                'nyelv_id' => 1,
-                'szekhely_id' => 1,
+                'role_id' => 1, //admin(1), felhasznalo(2)
             ],
         ];
 
