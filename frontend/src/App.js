@@ -4,6 +4,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ShoeProvider } from "./context/ShoeContext";
 import { SettingsProvider } from "./context/SettingsContext";
 import { TranslationProvider } from "./i18n/TranslationProvider";
+import { SizeProvider } from "./context/SizeContext"; 
 import "./App.css";
 
 import Layout from "./Pages/PublicPages/Layout";
@@ -55,7 +56,7 @@ function App() {
       element: <RegistrationPage />,
     },
     {
-      path: "/", 
+      path: "/",
       element: <Layout />,
       children: [
         { index: true, element: <HomePage /> },
@@ -84,11 +85,13 @@ function App() {
   return (
     <AuthProvider>
       <ShoeProvider>
-        <SettingsProvider>
-          <TranslationProvider>
-            <RouterProvider router={router} />
-          </TranslationProvider>
-        </SettingsProvider>
+        <SizeProvider>
+          <SettingsProvider>
+            <TranslationProvider>
+              <RouterProvider router={router} />
+            </TranslationProvider>
+          </SettingsProvider>
+        </SizeProvider>
       </ShoeProvider>
     </AuthProvider>
   );
