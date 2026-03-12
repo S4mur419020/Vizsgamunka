@@ -2,17 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { myAxios } from '../../services/api';
 import useAuthContext from '../../context/AuthContext';
+import { useSizeContext } from '../../context/SizeContext';
 import { FaHeart, FaRegHeart, FaUndoAlt, FaPercent } from 'react-icons/fa';
-import "../../css/PublicCss/ProductDetails.css"; // <-- Importáld a CSS-t
+import "../../css/PublicCss/ProductDetails.css";
 
 export default function ProductDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { user } = useAuthContext();
+    const { sizes, loading: sizesLoading } = useSizeContext();
+
     const [termek, setTermek] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedSize, setSelectedSize] = useState("");
     const [isFavorite, setIsFavorite] = useState(false);
+    const [sizeSystem, setSizeSystem] = useState("EU");
 
     useEffect(() => {
         myAxios.get(`/api/termekek/${id}`)
@@ -31,13 +35,11 @@ export default function ProductDetailPage() {
             alert("Kérlek, válassz méretet!");
             return;
         }
-
         if (!user) {
             alert("Jelentkezz be a vásárláshoz!");
             navigate('/login');
             return;
         }
-
         try {
             const payload = {
                 felhasznalo_id: user.felhasznalo_id || user.id,
@@ -46,7 +48,6 @@ export default function ProductDetailPage() {
                 mennyiseg: 1,
                 hozzaadas_datum: new Date().toISOString().slice(0, 19).replace('T', ' ')
             };
-
             await myAxios.post('/api/kosar', payload);
             alert('Sikeresen kosárhoz adva!');
         } catch (error) {
@@ -55,17 +56,12 @@ export default function ProductDetailPage() {
         }
     };
 
-    if (loading) return <div className="status-message">Betöltés...</div>;
+    if (loading || sizesLoading) return <div className="status-message">Betöltés...</div>;
     if (!termek) return <div className="status-message">Termék nem található.</div>;
-
-    const meretek = [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
 
     return (
         <div className="product-detail-container">
-            <button onClick={() => navigate(-1)} className="back-button">
-                &larr; VISSZA
-            </button>
-
+            <button onClick={() => navigate(-1)} className="back-button">&larr; VISSZA</button>
             <div className="product-layout">
                 <div className="product-image-section">
                     <img
@@ -77,9 +73,7 @@ export default function ProductDetailPage() {
 
                 <div className="product-info-section">
                     <div>
-                        <span className="product-category-tag">
-                            {termek.kategoria?.tipus || "ÚJDONSÁG"}
-                        </span>
+                        <span className="product-category-tag">{termek.kategoria?.tipus || "ÚJDONSÁG"}</span>
                         <h1 className="product-main-title">{termek.nev}</h1>
                         <p className="product-meta-text">
                             Márka: <span>{termek.marka?.nev}</span> | Anyag: <span>{termek.anyag}</span>
@@ -102,9 +96,9 @@ export default function ProductDetailPage() {
 
                     <div className="size-selector-container">
                         <div className="size-unit-tabs">
-                            <span className="size-unit-active">EUR</span>
-                            <span className="size-unit-inactive">US</span>
-                            <span className="size-unit-inactive">UK</span>
+                            <span className={sizeSystem === "EU" ? "size-unit-active" : "size-unit-inactive"} onClick={() => setSizeSystem("EU")}>EU</span>
+                            <span className={sizeSystem === "US" ? "size-unit-active" : "size-unit-inactive"} onClick={() => setSizeSystem("US")}>US</span>
+                            <span className={sizeSystem === "UK" ? "size-unit-active" : "size-unit-inactive"} onClick={() => setSizeSystem("UK")}>UK</span>
                         </div>
                         <select
                             className="product-size-dropdown"
@@ -112,49 +106,34 @@ export default function ProductDetailPage() {
                             onChange={(e) => setSelectedSize(e.target.value)}
                         >
                             <option value="">Válassz méretet</option>
-                            {meretek.map(m => {
-                                const vanKeszleten = termek.valtozatok && termek.valtozatok.some(v => v.nev.includes(String(m)));
+                            {sizes.map(s => {
+                                const vanKeszleten = termek.valtozatok?.some(v => v.nev.includes(String(s.EU)));
                                 return (
-                                    <option key={m} value={m}>
-                                        EU {m} {vanKeszleten ? "" : "(Rendelésre)"}
+                                    <option key={s.id} value={s.id}>
+                                        {sizeSystem} {s[sizeSystem]} {vanKeszleten ? "" : "(Rendelésre)"}
                                     </option>
                                 );
                             })}
                         </select>
                     </div>
-
                     <div className="action-buttons-row">
-                        <button
-                            onClick={addToCart}
-                            disabled={!selectedSize}
-                            className={`add-to-cart-btn ${selectedSize ? 'enabled' : 'disabled'}`}
-                        >
+                        <button onClick={addToCart} disabled={!selectedSize} className={`add-to-cart-btn ${selectedSize ? 'enabled' : 'disabled'}`}>
                             {selectedSize ? 'Kosárhoz ad' : 'Válassz méretet!'}
                         </button>
-
-                        <button
-                            onClick={() => setIsFavorite(!isFavorite)}
-                            className="favorite-btn"
-                        >
+                        <button onClick={() => setIsFavorite(!isFavorite)} className="favorite-btn">
                             {isFavorite ? <FaHeart style={{ color: 'red' }} /> : <FaRegHeart />}
                         </button>
                     </div>
-
                     <div className="description-section">
                         <h3 className="description-title">LEÍRÁS</h3>
                         <p className="description-content">{termek.leiras}</p>
                     </div>
-
                     <div className="perks-section">
-                        <div className="perk-item">
-                            <FaPercent /> <span>A megrendelés 5%-át visszakapod</span>
-                        </div>
-                        <div className="perk-item">
-                            <FaUndoAlt /> <span>Termékvisszaküldés 30 napon belül</span>
-                        </div>
+                        <div className="perk-item"><FaPercent /> <span>A megrendelés 5%-át visszakapod</span></div>
+                        <div className="perk-item"><FaUndoAlt /> <span>Termékvisszaküldés 30 napon belül</span></div>
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+};
