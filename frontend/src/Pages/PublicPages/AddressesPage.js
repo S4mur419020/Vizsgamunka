@@ -41,8 +41,6 @@ export default function AddressesPage() {
     try {
       const payload = {
         felhasznalo_id: user?.id || user?.felhasznalo_id,
-        /*firstName: user?.keresztnev || "Vezetéknév",
-        lastName: user?.vezeteknev || "Keresztnév",*/
         orszag: formData.country,
         iranyitoszam: formData.zip,
         varos: formData.city,
