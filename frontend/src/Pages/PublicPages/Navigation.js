@@ -9,15 +9,15 @@ export default function Navigation({ toggleSettings }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userMenuRef = useRef(null);
 
-  
+
   const { user, logout } = useAuthContext();
 
- 
+
   const userName = user ? (user.nev || user.name || user.email || "Vendég") : null;
 
   const { t } = useTranslation();
 
-  
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -51,13 +51,21 @@ export default function Navigation({ toggleSettings }) {
             className="icon-button"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
-            <FaUser size={20} />
-            
+            {user?.profile_image ? (
+              <img
+                src={user.profile_image}
+                alt="Profil"
+                className="nav-profile-img"
+              />
+            ) : (
+              <FaUser size={20} />
+            )}
+
             {user && <span className="user-name">{userName}</span>}
           </button>
 
           <div className={`dropdown ${isDropdownOpen ? "open" : ""}`}>
-           
+
             {!user ? (
               <>
                 <Link to="/login" className="login-button" onClick={() => setIsDropdownOpen(false)}>
@@ -72,7 +80,7 @@ export default function Navigation({ toggleSettings }) {
                 </div>
               </>
             ) : (
-              
+
               <>
                 <div className="dropdown-header">{userName || t("nav.account")}</div>
 

@@ -6,7 +6,7 @@ import { myAxios } from '../../services/api';
 
 export default function ProfilePage() {
   const { t } = useTranslation();
-  const { user } = useAuthContext(); 
+  const { user, setUser } = useAuthContext();
 
   const [salutation, setSalutation] = useState("ur");
   const [firstName, setFirstName] = useState("");
@@ -18,7 +18,7 @@ export default function ProfilePage() {
   const [birthYear, setBirthYear] = useState(2000);
   const [image, setImage] = useState(null);
 
-  
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -67,14 +67,29 @@ export default function ProfilePage() {
     };
 
     try {
-      const userId = user?.id; 
+      // Megnézzük az ID-t
+      const userId = user?.felhasznalo_id || user?.id;
+
       if (userId) {
+        // Elküldjük a kérést
         await myAxios.put(`/api/profile/${userId}`, data);
+
+        // --- IDE ILLESZD BE AZ ALÁBBI KÓDOT ---
+        // Ez frissíti a fejlécet, hogy azonnal látszódjon a kép
+        if (setUser) {
+          setUser((prev) => ({
+            ...prev,
+            ...data, // Frissíti a user objektumot a mentett adatokkal (pl. profile_image, first_name, last_name)
+          }));
+        }
+        // ------------------------------------
+
         alert(t('profile.save_success'));
       } else {
         alert("Nincs bejelentkezett felhasználó ID!");
       }
     } catch (err) {
+      console.error(err);
       alert(t('profile.save_error') || "Hiba történt a mentéskor.");
     }
   };
@@ -140,7 +155,13 @@ export default function ProfilePage() {
 
         <div className="profile-right">
           <div className="photo-box">
-            {image ? <img src={image} alt="Profil" /> : (
+            {image ? (
+              <img
+                src={image}
+                alt="Profil"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+              />
+            ) : (
               <div className="photo-placeholder">
                 <div className="avatar-circle">👤</div>
                 <p>{t('profile.upload_img')}</p>
@@ -149,7 +170,7 @@ export default function ProfilePage() {
           </div>
           <label className="upload-btn">
             {t('profile.upload_btn')}
-            <input type="file" accept="image/*" onChange={handleImage} />
+            <input type="file" accept="image/*" onChange={handleImage} style={{ display: 'none' }} />
           </label>
         </div>
       </div>

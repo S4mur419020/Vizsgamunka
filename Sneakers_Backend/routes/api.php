@@ -111,15 +111,6 @@ Route::prefix('felhasznalok')->group(function () {
     Route::delete('{id}', [FelhasznaloController::class, 'destroy']);
 });
 
-Route::prefix('profile')->group(function () {
-    Route::get('/', [ProfileController::class, 'index']);
-    Route::get('{id}', [ProfileController::class, 'show']);
-    Route::post('/', [ProfileController::class, 'store']);
-    Route::put('{id}', [ProfileController::class, 'update']);
-    Route::delete('{id}', [ProfileController::class, 'destroy']);
-    Route::put('jelszo/{id}', [ProfileController::class, 'updatePassword']);
-});
-
 Route::prefix('regisztracio')->group(function () {
     Route::post('/', [RegisztracioController::class, 'store']);
     Route::post('aktivacio', [RegisztracioController::class, 'aktivacio']);
@@ -146,6 +137,18 @@ Route::prefix('blog')->group(function () {
     Route::post('/', [BlogController::class, 'store']);
     Route::put('{id}', [BlogController::class, 'update']);
     Route::delete('{id}', [BlogController::class, 'destroy']);
+});
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'index']); 
+        Route::get('{id}', [ProfileController::class, 'show']);
+        Route::post('/', [ProfileController::class, 'store']);
+        Route::put('{id}', [ProfileController::class, 'update']);
+        Route::delete('{id}', [ProfileController::class, 'destroy']);
+        Route::put('jelszo/{id}', [ProfileController::class, 'updatePassword']);
+    });
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {

@@ -28,7 +28,16 @@ class Felhasznalo extends Authenticatable
         'regisztracio_datuma', 
         'nyelv_id',
         'szekhely_id',
+        'role_id',
         'aktiv',
+        'salutation',
+        'first_name',
+        'last_name',
+        'alias',
+        'birth_day',
+        'birth_month',
+        'birth_year',
+        'profile_image',
     ];
 
     protected $hidden = [
@@ -39,6 +48,9 @@ class Felhasznalo extends Authenticatable
     protected $casts = [
         'aktiv' => 'boolean',
         'regisztracio_datuma' => 'datetime',
+        'birth_day' => 'integer',
+        'birth_month' => 'integer',
+        'birth_year' => 'integer',
     ];
 
     
