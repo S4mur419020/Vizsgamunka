@@ -19,13 +19,10 @@ class FelhasznaloController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required', // A React-ből 'password' néven jön
+            'password' => 'required',
         ]);
 
         try {
-            // Fontos: Az Auth::attempt tömbjében a kulcsnak 'password'-nek KELL lennie,
-            // mert a Laravel ezen a kulcson keresztül passzolja át az értéket 
-            // a modell getAuthPassword() metódusának az ellenőrzéshez.
             $credentials = [
                 'email' => $request->email,
                 'password' => $request->password
@@ -74,8 +71,6 @@ class FelhasznaloController extends Controller
             'jelszo' => 'required|string|min:6',
             'role_id' => 'nullable|exists:roles,id',
         ]);
-
-        // Itt jelszó néven mentünk az adatbázisba
         $validated['jelszo'] = Hash::make($validated['jelszo']);
 
         $felhasznalo = Felhasznalo::create($validated);

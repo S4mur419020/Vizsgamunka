@@ -67,23 +67,16 @@ export default function ProfilePage() {
     };
 
     try {
-      // Megnézzük az ID-t
       const userId = user?.felhasznalo_id || user?.id;
 
       if (userId) {
-        // Elküldjük a kérést
         await myAxios.put(`/api/profile/${userId}`, data);
-
-        // --- IDE ILLESZD BE AZ ALÁBBI KÓDOT ---
-        // Ez frissíti a fejlécet, hogy azonnal látszódjon a kép
         if (setUser) {
           setUser((prev) => ({
             ...prev,
-            ...data, // Frissíti a user objektumot a mentett adatokkal (pl. profile_image, first_name, last_name)
+            ...data,
           }));
         }
-        // ------------------------------------
-
         alert(t('profile.save_success'));
       } else {
         alert("Nincs bejelentkezett felhasználó ID!");
