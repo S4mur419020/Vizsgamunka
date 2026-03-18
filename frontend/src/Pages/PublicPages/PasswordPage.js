@@ -2,22 +2,43 @@ import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import "../../css/PublicCss/Password.css";
 import useTranslation from '../../i18n/useTranslation';
+import { myAxios } from "../../services/api";
+import useAuthContext from "../../context/AuthContext"; 
+import { useNavigate } from "react-router-dom"; 
 
 export default function PasswordPage() {
   const { t } = useTranslation();
+  const { user, logout } = useAuthContext();
+  const navigate = useNavigate();
+
   const [oldPass, setOldPass] = useState("");
   const [pw, setPw] = useState("");
   const [confirm, setConfirm] = useState("");
+  
   const [showOld, setShowOld] = useState(false);
   const [showPw, setShowPw] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const save = () => {
+  const save = async () => {
     if (pw.length < 6) return alert(t('auth.invalid_password_length') || "Minimum 6 karakter!");
     if (pw !== confirm) return alert(t('password.no_match') || "A jelszavak nem egyeznek.");
-    
-    setOldPass(""); setPw(""); setConfirm("");
-    alert(t('profile.save_success'));
+
+    try {
+      await myAxios.put(`/api/password-update`, {
+        current_password: oldPass,
+        password: pw,
+        password_confirmation: confirm
+      });
+
+      alert(t('profile.save_success') || "Sikeres jelszómódosítás! Kérjük jelentkezzen be újra.");
+      await logout();
+      navigate("/login");
+
+    } catch (error) {
+      console.error("Hiba:", error.response?.data);
+      const message = error.response?.data?.message || "Hiba történt a mentés során.";
+      alert(message);
+    }
   };
 
   return (

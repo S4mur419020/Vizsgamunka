@@ -23,6 +23,7 @@ use App\Http\Controllers\FelhasznaloController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisztracioController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\PasswordController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -149,6 +150,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('{id}', [ProfileController::class, 'destroy']);
         Route::put('jelszo/{id}', [ProfileController::class, 'updatePassword']);
     });
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::put('/password-update', [PasswordController::class, 'update']);
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
