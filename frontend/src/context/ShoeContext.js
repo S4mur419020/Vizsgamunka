@@ -11,24 +11,38 @@ export const ShoeProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const initData = async () => {
+        const fetchTermekek = async () => {
             try {
-                const [resUser, resTermekek, resKosar] = await Promise.all([
-                    myAxios.get('/api/user').catch(() => ({ data: null })),
-                    myAxios.get('/api/termekek'),
-                    myAxios.get('/api/kosar')
-                ]);
-                setUser(resUser.data);
-                setTermekek(resTermekek.data);
-                setCartItems(resKosar.data);
+                const res = await myAxios.get('/api/termekek');
+                setTermekek(res.data);
             } catch (error) {
-                console.error("Adatbetöltési hiba:", error);
+                console.error("Termék betöltési hiba:", error);
             } finally {
                 setLoading(false);
             }
         };
-        initData();
+
+        fetchTermekek();
     }, []);
+
+    useEffect(() => {
+        const fetchPrivateData = async () => {
+            if (user) { 
+                try {
+                    const resKosar = await myAxios.get('/api/kosar');
+                    setCartItems(resKosar.data);
+                } catch (error) {
+                    if (error.response?.status !== 401) {
+                        console.error("Kosár betöltési hiba:", error);
+                    }
+                }
+            } else {
+                setCartItems([]);
+            }
+        };
+
+        fetchPrivateData();
+    }, [user]);
 
     const szurtTermekek = termekek.filter(t => {
         const nemPasszol = filter.nem === "" || t.nem === filter.nem;
