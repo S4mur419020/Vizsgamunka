@@ -200,3 +200,5 @@ Route::prefix('learazasok')->group(function () {
 
 Route::post('/login', [FelhasznaloController::class, 'login']);
 Route::post('/logout', [FelhasznaloController::class, 'logout']);
+
+Route::middleware('auth:sanctum')->get('/user', [FelhasznaloController::class, 'currentUser']);

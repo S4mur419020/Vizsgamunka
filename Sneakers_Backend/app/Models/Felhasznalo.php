@@ -79,4 +79,8 @@ class Felhasznalo extends Authenticatable
         }
         return parent::getAttribute($key);
     }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }

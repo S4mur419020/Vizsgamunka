@@ -93,4 +93,35 @@ class FelhasznaloController extends Controller
 
         return response()->json($user);
     }
+    public function currentUser(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Nincs bejelentkezve'], 401);
+        }
+
+        $user->load('role');
+
+        $roleName = null;
+        switch ($user->role_id) {
+            case 1:
+                $roleName = 'admin';
+                break;
+            case 2:
+                $roleName = 'felhasznalo';
+                break;
+            default:
+                $roleName = 'ismeretlen';
+                break;
+        }
+
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->nev,
+            'email' => $user->email,
+            'role_id' => $user->role_id,
+            'role' => $roleName,
+        ]);
+    }
 }

@@ -4,7 +4,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ShoeProvider } from "./context/ShoeContext";
 import { SettingsProvider } from "./context/SettingsContext";
 import { TranslationProvider } from "./i18n/TranslationProvider";
-import { SizeProvider } from "./context/SizeContext"; 
+import { SizeProvider } from "./context/SizeContext";
 import "./App.css";
 
 import Layout from "./Pages/PublicPages/Layout";
@@ -29,6 +29,7 @@ import AdminSidebar from "./Components/admin/AdminSidebar";
 import AdminContents from "./Components/admin/AdminContents";
 import Statistics from "./Pages/AdminPages/Statistic";
 import AdminLogout from "./Pages/AdminPages/AdminLogout";
+import ProtectedAdminPage from "./Pages/AdminPages/ProtectedAdminPage";
 
 const AdminShoes = lazy(() => import("./Pages/AdminPages/Admin"));
 const Users = lazy(() => import("./Pages/AdminPages/Users"));
@@ -38,7 +39,11 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/admin",
-      element: <AdminContents sidebar={<AdminSidebar />} />,
+      element: (
+        <ProtectedAdminPage>
+          <AdminContents sidebar={<AdminSidebar />} />
+        </ProtectedAdminPage>
+      ),
       children: [
         { index: true, element: <Navigate to="products" /> },
         { path: "products", element: <AdminShoes /> },
