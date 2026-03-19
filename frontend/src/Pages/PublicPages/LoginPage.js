@@ -8,16 +8,12 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { loginReg, errors } = useAuthContext();
-    const { t } = useTranslation()
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const success = await loginReg({ email, password }, "/api/login");
-
-        if (success) {
-            navigate("/");
-        }
+        await loginReg({ email, password }, "/api/login", navigate);
     };
 
     return (
@@ -34,7 +30,6 @@ const LoginPage = () => {
                             className="form-input"
                             required
                         />
-
                         {errors?.email && <span className="text-danger">{errors.email[0]}</span>}
                     </div>
 
@@ -52,7 +47,6 @@ const LoginPage = () => {
 
                     <button type="submit" className="login-button">{t('auth.login_btn')}</button>
                 </form>
-
             </div>
         </div>
     );

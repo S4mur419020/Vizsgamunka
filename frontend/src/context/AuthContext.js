@@ -8,33 +8,36 @@ export const AuthProvider = ({ children }) => {
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(true);
 
-
     const csrf = () => myAxios.get("/sanctum/csrf-cookie");
 
     const getUser = async () => {
         try {
             const { data } = await myAxios.get('/api/user');
             setUser(data);
-        } catch (error) {
+        } catch {
             setUser(null);
         } finally {
             setLoading(false);
         }
     };
 
-    const loginReg = async (adat, vegpont) => {
-        console.log("Küldés indítása ide:", vegpont); 
-        console.log("Adatok:", adat);
+    const loginReg = async (adat, vegpont, navigate) => {
         setErrors({});
         try {
             await csrf();
-            console.log("CSRF OK, jöhet a POST");
-            const response = await myAxios.post(vegpont, adat);
-            console.log("Válasz a szervertől:", response);
-            await getUser();
+            const { data } = await myAxios.post(vegpont, adat);
+            // Közvetlen a backendből kapott user-t használjuk a redirecthez
+            const loggedInUser = data.user;
+            setUser(loggedInUser);
+
+            if (loggedInUser.role_id === 1) {
+                navigate("/admin", { replace: true });
+            } else {
+                navigate("/", { replace: true });
+            }
+
             return true;
         } catch (error) {
-            console.error("Hiba történt a híváskor:", error.response || error);
             if (error.response && error.response.status === 422) {
                 setErrors(error.response.data.errors);
             }
@@ -47,12 +50,12 @@ export const AuthProvider = ({ children }) => {
         setErrors({});
         try {
             await myAxios.post('/api/logout');
-        } catch (error) {
-            console.warn("Szerveroldali kijelentkezés már megtörtént vagy hiba lépett fel.");
-        } finally {
+        } catch {}
+        finally {
             window.location.href = '/login';
         }
     };
+
     useEffect(() => {
         getUser();
     }, []);
