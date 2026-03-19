@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { ShoeProvider } from "./context/ShoeContext";
@@ -16,7 +16,6 @@ import CheckoutPage from "./Pages/PublicPages/CheckoutPage";
 import LoginPage from "./Pages/PublicPages/LoginPage";
 import RegistrationPage from "./Pages/PublicPages/RegistrationPage";
 import StoresPage from "./Pages/PublicPages/StoresPage";
-import OrdersPage from "./Pages/PublicPages/OrderPage";
 import AccountPage from "./Pages/PublicPages/AccountPage";
 import DiscountsPage from "./Pages/PublicPages/DiscountPage";
 import BenefitsPage from "./Pages/PublicPages/BenefitsPage";
@@ -25,11 +24,14 @@ import ProfilePage from "./Pages/PublicPages/ProfilePage";
 import AddressesPage from "./Pages/PublicPages/AddressesPage";
 import SettingsPage from "./Pages/PublicPages/SettingsPage";
 
-import AdminShoes from "./Pages/AdminPages/Admin";
+
 import AdminSidebar from "./Components/admin/AdminSidebar";
 import AdminContents from "./Components/admin/AdminContents";
-import Users from "./Pages/AdminPages/Users";
 import Statistics from "./Pages/AdminPages/Statistic";
+
+const AdminShoes = lazy(() => import("./Pages/AdminPages/Admin"));
+const Users = lazy(() => import("./Pages/AdminPages/Users"));
+const OrdersPage = lazy(() => import("./Pages/PublicPages/OrderPage"));
 
 function App() {
   const router = createBrowserRouter([
@@ -88,7 +90,9 @@ function App() {
         <SizeProvider>
           <SettingsProvider>
             <TranslationProvider>
-              <RouterProvider router={router} />
+              <Suspense fallback={<div className="loading-screen">Sneaker Webshop betöltése...</div>}>
+                <RouterProvider router={router} />
+              </Suspense>
             </TranslationProvider>
           </SettingsProvider>
         </SizeProvider>
