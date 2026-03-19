@@ -28,6 +28,7 @@ import SettingsPage from "./Pages/PublicPages/SettingsPage";
 import AdminSidebar from "./Components/admin/AdminSidebar";
 import AdminContents from "./Components/admin/AdminContents";
 import Statistics from "./Pages/AdminPages/Statistic";
+import AdminLogout from "./Pages/AdminPages/AdminLogout";
 
 const AdminShoes = lazy(() => import("./Pages/AdminPages/Admin"));
 const Users = lazy(() => import("./Pages/AdminPages/Users"));
@@ -47,6 +48,7 @@ function App() {
         { path: "settings", element: <SettingsPage /> },
         { path: "users", element: <Users /> },
         { path: "statistics", element: <Statistics /> },
+        { path: "logout", element: <AdminLogout /> },
       ],
     },
     {
