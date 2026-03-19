@@ -31,7 +31,9 @@ export default function ProductDetailPage() {
     }, [id]);
 
     const addToCart = async () => {
-        if (!selectedSize) {
+        console.log("Kiválasztott state értéke:", selectedSize); // Ennek nem szabad üresnek lennie!
+
+        if (!selectedSize || selectedSize === "") {
             alert("Kérlek, válassz méretet!");
             return;
         }
@@ -42,12 +44,13 @@ export default function ProductDetailPage() {
         }
         try {
             const payload = {
-                felhasznalo_id: user.felhasznalo_id || user.id,
-                termek_id: termek.cikkszam || termek.id,
-                meret_id: Number(selectedSize),
+                felhasznalo_id: Number(user.felhasznalo_id || user.id),
+                termek_id: Number(termek.cikkszam || termek.id),
+                meret_id: parseInt(selectedSize), // Ez most már fixen szám lesz a fenti tisztítás miatt
                 mennyiseg: 1,
                 hozzaadas_datum: new Date().toISOString().slice(0, 19).replace('T', ' ')
             };
+            console.log("Küldött adatok:", payload);
             await myAxios.post('/api/kosar', payload);
             alert('Sikeresen kosárhoz adva!');
         } catch (error) {
@@ -103,17 +106,17 @@ export default function ProductDetailPage() {
                         <select
                             className="product-size-dropdown"
                             value={selectedSize}
-                            onChange={(e) => setSelectedSize(e.target.value)}
+                            onChange={(e) => {
+                                console.log("Kiválasztott ID:", e.target.value);
+                                setSelectedSize(e.target.value);
+                            }}
                         >
                             <option value="">Válassz méretet</option>
-                            {sizes.map(s => {
-                                const vanKeszleten = termek.valtozatok?.some(v => v.nev.includes(String(s.EU)));
-                                return (
-                                    <option key={s.id} value={s.id}>
-                                        {sizeSystem} {s[sizeSystem]} {vanKeszleten ? "" : "(Rendelésre)"}
-                                    </option>
-                                );
-                            })}
+                            {sizes.map((s) => (
+                                <option key={s.id} value={s.id}>
+                                    {sizeSystem} {s[sizeSystem]}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div className="action-buttons-row">

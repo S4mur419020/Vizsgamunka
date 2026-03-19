@@ -1,38 +1,34 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { myAxios } from '.././services/api';
-import useAuthContext from './AuthContext';
 
 export const ShoeContext = createContext();
 
 export const ShoeProvider = ({ children }) => {
-    const { user } = useAuthContext();
     const [termekek, setTermekek] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState({ nem: "", marka: "" });
     const [cartItems, setCartItems] = useState([]);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
-        myAxios.get('/api/termekek')
-            .then(res => {
-                setTermekek(res.data);
+        const initData = async () => {
+            try {
+                const [resUser, resTermekek, resKosar] = await Promise.all([
+                    myAxios.get('/api/user').catch(() => ({ data: null })),
+                    myAxios.get('/api/termekek'),
+                    myAxios.get('/api/kosar')
+                ]);
+                setUser(resUser.data);
+                setTermekek(resTermekek.data);
+                setCartItems(resKosar.data);
+            } catch (error) {
+                console.error("Adatbetöltési hiba:", error);
+            } finally {
                 setLoading(false);
-            })
-            .catch(err => console.error("Termék hiba:", err));
+            }
+        };
+        initData();
     }, []);
-
-    useEffect(() => {
-        if (user) {
-            myAxios.get('/api/kosar')
-                .then(res => setCartItems(res.data))
-                .catch(err => {
-                    if (err.response?.status === 401) {
-                        setCartItems([]);
-                    }
-                });
-        } else {
-            setCartItems([]);
-        }
-    }, [user]);
 
     const szurtTermekek = termekek.filter(t => {
         const nemPasszol = filter.nem === "" || t.nem === filter.nem;
@@ -63,6 +59,7 @@ export const ShoeProvider = ({ children }) => {
     return (
         <ShoeContext.Provider value={{
             user,
+            setUser,
             termekek,
             szurtTermekek,
             loading,

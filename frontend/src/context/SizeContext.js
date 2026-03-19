@@ -11,12 +11,13 @@ export function SizeProvider({ children }) {
     myAxios.get("/api/meretek")
       .then(res => {
         const convertedSizes = res.data.map(m => {
+          const actualId = m.id || m.meret_id || m.meretvalasztek_id || Object.values(m)[0];
           const eu = m.meretvalasztek;
           return {
-            id: m.id,
+            id: actualId,
             EU: eu,
             US: eu - 33,
-            UK: eu - 34 
+            UK: eu - 34
           };
         });
         setSizes(convertedSizes);

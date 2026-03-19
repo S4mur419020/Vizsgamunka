@@ -9,28 +9,22 @@ use Illuminate\Http\Request;
 
 class KosarController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $userId = $request->user() ? $request->user()->felhasznalo_id : $request->query('felhasznalo_id');
-        
-        if (!$userId) return response()->json([]);
 
-        return response()->json(
-            Kosar::where('felhasznalo_id', $userId)->with(['termek'])->get()
-        );
+        return response()->json(Kosar::with(['termek', 'felhasznalo'])->get());
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'felhasznalo_id' => 'required',
+            'felhasznalo_id' => 'required', 
             'termek_id'      => 'required',
-            'meret_id'       => 'required',
+            'meret_id'       => 'required|integer', 
             'mennyiseg'      => 'required|integer|min:1',
         ]);
 
         $validated['hozzaadas_datum'] = now();
-
 
         return response()->json(Kosar::create($validated), 201);
     }
