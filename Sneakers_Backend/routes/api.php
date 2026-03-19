@@ -72,12 +72,14 @@ Route::prefix('termek_valtozatok')->group(function () {
 });
 
 
-Route::prefix('kosar')->group(function () {
-    Route::get('/', [KosarController::class, 'index']);
-    Route::get('{id}', [KosarController::class, 'show']);
-    Route::post('/', [KosarController::class, 'store']);
-    Route::put('{id}', [KosarController::class, 'update']);
-    Route::delete('{id}', [KosarController::class, 'destroy']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('kosar')->group(function () {
+        Route::get('/', [KosarController::class, 'index']);
+        Route::post('/', [KosarController::class, 'store']);
+        Route::put('{id}', [KosarController::class, 'update']);
+        Route::delete('{id}', [KosarController::class, 'destroy']);
+    });
+    Route::get('/user', [FelhasznaloController::class, 'showProfile']);
 });
 
 Route::prefix('rendelesek')->group(function () {
@@ -144,7 +146,7 @@ Route::prefix('blog')->group(function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('profile')->group(function () {
-        Route::get('/', [ProfileController::class, 'index']); 
+        Route::get('/', [ProfileController::class, 'index']);
         Route::get('{id}', [ProfileController::class, 'show']);
         Route::post('/', [ProfileController::class, 'store']);
         Route::put('{id}', [ProfileController::class, 'update']);

@@ -9,7 +9,9 @@ function AdminSidebar() {
             <NavLink to="/admin/discounts" className={getNavClass}>Kedvezmények</NavLink>
             <NavLink to="/admin/users" className={getNavClass}>Felhasználók</NavLink>
             <NavLink to="/admin/statistics" className={getNavClass}>Statisztikák</NavLink>
+            <NavLink to="/admin/logout" className={getNavClass}>Kijelentkezés</NavLink>
         </aside>
+        
     );
 }
 export default AdminSidebar;

@@ -60,7 +60,6 @@ function AdminShoeCards({ termekek, onSzerkeszt, onTorol }) {
             {Number(termek.ar).toLocaleString()} Ft
           </p>
 
-          {/* Admin gombok */}
           <div
             style={{
               marginTop: "10px",
