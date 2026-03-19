@@ -20,6 +20,27 @@ class SzekhelySeeder extends Seeder
                 'iranyitoszam' => '1011',
                 'created_at' => now(),
                 'updated_at' => now(),
+            ],
+
+            [
+                'id' => 2,            
+                'nev' => 'Debreceni depot',
+                'cim' => 'Fő utca 1',
+                'orszag' => 'Magyarország',
+                'varos' => 'Debrecen',
+                'iranyitoszam' => '4024',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 3,            
+                'nev' => 'Békéscsabai depot',
+                'cim' => 'Fő utca 1',
+                'orszag' => 'Magyarország',
+                'varos' => 'Békéscsaba',
+                'iranyitoszam' => '5600',
+                'created_at' => now(),
+                'updated_at' => now(),
             ]
         ]);
     }
