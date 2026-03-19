@@ -16,7 +16,11 @@ class Szekhely extends Model
         'cim',
         'orszag',
         'varos',
-        'iranyitoszam'
+        'iranyitoszam',
+        'email', 
+        'telefon', 
+        'kep_url', 
+        'nyitvatartas'
     ];
 
     public function telephelyek()

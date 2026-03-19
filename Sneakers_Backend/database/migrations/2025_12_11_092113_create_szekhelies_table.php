@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('orszag', 50);
             $table->string('varos', 50);
             $table->string('iranyitoszam', 20);
+            $table->string('email')->nullable();
+            $table->string('telefon')->nullable();
+            $table->string('kep_url')->nullable();
+            $table->text('nyitvatartas')->nullable();
             $table->timestamps();
         });
     }

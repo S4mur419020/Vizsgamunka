@@ -13,7 +13,7 @@ class SzekhelyController extends Controller
     {
         return response()->json(Szekhely::all());
     }
-
+    
     public function store(Request $request)
     {
         $validated = $request->validate([
