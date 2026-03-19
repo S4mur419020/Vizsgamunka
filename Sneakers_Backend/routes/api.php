@@ -26,6 +26,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\PasswordController;
 
 
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -170,6 +171,15 @@ Route::prefix('telephelyek')->group(function () {
     Route::post('/', [TelephelyController::class, 'store']);
     Route::put('{id}', [TelephelyController::class, 'update']);
     Route::delete('{id}', [TelephelyController::class, 'destroy']);
+});
+
+
+Route::prefix('szekhely')->group(function () {
+    Route::get('/', [SzekhelyController::class, 'index']);
+    Route::get('{id}', [SzekhelyController::class, 'show']);
+    Route::post('/', [SzekhelyController::class, 'store']);
+    Route::put('{id}', [SzekhelyController::class, 'update']);
+    Route::delete('{id}', [SzekhelyController::class, 'destroy']);
 });
 
 Route::prefix('meretek')->group(function () {

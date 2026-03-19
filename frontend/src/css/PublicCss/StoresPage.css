@@ -1,0 +1,182 @@
+.stores-wrapper {
+    background-color: #000;
+    min-height: 100vh;
+    padding: 50px 20px;
+}
+
+.stores-title {
+    color: white;
+    font-size: 3rem;
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+    font-style: italic;
+    margin-bottom: 50px;
+    letter-spacing: -2px;
+}
+
+.stores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.store-card {
+    position: relative;
+    height: 600px;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #111; /* Tartalék háttér, ha nem tölt be a kép */
+}
+
+.store-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+    transition: transform 0.7s ease, opacity 0.7s ease;
+}
+
+.store-card:hover .store-image {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+.store-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.store-name {
+    font-size: 3.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-style: italic;
+    margin: 0;
+    transition: transform 0.5s ease;
+}
+
+.store-card:hover .store-name {
+    transform: translateY(-10px);
+}
+
+.store-button {
+    margin-top: 20px;
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 12px 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.store-card:hover .store-button {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Üzlet részletei nézet */
+.store-details-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+.back-button {
+    background: transparent;
+    color: #aaa;
+    border: 1px solid #444;
+    padding: 8px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 30px;
+}
+
+.back-button:hover {
+    color: white;
+    border-color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.details-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.details-address {
+    font-size: 1.2rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.contact-info {
+    margin: 30px 0;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-link {
+    color: #00e5ff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    display: block;
+    margin: 10px 0;
+    transition: 0.3s;
+}
+
+.contact-link:hover {
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+.maps-button {
+    display: inline-block;
+    margin-top: 30px;
+    background: linear-gradient(90deg, #00e5ff, #7c4dff);
+    color: white;
+    padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.4s;
+    border: none;
+}
+
+.maps-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(124, 77, 255, 0.4);
+}
+
+.how-to-get-there {
+    margin-top: 40px;
+}
+
+.how-to-get-there h3 {
+    color: #7c4dff;
+    margin-bottom: 10px;
+}
