@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import { ShoeContext } from '../../context/ShoeContext';
+import useTranslation from '../../i18n/useTranslation';
 
 export default function ShoeFilter() {
+    const { t } = useTranslation(); 
     const { filter, setFilter } = useContext(ShoeContext);
 
     const handleInputChange = (e) => {
@@ -23,20 +25,20 @@ export default function ShoeFilter() {
 
     return (
         <div style={{ background: "#1a1a1a", padding: "20px", borderRadius: "10px", color: "white" }}>
-            <h3 style={{ marginBottom: "20px", borderBottom: "1px solid #444", paddingBottom: "10px" }}>Szűrő</h3>
+            <h3 style={{ marginBottom: "20px", borderBottom: "1px solid #444", paddingBottom: "10px" }}>{t('filter.title')}</h3>
             
-            <label>Nem:</label>
+            <label>{t('filter.gender')}</label>
             <select name="nem" value={filter.nem} onChange={handleInputChange} style={selectStyle}>
-                <option value="">Mind</option>
-                <option value="ferfi">Férfi</option>
-                <option value="no">Nő</option>
-                <option value="unisex">Unisex</option>
-                <option value="gyerek">Gyerek</option>
+                <option value="">{t('filter.gender_all')}</option>
+                <option value="ferfi">{t('filter.gender_male')}</option>
+                <option value="no">{t('filter.gender_female')}</option>
+                <option value="unisex">{t('filter.gender_unisex')}</option>
+                <option value="gyerek">{t('filter.gender_kids')}</option>
             </select>
 
-            <label>Márka:</label>
+            <label>{t('filter.brand')}</label>
             <select name="marka" value={filter.marka} onChange={handleInputChange} style={selectStyle}>
-                <option value="">Összes márka</option>
+                <option value="">{t('filter.brand_all')}</option>
                 <option value="1">Nike</option>
                 <option value="2">Adidas</option>
                 <option value="3">Puma</option>
@@ -62,7 +64,7 @@ export default function ShoeFilter() {
                 onClick={() => setFilter({ nem: "",marka: "" })}
                 style={buttonStyle}
             >
-                Szűrők alaphelyzetbe
+                {t('filter.reset')}
             </button>
         </div>
     );

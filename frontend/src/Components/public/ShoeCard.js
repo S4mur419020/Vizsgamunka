@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import useTranslation from '../../i18n/useTranslation';
 
 export default function ShoeCard({ termek }) {
+    const { t } = useTranslation(); 
     return (
         <div style={{ 
             background: '#1a1a1a', 
@@ -34,7 +36,7 @@ export default function ShoeCard({ termek }) {
                     marginTop: '10px' 
                 }}
             >
-                Részletek
+                {t('products.details')}
             </Link>
         </div>
     );

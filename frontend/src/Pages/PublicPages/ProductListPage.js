@@ -3,13 +3,15 @@ import { FaBars } from "react-icons/fa";
 import { ShoeContext } from '../../context/ShoeContext';
 import ShoeFilter from '../../Components/public/Shoefilter';
 import ShoeCard from '../../Components/public/ShoeCard';
+import useTranslation from '../../i18n/useTranslation';
 
 export default function ProductListPage() {
+    const { t } = useTranslation(); 
     const { szurtTermekek, loading } = useContext(ShoeContext);
     const [sortOrder] = useState("");
     const [openFilter, setOpenFilter] = useState(false);
 
-    if (loading) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>Termékek betöltése...</div>;
+    if (loading) return <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>{t('products.loading')}</div>;
 
     const sortedProducts = [...szurtTermekek].sort((a, b) => {
         if (sortOrder === "asc") return Number(a.ar) - Number(b.ar);
@@ -28,11 +30,11 @@ export default function ProductListPage() {
                     display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" 
                 }}
             >
-                <FaBars /> {openFilter ? "Szűrők bezárása" : "Szűrők"}
+                <FaBars /> {openFilter ? t('products.filter_open') : t('products.filter_btn')}
             </button>
             {openFilter && <ShoeFilter />}
 
-            <h1 style={{ color: 'white', textAlign: 'center' }}>Cipőink</h1>
+            <h1 style={{ color: 'white', textAlign: 'center' }}>{t('products.title')}</h1>
             
             <div style={{ 
                 display: 'grid', 
