@@ -17,12 +17,13 @@ export default function ProfilePage() {
   const [birthMonth, setBirthMonth] = useState(1);
   const [birthYear, setBirthYear] = useState(2000);
   const [image, setImage] = useState(null);
-  
+
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const { data } = await myAxios.get("/api/profile");
+        if (data.profile_image) setImage(data.profile_image);
         setSalutation(data.salutation || "ur");
         setFirstName(data.first_name || "");
         setLastName(data.last_name || "");
@@ -31,7 +32,6 @@ export default function ProfilePage() {
         setBirthDay(data.birth_day || 1);
         setBirthMonth(data.birth_month || 1);
         setBirthYear(data.birth_year || 2000);
-        if (data.profile_image) setImage(data.profile_image);
       } catch (err) {
         console.error("Profil betöltési hiba:", err);
       }
@@ -58,6 +58,7 @@ export default function ProfilePage() {
       salutation,
       first_name: firstName,
       last_name: lastName,
+      nev: `${firstName} ${lastName}`,
       alias,
       email,
       birth_day: birthDay,
@@ -67,22 +68,17 @@ export default function ProfilePage() {
     };
 
     try {
-      // Megnézzük az ID-t
       const userId = user?.felhasznalo_id || user?.id;
 
       if (userId) {
-        // Elküldjük a kérést
         await myAxios.put(`/api/profile/${userId}`, data);
 
-        // --- IDE ILLESZD BE AZ ALÁBBI KÓDOT ---
-        // Ez frissíti a fejlécet, hogy azonnal látszódjon a kép
         if (setUser) {
           setUser((prev) => ({
             ...prev,
-            ...data, // Frissíti a user objektumot a mentett adatokkal (pl. profile_image, first_name, last_name)
+            ...data,
           }));
         }
-        // ------------------------------------
 
         alert(t('profile.save_success'));
       } else {
@@ -155,11 +151,15 @@ export default function ProfilePage() {
 
         <div className="profile-right">
           <div className="photo-box">
-            {image ? (
+            {image && typeof image === 'string' && image.startsWith('data:image') ? (
               <img
                 src={image}
                 alt="Profil"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                onError={(e) => {
+                  console.error("Kép betöltési hiba - hibás base64?");
+                  e.target.src = "https://via.placeholder.com/150"; 
+                }}
               />
             ) : (
               <div className="photo-placeholder">

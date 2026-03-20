@@ -10,8 +10,6 @@ class FelhasznaloSeeder extends Seeder
 {
     public function run(): void
     {
-        // Az insert helyett a create-et használjuk tömbben, 
-        // így a Model beállításai (pl. primaryKey) érvényesülnek.
         $adatok = [
             [
                 'nev' => 'Főadmin',
@@ -22,7 +20,7 @@ class FelhasznaloSeeder extends Seeder
                 'aktiv' => true,
                 'nyelv_id' => 1,
                 'szekhely_id' => 1,
-                'role_id' => 1, //admin(1), felhasznalo(2)
+                'role_id' => 1,
             ],
         ];
 

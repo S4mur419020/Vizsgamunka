@@ -44,6 +44,8 @@ class DatabaseSeeder extends Seeder
             RegisztracioSeeder::class,
             SzallitasiCimSeeder::class,
             RegioSeeder::class,
+            SzekhelySeeder::class,
+            TelephelySeeder::class,
         ]);
 
     }

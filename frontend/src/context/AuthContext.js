@@ -13,7 +13,8 @@ export const AuthProvider = ({ children }) => {
     const getUser = async () => {
         try {
             const { data } = await myAxios.get('/api/user');
-            setUser(data);
+            const profileRes = await myAxios.get('/api/profile');
+            setUser({ ...data, ...profileRes.data });
         } catch {
             setUser(null);
         } finally {
@@ -49,7 +50,7 @@ export const AuthProvider = ({ children }) => {
         setErrors({});
         try {
             await myAxios.post('/api/logout');
-        } catch {}
+        } catch { }
         finally {
             window.location.href = '/login';
         }
