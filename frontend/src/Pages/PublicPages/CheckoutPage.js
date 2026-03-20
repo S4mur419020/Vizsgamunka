@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { myAxios } from '../../services/api';
 import useAuthContext from '../../context/AuthContext';
-import "../../css/PublicCss/Checkout.css"; 
+import { ShoeContext } from '../../context/ShoeContext';
+import "../../css/PublicCss/Checkout.css";
 
 export default function CheckoutPage() {
     const navigate = useNavigate();
     const { user } = useAuthContext();
     const [cartItems, setCartItems] = useState([]);
+    const { isApplied,setIsApplied } = useContext(ShoeContext);
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({
         nev: '', email: '', telefon: '', iranyitoszam: '', varos: '', utca: ''
@@ -30,7 +32,9 @@ export default function CheckoutPage() {
         if (user) fetchCart();
     }, [user]);
 
-    const total = cartItems.reduce((sum, item) => sum + (Number(item.termek?.ar || 0) * (item.mennyiseg || 1)), 0);
+    const subtotal = cartItems.reduce((sum, item) => sum + (Number(item.termek?.ar || 0) * (item.mennyiseg || 1)), 0);
+    const discount = isApplied ? Math.round(subtotal * 0.1) : 0;
+    const total = subtotal - discount;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -49,6 +53,7 @@ export default function CheckoutPage() {
             await myAxios.post('/api/rendelesek', rendelesAdat);
 
             alert('Rendelés sikeresen leadva!');
+            setIsApplied(false);
             navigate('/account/orders');
         } catch (error) {
             console.error("Hiba a beküldéskor:", error.response?.data);

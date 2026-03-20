@@ -1,39 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import '../../css/PublicCss/Cart.css';
-import { myAxios } from '../../services/api';
 import useAuthContext from '../../context/AuthContext';
+import { ShoeContext } from '../../context/ShoeContext'; 
 
 export default function CartPage() {
   const navigate = useNavigate();
   const { user } = useAuthContext();
-  const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [couponCode, setCouponCode] = useState("");
-  const [isApplied, setIsApplied] = useState(false);
+  
+  
+  const { 
+    cartItems, 
+    updateCart, 
+    isApplied, 
+    setIsApplied, 
+    loading 
+  } = useContext(ShoeContext);
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const response = await myAxios.get('/api/kosar');
-        const loggedInUserId = user?.felhasznalo_id || user?.id;
-        const myCart = response.data.filter(item => item.felhasznalo_id === loggedInUserId);
-        setCartItems(myCart);
-      } catch (error) {
-        console.error("Hiba a kosár lekérésekor:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (user) fetchCart();
-    else setLoading(false);
-  }, [user]);
-
+  
+  
   const handleRemove = async (kosarId) => {
     try {
+    
+      
+      const { myAxios } = await import('../../services/api'); 
       await myAxios.delete(`/api/kosar/${kosarId}`);
-      setCartItems(prevItems => prevItems.filter(item => item.kosar_id !== kosarId));
+      
+      window.location.reload(); 
     } catch (error) {
       alert("Hiba történt a törlés során!");
     }
@@ -70,13 +64,30 @@ export default function CartPage() {
               />
               <div className="cart-item-info">
                 <h3>{item.termek?.nev}</h3>
-                <p>Méret: {item.meret_id}</p>
+                <p>Méret: {item.meret_id}</p> 
                 <button onClick={() => handleRemove(item.kosar_id)} className="remove-btn">
                   Eltávolítás
                 </button>
               </div>
-              <div className="cart-item-quantity">{item.mennyiseg} db</div>
-              <div className="cart-item-price">{Number(item.termek?.ar || 0).toLocaleString()} Ft</div>
+
+              
+              <div className="cart-item-quantity-controls">
+                <button 
+                  className="qty-btn"
+                  onClick={() => updateCart(item.termek_id, -1, item.meret_id)}
+                > - </button>
+                
+                <span className="qty-value">{item.mennyiseg} db</span>
+                
+                <button 
+                  className="qty-btn"
+                  onClick={() => updateCart(item.termek_id, 1, item.meret_id)}
+                > + </button>
+              </div>
+
+              <div className="cart-item-price">
+                {(Number(item.termek?.ar || 0) * item.mennyiseg).toLocaleString()} Ft
+              </div>
             </div>
           ))
         ) : (
@@ -87,7 +98,6 @@ export default function CartPage() {
       <div className="cart-summary-section">
         <div className="summary-box">
           <h2 className="summary-title">Összesen:</h2>
-
           <div className="summary-row">
             <span>Részösszeg:</span>
             <span>{subtotal.toLocaleString()} Ft</span>
@@ -108,9 +118,7 @@ export default function CartPage() {
                 </button>
               </>
             ) : (
-              <div className="coupon-applied">
-                ✓ 10% kedvezmény aktiválva
-              </div>
+              <div className="coupon-applied">✓ 10% kedvezmény aktiválva</div>
             )}
           </div>
 

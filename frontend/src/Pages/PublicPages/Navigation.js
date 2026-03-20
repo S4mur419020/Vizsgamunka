@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaCog, FaShoppingCart } from "react-icons/fa";
 import useAuthContext from '../../context/AuthContext';
+import { ShoeContext } from '../../context/ShoeContext';
 import "../../css/PublicCss/Navigation.css";
 import useTranslation from '../../i18n/useTranslation';
 
@@ -10,11 +11,15 @@ export default function Navigation({ toggleSettings }) {
   const userMenuRef = useRef(null);
 
   const { user, logout } = useAuthContext();
-
+  const { cartItems } = useContext(ShoeContext);
 
   const userName = user ? (user.nev || user.name || user.email || "Vendég") : null;
 
-  const { t } = useTranslation(); 
+  console.log("Navigáció kosár tartalma:", cartItems);
+  const cartItemCount = cartItems.reduce((total, item) => total + (item.mennyiseg || 1), 0);
+
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -40,15 +45,18 @@ export default function Navigation({ toggleSettings }) {
       </div>
 
       <div className="nav-right">
-        <Link to="/cart" title={t("nav.cart")} className="icon-button">
+        <Link to="/cart" title={t("nav.cart")} className="icon-button cart-button">
           <FaShoppingCart size={20} />
+          {cartItemCount > 0 && (
+            <span className="cart-badge">{cartItemCount}</span>
+          )}
         </Link>
 
         <div className="user-menu" ref={userMenuRef}>
           <button
             className="icon-button"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          >            
+          >
             {user?.profile_image ? (
               <img
                 src={user.profile_image}
@@ -62,7 +70,7 @@ export default function Navigation({ toggleSettings }) {
             {user && <span className="user-name">{userName}</span>}
           </button>
 
-          <div className={`dropdown ${isDropdownOpen ? "open" : ""}`}>         
+          <div className={`dropdown ${isDropdownOpen ? "open" : ""}`}>
 
             {!user ? (
               <>
@@ -77,7 +85,7 @@ export default function Navigation({ toggleSettings }) {
                   </Link>
                 </div>
               </>
-            ) : (              
+            ) : (
 
               <>
                 <div className="dropdown-header">{userName || t("nav.account")}</div>
