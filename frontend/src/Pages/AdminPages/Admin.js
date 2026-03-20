@@ -3,7 +3,6 @@ import axios from "axios";
 import AdminShoeCards from "../../Components/admin/AdminShoeCards";
 import useAuthContext from "../../context/AuthContext";
 import '../../css/AdminCss/AdminPage.css';
-import AdminSidebar from "../../Components/admin/AdminSidebar";
 
 export default function Admin() {
     const { user } = useAuthContext();

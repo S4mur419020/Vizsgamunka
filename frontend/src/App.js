@@ -23,6 +23,7 @@ import PasswordPage from "./Pages/PublicPages/PasswordPage";
 import ProfilePage from "./Pages/PublicPages/ProfilePage";
 import AddressesPage from "./Pages/PublicPages/AddressesPage";
 import SettingsPage from "./Pages/PublicPages/SettingsPage";
+import ForgotPassword from "./Pages/PublicPages/ForgotPassword";
 
 
 import AdminSidebar from "./Components/admin/AdminSidebar";
@@ -30,6 +31,7 @@ import AdminContents from "./Components/admin/AdminContents";
 import Statistics from "./Pages/AdminPages/Statistic";
 import AdminLogout from "./Pages/AdminPages/AdminLogout";
 import ProtectedAdminPage from "./Pages/AdminPages/ProtectedAdminPage";
+
 
 const AdminShoes = lazy(() => import("./Pages/AdminPages/Admin"));
 const Users = lazy(() => import("./Pages/AdminPages/Users"));
@@ -54,7 +56,7 @@ function App() {
         { path: "users", element: <Users /> },
         { path: "statistics", element: <Statistics /> },
         { path: "logout", element: <AdminLogout /> },
-      ],
+      ]
     },
     {
       path: "/login",
@@ -63,6 +65,10 @@ function App() {
     {
       path: "/register",
       element: <RegistrationPage />,
+    },
+    {
+      path: "/forgot-password",
+      element: <ForgotPassword />,
     },
     {
       path: "/",

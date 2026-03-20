@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useAuthContext from '../../context/AuthContext';
 import useTranslation from '../../i18n/useTranslation';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import '../../css/PublicCss/Registration.css';
 
 const RegistrationPage = () => {
@@ -13,7 +13,7 @@ const RegistrationPage = () => {
     });
 
     const { loginReg, errors } = useAuthContext();
-    const { t } = useTranslation(); 
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -55,6 +55,12 @@ const RegistrationPage = () => {
                     </div>
 
                     <button type="submit" className="register-button">{t('auth.register_btn')}</button>
+                    <div style={{ marginTop: '20px', textAlign: 'center', color: 'white' }}>
+                        <span>{t('auth.already_have_account')}</span>
+                        <Link to="/login" style={{ color: '#007bff', marginLeft: '5px', fontWeight: 'bold', textDecoration: 'none' }}>
+                            {t('auth.back_to_login')}
+                        </Link>
+                    </div>
                 </form>
             </div>
         </div>

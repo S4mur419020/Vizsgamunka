@@ -24,6 +24,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisztracioController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 
 
 
@@ -120,6 +121,13 @@ Route::prefix('regisztracio')->group(function () {
     Route::post('aktivacio', [RegisztracioController::class, 'aktivacio']);
 });
 
+Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+    ->name('password.email');
+
+
+Route::get('/reset-password/{token}', function ($token) {
+    return response()->json(['token' => $token]);
+})->name('password.reset');
 
 Route::prefix('keszlet')->group(function () {
     Route::get('/', [KeszletController::class, 'index']);
