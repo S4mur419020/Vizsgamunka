@@ -47,7 +47,7 @@ class SzekhelySeeder extends Seeder
                 'iranyitoszam' => '5600',
                 'email' => 'bekescsaba@bolt.hu',
                 'telefon' => '+3666333444',
-                'kep_url' => 'https://images.unsplash.com/photo-1534433843472-6ae4130edbd3',
+                'kep_url' => 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a',
                 'nyitvatartas' => 'Hétfő - Péntek: 08:00 - 17:00',
                 'created_at' => now(),
                 'updated_at' => now(),

@@ -17,7 +17,7 @@ class TelephelyController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'szekhely_id' => 'required|exists:szekhely,id',
+            'szekhely_id' => 'required|exists:szekhelies,id',
             'nev' => 'required|string',
             'cim' => 'required|string'
         ]);
