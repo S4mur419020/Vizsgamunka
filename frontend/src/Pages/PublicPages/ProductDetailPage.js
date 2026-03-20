@@ -46,7 +46,7 @@ export default function ProductDetailPage() {
             const payload = {
                 felhasznalo_id: Number(user.felhasznalo_id || user.id),
                 termek_id: Number(termek.cikkszam || termek.id),
-                meret_id: parseInt(selectedSize),
+                meret_id: parseInt(selectedSize), 
                 mennyiseg: 1,
                 hozzaadas_datum: new Date().toISOString().slice(0, 19).replace('T', ' ')
             };

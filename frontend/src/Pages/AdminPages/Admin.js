@@ -3,6 +3,7 @@ import axios from "axios";
 import AdminShoeCards from "../../Components/admin/AdminShoeCards";
 import useAuthContext from "../../context/AuthContext";
 import '../../css/AdminCss/AdminPage.css';
+import AdminSidebar from "../../Components/admin/AdminSidebar";
 
 export default function Admin() {
     const { user } = useAuthContext();
@@ -50,22 +51,13 @@ export default function Admin() {
     if (!termekekLista.length) return <p>Nincs elérhető termék.</p>;
 
     return (
-        <div className="admin-layout">
-            <aside className="admin-sidebar">
-                <h2>Admin Panel</h2>
-                <button className="active">Termékek</button>
-                <button>Felhasználók</button>
-                <button>Rendelések</button>
-            </aside>
-
-            <main className="admin-main">
-                <h1>Admin Termékek</h1>
-                <AdminShoeCards
-                    termekek={termekekLista}
-                    onSzerkeszt={handleSzerkeszt}
-                    onTorol={handleTorol}
-                />
-            </main>
-        </div>
+        <main className="admin-main">
+            <h1>Admin Termékek</h1>
+            <AdminShoeCards
+                termekek={termekekLista}
+                onSzerkeszt={handleSzerkeszt}
+                onTorol={handleTorol}
+            />
+        </main>
     );
 }
