@@ -30,7 +30,7 @@ class Rendeles_tetel extends Model
     public function termek()
     {
 
-        return $this->belongsTo(Termekek::class, 'termek_id');
+        return $this->belongsTo(Termekek::class, 'termek_id', 'cikkszam');
     }
 
     /*public function telephely()

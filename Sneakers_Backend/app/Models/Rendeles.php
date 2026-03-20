@@ -24,12 +24,12 @@ class Rendeles extends Model
 
     public function tetel()
     {
-        return $this->hasMany(Rendeles_tetel::class, 'rendeles_id');
+        return $this->hasMany(Rendeles_tetel::class, 'rendeles_id', 'rendeles_id');
     }
 
     public function felhasznalo()
     {
-        return $this->belongsTo(User::class, 'felhasznalo_id');
+        return $this->belongsTo(Felhasznalo::class, 'felhasznalo_id', 'felhasznalo_id');
     }
 
 

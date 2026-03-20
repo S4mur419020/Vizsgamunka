@@ -4,6 +4,8 @@ import { myAxios } from '../../services/api';
 import useAuthContext from '../../context/AuthContext';
 import { useSizeContext } from '../../context/SizeContext';
 import { FaHeart, FaRegHeart, FaUndoAlt, FaPercent } from 'react-icons/fa';
+import { ShoeContext } from '../../context/ShoeContext';
+import { useContext } from 'react';
 import "../../css/PublicCss/ProductDetails.css";
 
 export default function ProductDetailPage() {
@@ -11,7 +13,7 @@ export default function ProductDetailPage() {
     const navigate = useNavigate();
     const { user } = useAuthContext();
     const { sizes, loading: sizesLoading } = useSizeContext();
-
+    const { updateCart } = useContext(ShoeContext);
     const [termek, setTermek] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedSize, setSelectedSize] = useState("");

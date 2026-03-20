@@ -12,6 +12,7 @@ export const ShoeProvider = ({ children }) => {
     const [isApplied, setIsApplied] = useState(false);
 
 
+
     const { user } = useAuthContext();
 
 
@@ -36,8 +37,13 @@ export const ShoeProvider = ({ children }) => {
             const response = await myAxios.get('/api/kosar');
             const loggedInUserId = user.id || user.felhasznalo_id;
 
-            const myCart = response.data.filter(item => item.felhasznalo_id === loggedInUserId);
-            setCartItems(myCart);
+            // JAVÍTÁS: Ellenőrizzük, hogy tömb-e, vagy a data-n belül van-e a tömb
+            const adatok = Array.isArray(response.data) ? response.data : response.data.kosar;
+
+            if (adatok) {
+                const myCart = adatok.filter(item => item.felhasznalo_id === loggedInUserId);
+                setCartItems(myCart);
+            }
         } catch (error) {
             if (error.response?.status !== 401) {
                 console.error("Hiba a kosár betöltésekor:", error);
@@ -62,37 +68,34 @@ export const ShoeProvider = ({ children }) => {
         return nemPasszol && markaPasszol;
     });
 
-    const updateCart = async (termekId, mennyisegValtozas, meret_id) => { 
-    try {
-      
-        const letezoTetel = cartItems.find(item =>
-            item.termek_id === termekId && item.meret_id === meret_id
-        );
+    const updateCart = async (termekId, mennyisegValtozas, meret_id) => {
+        try {
+            const letezoTetel = cartItems.find(item =>
+                item.termek_id === termekId && item.meret_id === meret_id
+            );
 
-        if (letezoTetel) {
-            const ujMennyiseg = letezoTetel.mennyiseg + mennyisegValtozas;
-
-            if (ujMennyiseg <= 0) {
-                
-                await myAxios.delete(`/api/kosar/${letezoTetel.kosar_id}`);
-            } else {
-                
-                await myAxios.put(`/api/kosar/${letezoTetel.kosar_id}`, { mennyiseg: ujMennyiseg });
+            if (letezoTetel) {
+                const ujMennyiseg = letezoTetel.mennyiseg + mennyisegValtozas;
+                if (ujMennyiseg <= 0) {
+                    await myAxios.delete(`/api/kosar/${letezoTetel.kosar_id}`);
+                } else {
+                    await myAxios.put(`/api/kosar/${letezoTetel.kosar_id}`, { mennyiseg: ujMennyiseg });
+                }
+            } else if (mennyisegValtozas > 0) {
+                await myAxios.post('/api/kosar', {
+                    termek_id: termekId,
+                    mennyiseg: mennyisegValtozas,
+                    meret_id: meret_id
+                });
             }
-        } else if (mennyisegValtozas > 0) {
-            
-            await myAxios.post('/api/kosar', {
-                termek_id: termekId,
-                mennyiseg: mennyisegValtozas,
-                meret_id: meret_id
-            });
-        }
 
-        fetchCartData(); 
-    } catch (error) {
-        console.error("Kosár módosítási hiba:", error);
-    }
-};
+            // JAVÍTÁS: Megvárjuk a frissítést!
+            await fetchCartData();
+
+        } catch (error) {
+            console.error("Kosár módosítási hiba:", error);
+        }
+    };
 
     const finalizeOrder = async (orderData) => {
         try {
