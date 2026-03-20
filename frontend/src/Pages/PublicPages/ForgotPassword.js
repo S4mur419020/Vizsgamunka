@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Link a visszalépéshez
-import { myAxios } from '../../services/api'; // API hívásokhoz
+import { Link } from 'react-router-dom'; 
+import { myAxios } from '../../services/api'; 
 import useTranslation from '../../i18n/useTranslation';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
-    const [status, setStatus] = useState(null); // 'success', 'error', vagy null
+    const [status, setStatus] = useState(null); 
     const [loading, setLoading] = useState(false);
     const { t } = useTranslation();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => { 
         e.preventDefault();
         setLoading(true);
         setStatus(null);
@@ -50,7 +50,6 @@ const ForgotPassword = () => {
 
                 <form onSubmit={handleSubmit} className="login-form">
                     <div className="form-group" style={{ marginBottom: '15px' }}>
-                        {/* 1. Bevitelmező (Ezt kérted) */}
                         <input
                             type="email"
                             value={email}
@@ -61,8 +60,6 @@ const ForgotPassword = () => {
                             style={{ width: '100%', boxSizing: 'border-box' }}
                         />
                     </div>
-
-                    {/* 2. Küldő gomb */}
                     <button 
                         type="submit" 
                         className="login-button" 
@@ -72,8 +69,6 @@ const ForgotPassword = () => {
                         {loading ? t('loading') : t('auth.send_reset_link')}
                     </button>
                 </form>
-
-                {/* 3. Vissza a bejelentkezéshez link */}
                 <div style={{ marginTop: '20px', textAlign: 'center' }}>
                     <Link to="/login" style={{ color: '#007bff', textDecoration: 'none' }}>
                         {t('auth.back_to_login')}
