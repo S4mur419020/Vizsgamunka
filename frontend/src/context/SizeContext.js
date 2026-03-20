@@ -13,11 +13,16 @@ export function SizeProvider({ children }) {
         const convertedSizes = res.data.map(m => {
           const actualId = m.id || m.meret_id || m.meretvalasztek_id || Object.values(m)[0];
           const eu = m.meretvalasztek;
+
+          // Közelítő átváltás
+          const US = eu < 33 ? eu - 17 : eu - 33;
+          const UK = eu < 33 ? eu - 18 : eu - 34;
+
           return {
             id: actualId,
             EU: eu,
-            US: eu - 33,
-            UK: eu - 34
+            US,
+            UK
           };
         });
         setSizes(convertedSizes);

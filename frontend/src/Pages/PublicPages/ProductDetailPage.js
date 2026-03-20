@@ -31,7 +31,7 @@ export default function ProductDetailPage() {
     }, [id]);
 
     const addToCart = async () => {
-        console.log("Kiválasztott state értéke:", selectedSize); // Ennek nem szabad üresnek lennie!
+        console.log("Kiválasztott state értéke:", selectedSize);
 
         if (!selectedSize || selectedSize === "") {
             alert("Kérlek, válassz méretet!");
@@ -46,7 +46,7 @@ export default function ProductDetailPage() {
             const payload = {
                 felhasznalo_id: Number(user.felhasznalo_id || user.id),
                 termek_id: Number(termek.cikkszam || termek.id),
-                meret_id: parseInt(selectedSize), // Ez most már fixen szám lesz a fenti tisztítás miatt
+                meret_id: parseInt(selectedSize), 
                 mennyiseg: 1,
                 hozzaadas_datum: new Date().toISOString().slice(0, 19).replace('T', ' ')
             };

@@ -26,7 +26,6 @@
     flex-wrap: wrap;
 }
 
-/* Kép szekció */
 .product-image-section {
     flex: 1.2;
     min-width: 300px;
@@ -38,7 +37,6 @@
     background-color: #fff;
 }
 
-/* Információ szekció */
 .product-info-section {
     flex: 1;
     min-width: 300px;
@@ -112,7 +110,6 @@
     font-weight: bold;
 }
 
-/* Méretválasztó */
 .size-selector-container {
     margin-bottom: 20px;
 }
@@ -145,7 +142,6 @@
     cursor: pointer;
 }
 
-/* Gombok */
 .action-buttons-row {
     display: flex;
     gap: 10px;
