@@ -31,6 +31,7 @@ import Statistics from "./Pages/AdminPages/Statistic";
 import AdminLogout from "./Pages/AdminPages/AdminLogout";
 import ProtectedAdminPage from "./Pages/AdminPages/ProtectedAdminPage";
 
+
 const AdminShoes = lazy(() => import("./Pages/AdminPages/Admin"));
 const Users = lazy(() => import("./Pages/AdminPages/Users"));
 const OrdersPage = lazy(() => import("./Pages/PublicPages/OrderPage"));
@@ -54,7 +55,7 @@ function App() {
         { path: "users", element: <Users /> },
         { path: "statistics", element: <Statistics /> },
         { path: "logout", element: <AdminLogout /> },
-      ],
+      ]
     },
     {
       path: "/login",
