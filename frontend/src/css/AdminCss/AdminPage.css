@@ -1,32 +1,60 @@
 .admin-layout {
   display: flex;
   min-height: 100vh;
-  background-color: #1e1e2f;
-}
-
-.admin-main {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
+  background-color: #1a1a2e;
 }
 
 .admin-sidebar {
   width: 250px;
-  background-color: #2b2b3f;
+  background-color: #1e1e2f;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 30px 20px;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-title {
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .admin-sidebar a {
-  color: #eef0ff;
+  color: #9494b8;
   text-decoration: none;
-  padding: 10px 0;
-  transition: 0.3s;
+  padding: 12px 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 1rem;
 }
 
 .admin-sidebar a.active,
 .admin-sidebar a:hover {
-  color: #4e73df;
-  font-weight: bold;
+  color: #4facfe;
+  background-color: rgba(79, 172, 254, 0.1);
+  font-weight: 600;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  background-color: #161625;
+}
+
+.admin-main h1 {
+  text-align: center;
+  font-size: 3rem;
+  background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 40px;
 }

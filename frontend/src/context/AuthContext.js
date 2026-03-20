@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
         try {
             await csrf();
             const { data } = await myAxios.post(vegpont, adat);
-            // Közvetlen a backendből kapott user-t használjuk a redirecthez
             const loggedInUser = data.user;
             setUser(loggedInUser);
 
