@@ -10,6 +10,8 @@ class Szekhely extends Model
     /** @use HasFactory<\Database\Factories\SzekhelyFactory> */
     use HasFactory;
 
+    protected $table = 'szekhelies';
+
     protected $fillable = [
         'id',
         'nev',
