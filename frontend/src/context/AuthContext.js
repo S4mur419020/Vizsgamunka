@@ -27,6 +27,9 @@ export const AuthProvider = ({ children }) => {
         try {
             await csrf();
             const { data } = await myAxios.post(vegpont, adat);
+            if (vegpont === "/api/regisztracio") {
+                return true;
+            }
             const loggedInUser = data.user;
             setUser(loggedInUser);
 

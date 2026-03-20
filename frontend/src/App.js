@@ -24,6 +24,7 @@ import ProfilePage from "./Pages/PublicPages/ProfilePage";
 import AddressesPage from "./Pages/PublicPages/AddressesPage";
 import SettingsPage from "./Pages/PublicPages/SettingsPage";
 import ForgotPassword from "./Pages/PublicPages/ForgotPassword";
+import ResetPasswordPage from "./Pages/PublicPages/ResetPasswordPage";
 
 
 import AdminSidebar from "./Components/admin/AdminSidebar";
@@ -69,6 +70,10 @@ function App() {
     {
       path: "/forgot-password",
       element: <ForgotPassword />,
+    },
+    {
+      path: "/password-reset/:token",
+      element: <ResetPasswordPage />,
     },
     {
       path: "/",

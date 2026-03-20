@@ -29,29 +29,24 @@ class NewPasswordController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $request->validate([
             'token' => ['required'],
             'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', 'min:6'],
         ]);
-
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request) { 
-                $user->forceFill([
-                    'jelszo' => Hash::make($request->password), 
-                    'remember_token' => Str::random(60),
-                ])->save();
-
-                event(new PasswordReset($user));
-            }
-        );
-
-        return $status == Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
-            : back()->withInput($request->only('email'))
-            ->withErrors(['email' => __($status)]);
+        $user = Felhasznalo::where('email', $request->email)->first();
+        if (!$user || !Password::getRepository()->exists($user, $request->token)) {
+            return response()->json(['message' => 'Érvénytelen token vagy email.'], 400);
+        }
+        $user->jelszo = Hash::make($request->password);
+        $user->save();
+        Password::getRepository()->delete($user);
+        event(new PasswordReset($user));
+        return response()->json([
+            'status' => 'success',
+            'message' => 'A jelszavadat sikeresen megváltoztattuk!'
+        ], 200);
     }
 }
