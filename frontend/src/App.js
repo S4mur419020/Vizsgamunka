@@ -31,6 +31,8 @@ import AdminContents from "./Components/admin/AdminContents";
 import Statistics from "./Pages/AdminPages/Statistic";
 import AdminLogout from "./Pages/AdminPages/AdminLogout";
 import ProtectedAdminPage from "./Pages/AdminPages/ProtectedAdminPage";
+import AdminFeedbackPage from "./Pages/AdminPages/AdminFeedbackPage";
+import AdminShoeEditPage from "./Pages/AdminPages/AdminShoeEditorPage";
 
 
 const AdminShoes = lazy(() => import("./Pages/AdminPages/Admin"));
@@ -47,7 +49,8 @@ function App() {
         </ProtectedAdminPage>
       ),
       children: [
-        { index: true, element: <Navigate to="products" /> },
+        { index: true, element: <Navigate to="/admin/products" replace /> },
+        { path: "feedbacks", element: <AdminFeedbackPage /> },
         { path: "products", element: <AdminShoes /> },
         { path: "orders", element: <OrdersPage /> },
         { path: "customers", element: <Users /> },
@@ -55,6 +58,7 @@ function App() {
         { path: "settings", element: <SettingsPage /> },
         { path: "users", element: <Users /> },
         { path: "statistics", element: <Statistics /> },
+        { path: "edit-shoe/:id", element: <AdminShoeEditPage /> },
         { path: "logout", element: <AdminLogout /> },
       ]
     },

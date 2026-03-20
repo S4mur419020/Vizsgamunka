@@ -4,8 +4,8 @@ import useAuthContext from "../../context/AuthContext";
 
 export default function ShoeCard({ termek, onTorles }) {
   const { user } = useAuthContext();
-
   const isAdmin = user && user.role === "admin";
+  const shoeId = termek.id || termek._id;
 
   return (
     <div
@@ -22,6 +22,7 @@ export default function ShoeCard({ termek, onTorles }) {
         position: "relative"
       }}
     >
+
       {isAdmin && (
         <div
           style={{
@@ -33,7 +34,8 @@ export default function ShoeCard({ termek, onTorles }) {
             padding: "4px 8px",
             fontSize: "12px",
             fontWeight: "bold",
-            borderRadius: "5px"
+            borderRadius: "5px",
+            zIndex: 1
           }}
         >
           ADMIN
@@ -76,7 +78,7 @@ export default function ShoeCard({ termek, onTorles }) {
       {isAdmin && (
         <div style={{ marginTop: "10px", display: "flex", gap: "8px", justifyContent: "center" }}>
           <Link
-            to={`/admin/products/edit/${termek.id}`}
+            to={`/admin/edit-shoe/${shoeId}`}
             style={{
               background: "#0d6efd",
               color: "#fff",
@@ -90,7 +92,7 @@ export default function ShoeCard({ termek, onTorles }) {
           </Link>
 
           <button
-            onClick={() => onTorles && onTorles(termek.id)}
+            onClick={() => onTorles && onTorles(shoeId)}
             style={{
               background: "#dc3545",
               color: "#fff",
