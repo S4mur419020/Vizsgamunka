@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    protected $table = 'felhasznalos';
+
+
     public function role()
     {
         return $this->belongsTo(Role::class);

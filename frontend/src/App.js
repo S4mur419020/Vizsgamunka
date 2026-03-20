@@ -23,6 +23,7 @@ import PasswordPage from "./Pages/PublicPages/PasswordPage";
 import ProfilePage from "./Pages/PublicPages/ProfilePage";
 import AddressesPage from "./Pages/PublicPages/AddressesPage";
 import SettingsPage from "./Pages/PublicPages/SettingsPage";
+import ForgotPassword from "./Pages/PublicPages/ForgotPassword";
 
 
 import AdminSidebar from "./Components/admin/AdminSidebar";
@@ -63,6 +64,10 @@ function App() {
     {
       path: "/register",
       element: <RegistrationPage />,
+    },
+    {
+      path: "/forgot-password",
+      element: <ForgotPassword />,
     },
     {
       path: "/",

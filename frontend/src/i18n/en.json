@@ -139,5 +139,13 @@
   "address.road_label": "Road",
   "address.square_label": "Square",
   "address.main": "Main",
-  "address.center": "Center"
+  "address.center": "Center",
+  "auth.forgot_password": "Forgot password?",
+  "auth.no_account": "Don't have an account yet?",
+  "auth.already_have_account": "Already have an account?",
+  "auth.back_to_login": "Login",
+  "auth.email_placeholder": "Your email address...",
+  "auth.send_reset_link": "Send Reset Link",
+  "auth.reset_link_sent": "Reset link sent via email!",
+  "auth.reset_link_error": "No user found with this email address."
 }

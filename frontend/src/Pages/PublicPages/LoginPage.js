@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import useAuthContext from '../../context/AuthContext';
 import useTranslation from '../../i18n/useTranslation';
 import '../../css/PublicCss/Login.css';
@@ -47,6 +47,18 @@ const LoginPage = () => {
 
                     <button type="submit" className="login-button">{t('auth.login_btn')}</button>
                 </form>
+                <div className="auth-links" style={{ marginTop: '20px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <Link to="/forgot-password" style={{ color: '#007bff', textDecoration: 'none', fontSize: '14px' }}>
+                        {t('auth.forgot_password')}
+                    </Link>
+
+                    <p style={{ color: 'white', fontSize: '14px' }}>
+                        {t('auth.no_account')}
+                        <Link to="/register" style={{ color: '#007bff', marginLeft: '5px', fontWeight: 'bold' }}>
+                            {t('nav.register')}
+                        </Link>
+                    </p>
+                </div>
             </div>
         </div>
     );

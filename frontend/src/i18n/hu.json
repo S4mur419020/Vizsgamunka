@@ -139,5 +139,13 @@
   "address.road_label": "út",
   "address.square_label": "tér",
   "address.main": "Fő",
-  "address.center": "Központ"
+  "address.center": "Központ",
+  "auth.forgot_password": "Elfelejtett jelszó?",
+  "auth.no_account": "Nincs még fiókod?",
+  "auth.already_have_account": "Van már fiókod?",
+  "auth.back_to_login": "Bejelentkezés",
+  "auth.email_placeholder": "E-mail címed...",
+  "auth.send_reset_link": "Helyreállító link küldése",
+  "auth.reset_link_sent": "Helyreállító link elküldve e-mailben!",
+  "auth.reset_link_error": "Ezzel az e-mail címmel nem találtunk felhasználót."
 }

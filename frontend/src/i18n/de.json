@@ -139,5 +139,13 @@
   "address.road_label": "Straße",
   "address.square_label": "Platz",
   "address.main": "Haupt",
-  "address.center": "Zentrum"
+  "address.center": "Zentrum",
+  "auth.forgot_password": "Passwort vergessen?",
+  "auth.no_account": "Noch kein Konto?",
+  "auth.already_have_account": "Hast du schon ein Konto?",
+  "auth.back_to_login": "Anmelden",
+  "auth.email_placeholder": "Ihre E-Mail-Adresse...",
+  "auth.send_reset_link": "Link senden",
+  "auth.reset_link_sent": "Wiederherstellungslink per E-Mail gesendet!",
+  "auth.reset_link_error": "Es wurde kein Benutzer mit dieser E-Mail-Adresse gefunden."
 }
