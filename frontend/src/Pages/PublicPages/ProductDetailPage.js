@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { myAxios } from '../../services/api';
 import useAuthContext from '../../context/AuthContext';
 import { useSizeContext } from '../../context/SizeContext';
 import { FaHeart, FaRegHeart, FaUndoAlt, FaPercent } from 'react-icons/fa';
 import { ShoeContext } from '../../context/ShoeContext';
-import { useContext } from 'react';
+import useTranslation from '../../i18n/useTranslation';
 import "../../css/PublicCss/ProductDetails.css";
 
 export default function ProductDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { t } = useTranslation(); 
     const { user } = useAuthContext();
     const { sizes, loading: sizesLoading } = useSizeContext();
     const { updateCart, fetchCartData } = useContext(ShoeContext);
@@ -33,14 +34,14 @@ export default function ProductDetailPage() {
     }, [id]);
 
     const addToCart = async () => {
-        console.log("Kiválasztott state értéke:", selectedSize);
-
         if (!selectedSize || selectedSize === "") {
-            alert("Kérlek, válassz méretet!");
+            alert(t('product.select_size'));
             return;
         }
         if (!user) {
-            alert("Jelentkezz be a vásárláshoz!");
+            const loginMsg = t('nav.home') === 'Startseite' ? 'Bitte loggen Sie sich ein!' : 
+                           t('nav.home') === 'Home' ? 'Please log in to purchase!' : 'Jelentkezz be a vásárláshoz!';
+            alert(loginMsg);
             navigate('/login');
             return;
         }
@@ -52,24 +53,23 @@ export default function ProductDetailPage() {
                 mennyiseg: 1,
                 hozzaadas_datum: new Date().toISOString().slice(0, 19).replace('T', ' ')
             };
-            console.log("Küldött adatok:", payload);
             await myAxios.post('/api/kosar', payload);
             if (fetchCartData) {
                 await fetchCartData();
             }
-            alert('Sikeresen kosárhoz adva!');
+            alert(t('profile.save_success'));
         } catch (error) {
-            console.error("Szerver válasza:", error.response?.data);
-            alert("Hiba! Nézd meg a konzolt a részletekért.");
+            alert(t('profile.save_error'));
         }
     };
 
-    if (loading || sizesLoading) return <div className="status-message">Betöltés...</div>;
-    if (!termek) return <div className="status-message">Termék nem található.</div>;
+    if (loading || sizesLoading) return <div className="status-message">{t('loading')}...</div>;
+    if (!termek) return <div className="status-message">Product not found.</div>;
 
     return (
         <div className="product-detail-container">
-            <button onClick={() => navigate(-1)} className="back-button">&larr; VISSZA</button>
+            <button onClick={() => navigate(-1)} className="back-button">&larr; {t('product.back')}</button>
+            
             <div className="product-layout">
                 <div className="product-image-section">
                     <img
@@ -81,42 +81,46 @@ export default function ProductDetailPage() {
 
                 <div className="product-info-section">
                     <div>
-                        <span className="product-category-tag">{termek.kategoria?.tipus || "ÚJDONSÁG"}</span>
+                        <span className="product-category-tag">{termek.kategoria?.tipus || t('product.new')}</span>
                         <h1 className="product-main-title">{termek.nev}</h1>
                         <p className="product-meta-text">
-                            Márka: <span>{termek.marka?.nev}</span> | Anyag: <span>{termek.anyag}</span>
+                            {t('product.brand')}: <span>{termek.marka?.nev}</span> | 
+                            {t('product.material')}: <span>{termek.anyag}</span>
                         </p>
                     </div>
 
                     <div className="product-rating">
-                        ★★★★☆ <span className="product-reviews-link">7 Vélemény</span>
+                        ★★★★☆ <span className="product-reviews-link">7 {t('product.reviews')}</span>
                     </div>
 
                     <div className="product-price-row">
                         <span className="product-price">{Number(termek.ar).toLocaleString()} Ft</span>
-                        <span className="product-tax-info">ÁFÁ-val</span>
+                        <span className="product-tax-info">{t('product.vat_incl')}</span>
                     </div>
 
                     <div className="product-availability">
-                        <span style={{ color: '#888' }}>ELÉRHETŐSÉG:</span>
-                        <span className="stock-status">● Készleten</span>
+                        <span style={{ color: '#888' }}>{t('product.availability')}:</span>
+                        <span className="stock-status"> ● {t('product.in_stock')}</span>
                     </div>
 
                     <div className="size-selector-container">
                         <div className="size-unit-tabs">
-                            <span className={sizeSystem === "EU" ? "size-unit-active" : "size-unit-inactive"} onClick={() => setSizeSystem("EU")}>EU</span>
-                            <span className={sizeSystem === "US" ? "size-unit-active" : "size-unit-inactive"} onClick={() => setSizeSystem("US")}>US</span>
-                            <span className={sizeSystem === "UK" ? "size-unit-active" : "size-unit-inactive"} onClick={() => setSizeSystem("UK")}>UK</span>
+                            {["EU", "US", "UK"].map(sys => (
+                                <span 
+                                    key={sys}
+                                    className={sizeSystem === sys ? "size-unit-active" : "size-unit-inactive"} 
+                                    onClick={() => setSizeSystem(sys)}
+                                >
+                                    {sys}
+                                </span>
+                            ))}
                         </div>
                         <select
                             className="product-size-dropdown"
                             value={selectedSize}
-                            onChange={(e) => {
-                                console.log("Kiválasztott ID:", e.target.value);
-                                setSelectedSize(e.target.value);
-                            }}
+                            onChange={(e) => setSelectedSize(e.target.value)}
                         >
-                            <option value="">Válassz méretet</option>
+                            <option value="">{t('product.select_size')}</option>
                             {sizes.map((s) => (
                                 <option key={s.id} value={s.id}>
                                     {sizeSystem} {s[sizeSystem]}
@@ -124,24 +128,37 @@ export default function ProductDetailPage() {
                             ))}
                         </select>
                     </div>
+
                     <div className="action-buttons-row">
-                        <button onClick={addToCart} disabled={!selectedSize} className={`add-to-cart-btn ${selectedSize ? 'enabled' : 'disabled'}`}>
-                            {selectedSize ? 'Kosárhoz ad' : 'Válassz méretet!'}
+                        <button 
+                            onClick={addToCart} 
+                            disabled={!selectedSize} 
+                            className={`add-to-cart-btn ${selectedSize ? 'enabled' : 'disabled'}`}
+                        >
+                            {selectedSize ? t('product.add_to_cart') : t('product.select_size')}
                         </button>
                         <button onClick={() => setIsFavorite(!isFavorite)} className="favorite-btn">
                             {isFavorite ? <FaHeart style={{ color: 'red' }} /> : <FaRegHeart />}
                         </button>
                     </div>
+
                     <div className="description-section">
-                        <h3 className="description-title">LEÍRÁS</h3>
-                        <p className="description-content">{termek.leiras}</p>
+                        <h3 className="description-title">{t('product.description')}</h3>
+                        <p className="description-content">{termek.leiras || t('product.description_text')}</p>
                     </div>
+
                     <div className="perks-section">
-                        <div className="perk-item"><FaPercent /> <span>A megrendelés 5%-át visszakapod</span></div>
-                        <div className="perk-item"><FaUndoAlt /> <span>Termékvisszaküldés 30 napon belül</span></div>
+                        <div className="perk-item">
+                            <FaPercent /> 
+                            <span>{t('product.cashback')}</span>
+                        </div>
+                        <div className="perk-item">
+                            <FaUndoAlt /> 
+                            <span>{t('product.return')}</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     );
-};
+}

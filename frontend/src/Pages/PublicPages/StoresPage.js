@@ -49,12 +49,8 @@ export default function StoresPage() {
                             {selectedStore.nyitvatartas
                                 ? selectedStore.nyitvatartas
                                     .replace(/Hétfő/g, t('days.monday'))
-                                    .replace(/Kedd/g, t('days.tuesday'))
-                                    .replace(/Szerda/g, t('days.wednesday'))
-                                    .replace(/Csütörtök/g, t('days.thursday'))
-                                    .replace(/Péntek/g, t('days.friday'))
                                     .replace(/Szombat/g, t('days.saturday'))
-                                    .replace(/Vasárnap/g, t('days.sunday'))
+                                   
                                 : ""}
                         </p>
 

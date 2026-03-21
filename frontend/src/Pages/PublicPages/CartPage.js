@@ -2,12 +2,13 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/PublicCss/Cart.css';
 import { ShoeContext } from '../../context/ShoeContext'; 
+import useTranslation from '../../i18n/useTranslation'; // Fordító hook importálása
 
 export default function CartPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation(); // Fordító függvény inicializálása
  
   const [couponCode, setCouponCode] = useState("");
-  
   
   const { 
     cartItems, 
@@ -17,18 +18,14 @@ export default function CartPage() {
     loading 
   } = useContext(ShoeContext);
 
-  
-  
   const handleRemove = async (kosarId) => {
     try {
-    
-      
       const { myAxios } = await import('../../services/api'); 
       await myAxios.delete(`/api/kosar/${kosarId}`);
-      
       window.location.reload(); 
     } catch (error) {
-      alert("Hiba történt a törlés során!");
+      // Hibakezelés fordítása a profil mentési hiba kulccsal (vagy delete kulccsal)
+      alert(t('profile.save_error') || "Hiba történt a törlés során!");
     }
   };
 
@@ -42,13 +39,14 @@ export default function CartPage() {
   const handleApplyCoupon = () => {
     if (couponCode.toUpperCase() === '7X4K-29QZ') {
       setIsApplied(true);
-      alert("Sikeres aktiválás! 10% kedvezmény levonva.");
+      // Itt egy egyszerű visszajelzést adunk
+      alert("OK! 10%");
     } else {
-      alert("Érvénytelen kuponkód!");
+      alert(t('profile.save_error')); 
     }
   };
 
-  if (loading) return <div className="empty-cart-msg">Betöltés...</div>;
+  if (loading) return <div className="empty-cart-msg">{t('loading')}...</div>;
 
   return (
     <div className="cart-page-container">
@@ -63,13 +61,13 @@ export default function CartPage() {
               />
               <div className="cart-item-info">
                 <h3>{item.termek?.nev}</h3>
-                <p>Méret: {item.meret_id}</p> 
+                {/* Méret felirat a JSON-ből */}
+                <p>{t('product.size_label')}: {item.meret_id}</p> 
                 <button onClick={() => handleRemove(item.kosar_id)} className="remove-btn">
-                  Eltávolítás
+                  {t('cart.remove')}
                 </button>
               </div>
 
-              
               <div className="cart-item-quantity-controls">
                 <button 
                   className="qty-btn"
@@ -90,15 +88,16 @@ export default function CartPage() {
             </div>
           ))
         ) : (
-          <div className="empty-cart-msg">A kosarad még üres.</div>
+          /* Üres kosár üzenet a JSON-ből */
+          <div className="empty-cart-msg">{t('cart.empty')}</div>
         )}
       </div>
 
       <div className="cart-summary-section">
         <div className="summary-box">
-          <h2 className="summary-title">Összesen:</h2>
+          <h2 className="summary-title">{t('cart.summary')}:</h2>
           <div className="summary-row">
-            <span>Részösszeg:</span>
+            <span>{t('cart.subtotal')}:</span>
             <span>{subtotal.toLocaleString()} Ft</span>
           </div>
 
@@ -107,37 +106,41 @@ export default function CartPage() {
               <>
                 <input
                   type="text"
-                  placeholder="Kuponkód..."
+                  placeholder={t('cart.coupon')}
                   value={couponCode}
                   className="coupon-input"
                   onChange={(e) => setCouponCode(e.target.value)}
                 />
                 <button onClick={handleApplyCoupon} className="coupon-btn">
-                  Kupon aktiválása
+                  {t('cart.coupon_btn')}
                 </button>
               </>
             ) : (
-              <div className="coupon-applied">✓ 10% kedvezmény aktiválva</div>
+              /* Kedvezmény visszajelzés a JSON alapján következtetve */
+              <div className="coupon-applied">
+                ✓ 10% {t('cart.discount').toLowerCase()}
+              </div>
             )}
           </div>
 
           {isApplied && (
             <div className="summary-row discount-row">
-              <span>Kedvezmény:</span>
+              <span>{t('cart.discount')}:</span>
               <span>- {discountAmount.toLocaleString()} Ft</span>
             </div>
           )}
 
           <div className="total-row">
-            <span>Fizetendő:</span>
+            {/* Fizetendő / Összesen felirat */}
+            <span>{t('orders.total')}:</span>
             <span>{finalTotal.toLocaleString()} Ft</span>
           </div>
 
           <button
-            onClick={() => cartItems.length > 0 ? navigate("/checkout") : alert("Üres a kosarad!")}
+            onClick={() => cartItems.length > 0 ? navigate("/checkout") : alert(t('cart.empty'))}
             className="checkout-btn"
           >
-            Tovább a fizetéshez
+            {t('cart.checkout_btn')}
           </button>
         </div>
       </div>

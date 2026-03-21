@@ -3,13 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { myAxios } from '../../services/api';
 import useAuthContext from '../../context/AuthContext';
 import { ShoeContext } from '../../context/ShoeContext';
+import useTranslation from '../../i18n/useTranslation'; // Importáld a hookot!
 import "../../css/PublicCss/Checkout.css";
 
 export default function CheckoutPage() {
     const navigate = useNavigate();
+    const { t } = useTranslation(); // Nyelvi függvény
     const { user } = useAuthContext();
     const [cartItems, setCartItems] = useState([]);
-    const { isApplied,setIsApplied } = useContext(ShoeContext);
+    const { isApplied, setIsApplied } = useContext(ShoeContext);
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({
         nev: '', email: '', telefon: '', iranyitoszam: '', varos: '', utca: ''
@@ -47,40 +49,42 @@ export default function CheckoutPage() {
                 felhasznalo_id: user.felhasznalo_id || user.id,
                 ar: total,
                 szallitasi_cim: `${formData.iranyitoszam} ${formData.varos}, ${formData.utca}`,
-                status: 'Feldolgozás alatt'
+                status: t('orders.processing') // Dinamikus státusz
             };
 
             await myAxios.post('/api/rendelesek', rendelesAdat);
 
-            alert('Rendelés sikeresen leadva!');
+            alert(t('profile.save_success')); // Siker üzenet a profilból
             setIsApplied(false);
             navigate('/account/orders');
         } catch (error) {
             console.error("Hiba a beküldéskor:", error.response?.data);
-            alert("Hiba történt. Ellenőrizd a konzolt!");
+            alert(t('profile.save_error')); // Hiba üzenet a profilból
         } finally {
             setLoading(false);
         }
     };
 
-    if (loading) return <div className="checkout-loading">Betöltés...</div>;
+    if (loading) return <div className="checkout-loading">{t('loading')}</div>;
 
     return (
         <div className="checkout-container">
-            <h1 className="checkout-title">Pénztár</h1>
+            {/* Cím: nav.cart-ot használtam, mert az 'Kosár' / 'Warenkorb' */}
+            <h1 className="checkout-title">{t('nav.cart')}</h1>
 
             <form onSubmit={handleSubmit} className="checkout-form">
-                <h3 className="checkout-section-title">Szállítási adatok</h3>
+                {/* Szállítási adatok (a JSON-ben az 'adress.article' első mondata) */}
+                <h3 className="checkout-section-title">{t('orders.title')}</h3>
 
                 <input
-                    type="text" placeholder="Teljes név" required
+                    type="text" placeholder={t('auth.full_name')} required
                     className="checkout-input"
                     value={formData.nev}
                     onChange={(e) => setFormData({ ...formData, nev: e.target.value })}
                 />
 
                 <input
-                    type="email" placeholder="Email cím" required
+                    type="email" placeholder={t('auth.email')} required
                     className="checkout-input"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -88,13 +92,13 @@ export default function CheckoutPage() {
 
                 <div className="address-row">
                     <input
-                        type="text" placeholder="Irányítószám" required
+                        type="text" placeholder={t('zip_code')} required
                         className="checkout-input zip-input"
                         value={formData.iranyitoszam}
                         onChange={(e) => setFormData({ ...formData, iranyitoszam: e.target.value })}
                     />
                     <input
-                        type="text" placeholder="Város" required
+                        type="text" placeholder={t('city')} required
                         className="checkout-input city-input"
                         value={formData.varos}
                         onChange={(e) => setFormData({ ...formData, varos: e.target.value })}
@@ -102,20 +106,24 @@ export default function CheckoutPage() {
                 </div>
 
                 <input
-                    type="text" placeholder="Utca, házszám" required
+                    type="text" placeholder={t('street')} required
                     className="checkout-input"
                     value={formData.utca}
                     onChange={(e) => setFormData({ ...formData, utca: e.target.value })}
                 />
 
                 <div className="checkout-summary">
-                    <h3 className="total-amount">Fizetendő: {total.toLocaleString()} Ft</h3>
+                    <h3 className="total-amount">
+                        {t('orders.total')}: {total.toLocaleString()} Ft
+                    </h3>
                     <button
                         type="submit"
                         className="submit-order-btn"
                         disabled={cartItems.length === 0}
                     >
-                        {loading ? 'FELDOLGOZÁS...' : 'RENDELÉS VÉGLEGESÍTÉSE'}
+                        {loading ? t('loading').toUpperCase() : 
+                         (t('nav.home') === 'Startseite' ? 'BESTELLUNG ABSCHLIEẞEN' : 
+                          t('nav.home') === 'Home' ? 'FINALIZE ORDER' : 'RENDELÉS VÉGLEGESÍTÉSE')}
                     </button>
                 </div>
             </form>
