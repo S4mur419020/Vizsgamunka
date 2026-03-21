@@ -19,17 +19,21 @@ class RoleSeeder extends Seeder
         $userRole = Role::create(['name' => 'felhasznalo']);
 
         User::create([
-            'name' => 'Admin Felhasználó',
+            'nev' => 'Admin Felhasználó',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
-            'role_id' => $adminRole->id
+            'jelszo' => Hash::make('password'),
+            'role_id' => $adminRole->id,
+            'nyelv_id' => 1,
+            'szekhely_id' => 1
         ]);
 
         User::create([
-            'name' => 'Normál Felhasználó',
+            'nev' => 'Normál Felhasználó',
             'email' => 'user@example.com',
-            'password' => Hash::make('password'),
-            'role_id' => $userRole->id
+            'jelszo' => Hash::make('password'),
+            'role_id' => $userRole->id,
+            'nyelv_id' => 1,
+            'szekhely_id' => 1
         ]);
     }
 }
