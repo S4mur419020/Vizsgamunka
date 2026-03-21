@@ -13,7 +13,7 @@ export default function ProductDetailPage() {
     const navigate = useNavigate();
     const { user } = useAuthContext();
     const { sizes, loading: sizesLoading } = useSizeContext();
-    const { updateCart } = useContext(ShoeContext);
+    const { updateCart, fetchCartData } = useContext(ShoeContext);
     const [termek, setTermek] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedSize, setSelectedSize] = useState("");
@@ -48,12 +48,15 @@ export default function ProductDetailPage() {
             const payload = {
                 felhasznalo_id: Number(user.felhasznalo_id || user.id),
                 termek_id: Number(termek.cikkszam || termek.id),
-                meret_id: parseInt(selectedSize), 
+                meret_id: parseInt(selectedSize),
                 mennyiseg: 1,
                 hozzaadas_datum: new Date().toISOString().slice(0, 19).replace('T', ' ')
             };
             console.log("Küldött adatok:", payload);
             await myAxios.post('/api/kosar', payload);
+            if (fetchCartData) {
+                await fetchCartData();
+            }
             alert('Sikeresen kosárhoz adva!');
         } catch (error) {
             console.error("Szerver válasza:", error.response?.data);

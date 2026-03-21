@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rendeles;
-use App\Models\Rendeles_tetel; 
+use App\Models\Rendeles_tetel;
 use App\Models\Kosar;
+use App\Models\Felhasznalo;
+use App\Mail\OrderConfirmationMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class RendelesController extends Controller
 {
@@ -25,8 +29,8 @@ class RendelesController extends Controller
             'szallitasi_cim' => 'required|string',
         ]);
 
-        return DB::transaction(function () use ($validated) {
-           
+        $rendelesData = DB::transaction(function () use ($validated, $request) {
+
             $rendeles = Rendeles::create([
                 'felhasznalo_id'    => $validated['felhasznalo_id'],
                 'osszeg'            => $validated['ar'],
@@ -39,7 +43,9 @@ class RendelesController extends Controller
                 ->where('felhasznalo_id', $validated['felhasznalo_id'])
                 ->get();
 
-            
+            $emailTetelek = [];
+
+
             foreach ($kosarTetelek as $item) {
                 Rendeles_tetel::create([
                     'rendeles_id'  => $rendeles->rendeles_id,
@@ -47,16 +53,41 @@ class RendelesController extends Controller
                     'meret_id'     => $item->meret_id,
                     'mennyiseg'    => $item->mennyiseg,
                     'egyseg_ar'    => $item->termek->ar,
-                    'fizetes_id'   => 1, 
-                    'telephely_id' => 1, 
+                    'fizetes_id'   => 1,
+                    'telephely_id' => 1,
                 ]);
             }
 
-            
+            $emailTetelek[] = [
+                'nev' => $item->termek->nev,
+                'mennyiseg' => $item->mennyiseg,
+                'ar' => $item->termek->ar
+            ];
+
+
             Kosar::where('felhasznalo_id', $validated['felhasznalo_id'])->delete();
 
-            return response()->json($rendeles, 201);
+            return [
+                'rendeles' => $rendeles,
+                'tetelek' => $emailTetelek
+            ];
         });
+
+        try {
+            $felhasznalo = \App\Models\Felhasznalo::find($validated['felhasznalo_id']);
+
+            if ($felhasznalo && $felhasznalo->email) {
+                Mail::to($felhasznalo->email)->send(
+                    new OrderConfirmationMail($rendelesData['rendeles'], $rendelesData['tetelek'])
+                );
+            } else {
+                Log::error("E-mail küldés sikertelen: nem található felhasználó ezzel az ID-val: " . $validated['felhasznalo_id']);
+            }
+        } catch (\Exception $e) {
+            Log::error("Vásárlási e-mail hiba: " . $e->getMessage());
+        }
+
+        return response()->json($rendelesData['rendeles'], 201);
     }
 
     public function show($id)

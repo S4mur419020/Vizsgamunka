@@ -1,12 +1,11 @@
 import React, { useState, useContext } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import '../../css/PublicCss/Cart.css';
-import useAuthContext from '../../context/AuthContext';
 import { ShoeContext } from '../../context/ShoeContext'; 
 
 export default function CartPage() {
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+ 
   const [couponCode, setCouponCode] = useState("");
   
   

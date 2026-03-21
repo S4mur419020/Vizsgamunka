@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Models\Felhasznalo;
+use App\Mail\WelcomeMail;
 
 class RegisztracioController extends Controller
 {
@@ -26,6 +29,12 @@ class RegisztracioController extends Controller
             'nyelv_id' => 1,
             'szekhely_id' => 1,
         ]);
+
+        try {
+            Mail::to($felhasznalo->email)->send(new WelcomeMail($felhasznalo));
+        } catch (\Exception $e) {
+            Log::error("Email küldési hiba: " . $e->getMessage());
+        }
 
         return response()->json([
             'success' => true,

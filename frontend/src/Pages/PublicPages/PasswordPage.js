@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function PasswordPage() {
   const { t } = useTranslation();
-  const { user, logout } = useAuthContext();
+  const { logout } = useAuthContext();
   const navigate = useNavigate();
 
   const [oldPass, setOldPass] = useState("");

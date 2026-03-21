@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { myAxios } from '.././services/api';
 import useAuthContext from '../context/AuthContext';
 
@@ -10,11 +10,7 @@ export const ShoeProvider = ({ children }) => {
     const [filter, setFilter] = useState({ nem: "", marka: "" });
     const [cartItems, setCartItems] = useState([]);
     const [isApplied, setIsApplied] = useState(false);
-
-
-
     const { user } = useAuthContext();
-
 
     useEffect(() => {
         const fetchTermekek = async () => {
@@ -31,13 +27,11 @@ export const ShoeProvider = ({ children }) => {
     }, []);
 
 
-    const fetchCartData = async () => {
+    const fetchCartData = useCallback(async () => {
         if (!user) return;
         try {
             const response = await myAxios.get('/api/kosar');
             const loggedInUserId = user.id || user.felhasznalo_id;
-
-            // JAVÍTÁS: Ellenőrizzük, hogy tömb-e, vagy a data-n belül van-e a tömb
             const adatok = Array.isArray(response.data) ? response.data : response.data.kosar;
 
             if (adatok) {
@@ -49,8 +43,7 @@ export const ShoeProvider = ({ children }) => {
                 console.error("Hiba a kosár betöltésekor:", error);
             }
         }
-    };
-
+    }, [user]);
 
     useEffect(() => {
         if (user) {
@@ -59,7 +52,7 @@ export const ShoeProvider = ({ children }) => {
             setCartItems([]);
             setIsApplied(false);
         }
-    }, [user]);
+    }, [user, fetchCartData]);
 
 
     const szurtTermekek = termekek.filter(t => {
@@ -88,8 +81,6 @@ export const ShoeProvider = ({ children }) => {
                     meret_id: meret_id
                 });
             }
-
-            // JAVÍTÁS: Megvárjuk a frissítést!
             await fetchCartData();
 
         } catch (error) {
@@ -120,6 +111,7 @@ export const ShoeProvider = ({ children }) => {
             cartItems,
             setCartItems,
             updateCart,
+            fetchCartData,
             isApplied,
             setIsApplied,
             finalizeOrder
