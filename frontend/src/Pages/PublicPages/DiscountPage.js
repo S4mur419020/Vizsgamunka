@@ -15,7 +15,7 @@ export default function DiscountsPage() {
   };
 
   return (
-    <div className="discounts-container">
+    <div className="discounts-container"> 
       <h1>{t('discounts.title')}</h1>
       <div className="discount-card">
         <div className="discount-info">

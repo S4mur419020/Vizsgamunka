@@ -33,50 +33,72 @@ export default function OrderPage() {
       {orders.length > 0 ? (
         <>
           <div className="orders-list">
-            {orders.map((order) => (
-              <div key={order.rendeles_id} className="order-card">
-                <div className="order-header">
-                  <span>{t('orders.number')}: <strong>#{order.rendeles_id}</strong></span>
-                  <span>{t('orders.date')}: {new Date(order.datum).toLocaleDateString()}</span>
-                </div>
+            {orders.map((order) => {
+              // Kiszámoljuk a tételek eredeti összértékét (darab * ár)
+              const subTotal = order.tetel 
+                ? order.tetel.reduce((sum, item) => {
+                    const price = Number(item.ar || item.termek?.ar || 0);
+                    const qty = Number(item.mennyiseg || 0);
+                    return sum + (price * qty);
+                  }, 0)
+                : 0;
+              
+              // Megnézzük, hogy a fizetett összeg kevesebb-e, mint az eredeti ár
+              const hasDiscount = subTotal > Number(order.osszeg) + 10;
 
-                <div className="order-items">
-                  {order.tetel && order.tetel.map((item, index) => (
-                    <div key={index} className="order-item-row">
-                      <img
-                        className="order-item-image"
-                        src={item.termek?.kepUrl
-                          ? `/kepek/${item.termek.kepUrl}`
-                          : `/kepek/default.png`
-                        }
-                        alt={item.termek?.nev || 'Cipő'}
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = "/kepek/default.png";
-                        }}
-                      />
-                      <div className="order-item-details">
-                        <span className="order-item-name">
-                          {item.termek?.nev || item.termek_nev || 'Ismeretlen termék'}
-                        </span>
-                        <span className="order-item-price">
-                          {item.mennyiseg} db x {Number(item.ar || item.termek?.ar || 0).toLocaleString()} Ft
-                        </span>
+              return (
+                <div key={order.rendeles_id} className="order-card">
+                  <div className="order-header">
+                    <span>{t('orders.number')}: <strong>#{order.rendeles_id}</strong></span>
+                    <span>{t('orders.date')}: {new Date(order.datum).toLocaleDateString()}</span>
+                  </div>
+
+                  <div className="order-items">
+                    {order.tetel && order.tetel.map((item, index) => (
+                      <div key={index} className="order-item-row">
+                        <img
+                          className="order-item-image"
+                          src={item.termek?.kepUrl
+                            ? `/kepek/${item.termek.kepUrl}`
+                            : `/kepek/default.png`
+                          }
+                          alt={item.termek?.nev || 'Cipő'}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = "/kepek/default.png";
+                          }}
+                        />
+                        <div className="order-item-details">
+                          <span className="order-item-name">
+                            {item.termek?.nev || item.termek_nev || 'Ismeretlen termék'}
+                          </span>
+                          <span className="order-item-price">
+                            {item.mennyiseg} db x {Number(item.ar || item.termek?.ar || 0).toLocaleString()} Ft
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="order-footer">
+                    <div className="status">
+                      <strong>{t('orders.status')}:</strong> {order.allapot}
+                    </div>
+                    
+                    <div className="total-info" style={{ textAlign: 'right' }}>
+                      {hasDiscount && (
+                        <div className="discount-tag" style={{ color: '#4caf50', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '2px' }}>
+                          -10% Kedvezmény felasználva
+                        </div>
+                      )}
+                      <div className="total">
+                        <strong>{t('orders.total')}:</strong> {Number(order.osszeg).toLocaleString()} Ft
                       </div>
                     </div>
-                  ))}
-                </div>
-
-                <div className="order-footer">
-                  <div className="status">
-                    <strong>{t('orders.status')}:</strong> {order.allapot}
-                  </div>
-                  <div className="total">
-                    <strong>{t('orders.total')}:</strong> {Number(order.osszeg).toLocaleString()} Ft
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="total-summary">

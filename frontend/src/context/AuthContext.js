@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { myAxios } from "../services/api";
 
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -65,7 +66,22 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={{ user, errors, loginReg, logout, loading }}>
-            {!loading && children}
+            {loading ? (
+                <div style={{ 
+                    backgroundColor: '#121212', 
+                    height: '100vh', 
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    color: 'white',
+                    flexDirection: 'column'
+                }}>
+                    <div className="spinner"></div>
+                    <p>Felhasználó azonosítása...</p>
+                </div>
+            ) : (
+                children
+            )}
         </AuthContext.Provider>
     );
 };

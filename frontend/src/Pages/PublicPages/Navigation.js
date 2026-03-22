@@ -9,16 +9,10 @@ import useTranslation from '../../i18n/useTranslation';
 export default function Navigation({ toggleSettings }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userMenuRef = useRef(null);
-
   const { user, logout } = useAuthContext();
   const { cartItems } = useContext(ShoeContext);
-
   const userName = user ? (user.nev || user.name || user.email || "Vendég") : null;
-
-  console.log("Navigáció kosár tartalma:", cartItems);
   const cartItemCount = cartItems.reduce((total, item) => total + (item.mennyiseg || 1), 0);
-
-
   const { t } = useTranslation();
 
   useEffect(() => {
