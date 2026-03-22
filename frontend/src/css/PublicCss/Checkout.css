@@ -22,7 +22,6 @@
     margin-top: 10px;
 }
 
-/* Input mezők alapstílusa */
 .checkout-input {
     padding: 12px;
     background: #222;
@@ -38,7 +37,6 @@
     border-color: #00c3ff;
 }
 
-/* Irányítószám és város elrendezése */
 .address-row {
     display: flex;
     gap: 10px;
@@ -52,7 +50,47 @@
     flex: 2;
 }
 
-/* Összesítő és gomb szekció */
+.payment-section {
+    margin-top: 20px;
+}
+
+.payment-options {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.payment-option {
+    flex: 1;
+    padding: 20px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.payment-option.active {
+    border-color: #d32f2f;
+    background: #222;
+    box-shadow: 0 0 10px rgba(211, 47, 47, 0.2);
+}
+
+.payment-option:hover {
+    border-color: #555;
+    background: #222;
+}
+
+.payment-option span {
+    font-weight: bold;
+    font-size: 14px;
+}
+
 .checkout-summary {
     background: #1a1a1a;
     padding: 20px;
@@ -93,7 +131,6 @@
     cursor: not-allowed;
 }
 
-/* Betöltés állapot */
 .checkout-loading {
     color: white;
     text-align: center;

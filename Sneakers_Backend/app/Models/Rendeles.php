@@ -19,7 +19,8 @@ class Rendeles extends Model
         'osszeg',        
         'allapot',      
         'datum',         
-        'szallitasi_cim_id' 
+        'szallitasi_cim_id',
+        'fizetesi_mod'
     ];
 
     public function tetel()

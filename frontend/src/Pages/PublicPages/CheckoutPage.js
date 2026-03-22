@@ -3,16 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { myAxios } from '../../services/api';
 import useAuthContext from '../../context/AuthContext';
 import { ShoeContext } from '../../context/ShoeContext';
-import useTranslation from '../../i18n/useTranslation'; // Importáld a hookot!
+import useTranslation from '../../i18n/useTranslation';
 import "../../css/PublicCss/Checkout.css";
 
 export default function CheckoutPage() {
     const navigate = useNavigate();
-    const { t } = useTranslation(); // Nyelvi függvény
+    const { t } = useTranslation();
     const { user } = useAuthContext();
     const [cartItems, setCartItems] = useState([]);
     const { isApplied, setIsApplied } = useContext(ShoeContext);
     const [loading, setLoading] = useState(true);
+    const [paymentMethod, setPaymentMethod] = useState('Bankkártya');
     const [formData, setFormData] = useState({
         nev: '', email: '', telefon: '', iranyitoszam: '', varos: '', utca: ''
     });
@@ -25,12 +26,11 @@ export default function CheckoutPage() {
                 const myCart = response.data.filter(item => item.felhasznalo_id === loggedInUserId);
                 setCartItems(myCart);
             } catch (error) {
-                console.error("Hiba a szerverről való betöltéskor:", error);
+                console.error(error);
             } finally {
                 setLoading(false);
             }
         };
-
         if (user) fetchCart();
     }, [user]);
 
@@ -41,7 +41,6 @@ export default function CheckoutPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (cartItems.length === 0) return;
-
         setLoading(true);
 
         try {
@@ -49,47 +48,51 @@ export default function CheckoutPage() {
                 felhasznalo_id: user.felhasznalo_id || user.id,
                 ar: total,
                 szallitasi_cim: `${formData.iranyitoszam} ${formData.varos}, ${formData.utca}`,
-                status: t('orders.processing') // Dinamikus státusz
+                status: t('orders.processing'),
+                fizetesi_mod: paymentMethod,
+                fizetes_statusz: paymentMethod === 'Bankkártya' ? 'teljesítve' : 'függőben'
             };
 
             await myAxios.post('/api/rendelesek', rendelesAdat);
-
-            alert(t('profile.save_success')); // Siker üzenet a profilból
+            alert(t('profile.save_success'));
             setIsApplied(false);
             navigate('/account/orders');
         } catch (error) {
-            console.error("Hiba a beküldéskor:", error.response?.data);
-            alert(t('profile.save_error')); // Hiba üzenet a profilból
+            alert(t('profile.save_error'));
         } finally {
             setLoading(false);
         }
     };
 
+    const optionStyle = (isActive) => ({
+        flex: 1,
+        padding: '15px',
+        border: isActive ? '2px solid #d32f2f' : '1px solid #333',
+        borderRadius: '8px',
+        background: isActive ? '#222' : '#1a1a1a',
+        cursor: 'pointer',
+        transition: '0.3s'
+    });
+
     if (loading) return <div className="checkout-loading">{t('loading')}</div>;
 
     return (
         <div className="checkout-container">
-            {/* Cím: nav.cart-ot használtam, mert az 'Kosár' / 'Warenkorb' */}
             <h1 className="checkout-title">{t('nav.cart')}</h1>
-
             <form onSubmit={handleSubmit} className="checkout-form">
-                {/* Szállítási adatok (a JSON-ben az 'adress.article' első mondata) */}
                 <h3 className="checkout-section-title">{t('orders.title')}</h3>
-
                 <input
                     type="text" placeholder={t('auth.full_name')} required
                     className="checkout-input"
                     value={formData.nev}
                     onChange={(e) => setFormData({ ...formData, nev: e.target.value })}
                 />
-
                 <input
                     type="email" placeholder={t('auth.email')} required
                     className="checkout-input"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
-
                 <div className="address-row">
                     <input
                         type="text" placeholder={t('zip_code')} required
@@ -104,13 +107,42 @@ export default function CheckoutPage() {
                         onChange={(e) => setFormData({ ...formData, varos: e.target.value })}
                     />
                 </div>
-
                 <input
                     type="text" placeholder={t('street')} required
                     className="checkout-input"
                     value={formData.utca}
                     onChange={(e) => setFormData({ ...formData, utca: e.target.value })}
                 />
+
+                <div className="payment-section" style={{ marginTop: '30px' }}>
+                    <h3 className="checkout-section-title">Fizetési mód</h3>
+                    <div className="payment-options" style={{ display: 'flex', gap: '15px', margin: '20px 0' }}>
+                        <label style={optionStyle(paymentMethod === 'Bankkártya')}>
+                            <input 
+                                type="radio" name="payment" value="Bankkártya"
+                                checked={paymentMethod === 'Bankkártya'}
+                                onChange={(e) => setPaymentMethod(e.target.value)}
+                                style={{ display: 'none' }}
+                            />
+                            <div style={{ textAlign: 'center' }}>
+                                <div style={{ fontSize: '24px' }}>💳</div>
+                                <div>Bankkártya</div>
+                            </div>
+                        </label>
+                        <label style={optionStyle(paymentMethod === 'Utánvét')}>
+                            <input 
+                                type="radio" name="payment" value="Utánvét"
+                                checked={paymentMethod === 'Utánvét'}
+                                onChange={(e) => setPaymentMethod(e.target.value)}
+                                style={{ display: 'none' }}
+                            />
+                            <div style={{ textAlign: 'center' }}>
+                                <div style={{ fontSize: '24px' }}>💵</div>
+                                <div>Utánvét</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
 
                 <div className="checkout-summary">
                     <h3 className="total-amount">

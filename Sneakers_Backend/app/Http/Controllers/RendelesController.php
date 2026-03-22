@@ -27,6 +27,7 @@ class RendelesController extends Controller
             'felhasznalo_id' => 'required',
             'ar'             => 'required|numeric',
             'szallitasi_cim' => 'required|string',
+            'fizetesi_mod'   => 'nullable|string',
         ]);
 
         $rendelesData = DB::transaction(function () use ($validated, $request) {
@@ -34,6 +35,7 @@ class RendelesController extends Controller
             $rendeles = Rendeles::create([
                 'felhasznalo_id'    => $validated['felhasznalo_id'],
                 'osszeg'            => $validated['ar'],
+                'fizetesi_mod'      => $request->fizetesi_mod,
                 'allapot'           => 'feldolgozás alatt',
                 'datum'             => now(),
                 'fizetes_id'        => $request->fizetes_id ?? null,
@@ -56,14 +58,13 @@ class RendelesController extends Controller
                     'fizetes_id'   => 1,
                     'telephely_id' => 1,
                 ]);
+
+                $emailTetelek[] = [
+                    'nev' => $item->termek->nev,
+                    'mennyiseg' => $item->mennyiseg,
+                    'ar' => $item->termek->ar
+                ];
             }
-
-            $emailTetelek[] = [
-                'nev' => $item->termek->nev,
-                'mennyiseg' => $item->mennyiseg,
-                'ar' => $item->termek->ar
-            ];
-
 
             Kosar::where('felhasznalo_id', $validated['felhasznalo_id'])->delete();
 
