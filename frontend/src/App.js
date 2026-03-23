@@ -34,6 +34,7 @@ import AdminLogout from "./Pages/AdminPages/AdminLogout";
 import ProtectedAdminPage from "./Pages/AdminPages/ProtectedAdminPage";
 import AdminFeedbackPage from "./Pages/AdminPages/AdminFeedbackPage";
 import AdminShoeEditPage from "./Pages/AdminPages/AdminShoeEditorPage";
+import AdminDiscountsPage from "./Pages/AdminPages/AdminDiscountsPage";
 
 
 const AdminShoes = lazy(() => import("./Pages/AdminPages/Admin"));
@@ -55,7 +56,7 @@ function App() {
         { path: "products", element: <AdminShoes /> },
         { path: "orders", element: <OrdersPage /> },
         { path: "customers", element: <Users /> },
-        { path: "discounts", element: <DiscountsPage /> },
+        { path: "discounts", element: <AdminDiscountsPage/> },
         { path: "settings", element: <SettingsPage /> },
         { path: "users", element: <Users /> },
         { path: "statistics", element: <Statistics /> },
