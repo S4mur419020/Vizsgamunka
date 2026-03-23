@@ -15,7 +15,6 @@ const AdminShoeEditPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // A beküldött PHP kód alapján az útvonalak: 'termekek' és 'kategoriak'
                 const [shoeRes, catRes] = await Promise.all([
                     axios.get(`http://localhost:8000/api/termekek/${id}`),
                     axios.get(`http://localhost:8000/api/kategoriak`)
