@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('rendeleseks', function (Blueprint $table) {
+        Schema::table('rendeles', function (Blueprint $table) {
             $table->string('fizetesi_mod')->nullable()->after('osszeg');
         });
     }
