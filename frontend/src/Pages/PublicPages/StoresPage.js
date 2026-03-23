@@ -14,6 +14,21 @@ export default function StoresPage() {
             .catch(err => console.error("Hiba a letöltésnél:", err));
     }, []);
 
+    
+    const translateDynamicText = (text) => {
+        if (!text) return "";
+        return text
+            .replace(/Központ/g, t('address.center'))
+            .replace(/Fő/g, t('address.main'))
+            .replace(/utca/gi, t('address.street_label'))
+            .replace(/út/gi, t('address.road_label'))
+            .replace(/tér/gi, t('address.square_label'))
+            .replace(/Hétfő/g, t('days.monday'))
+            .replace(/Péntek/g, t('days.friday'))
+            .replace(/Szombat/g, t('days.saturday'))
+            .replace(/Vasárnap/g, t('days.sunday'));
+    };
+
     if (selectedStore) {
         return (
             <div className="stores-wrapper">
@@ -24,17 +39,8 @@ export default function StoresPage() {
 
                     <h1 className="details-title">{selectedStore.varos}</h1>
                     <p className="details-address">
-                        <strong>{selectedStore.nev
-                            ? selectedStore.nev.replace(/Központ/g, t('address.center'))
-                            : ""}</strong><br />
-                        {selectedStore.cim
-                            .replace(/Fő/g, t('address.main'))
-                            .replace(/utca/g, t('address.street_label').toLowerCase())
-                            .replace(/Utca/g, t('address.street_label'))
-                            .replace(/út/g, t('address.road_label').toLowerCase())
-                            .replace(/tér/g, t('address.square_label').toLowerCase())
-                        }<br />
-
+                        <strong>{translateDynamicText(selectedStore.nev)}</strong><br />
+                        {translateDynamicText(selectedStore.cim)}<br />
                         {selectedStore.iranyitoszam} {selectedStore.varos}
                     </p>
 
@@ -46,12 +52,7 @@ export default function StoresPage() {
                     <div className="how-to-get-there">
                         <h3>{t('stores.opening')}</h3>
                         <p className="whitespace-pre-line">
-                            {selectedStore.nyitvatartas
-                                ? selectedStore.nyitvatartas
-                                    .replace(/Hétfő/g, t('days.monday'))
-                                    .replace(/Szombat/g, t('days.saturday'))
-                                   
-                                : ""}
+                            {translateDynamicText(selectedStore.nyitvatartas)}
                         </p>
 
                         <a

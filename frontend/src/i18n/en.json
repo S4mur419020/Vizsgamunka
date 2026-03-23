@@ -130,6 +130,8 @@
   "stores.more": "Learn More",
   "stores.loading": "Loading stores...",
   "days.monday": "Monday",
+  "days.friday": "Friday",
+  "days.sunday": "Sunday",
   "days.saturday": "Saturday",
   "address.street_label": "Street",
   "address.road_label": "Road",

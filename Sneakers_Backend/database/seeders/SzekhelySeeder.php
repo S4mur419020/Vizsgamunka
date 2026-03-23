@@ -27,7 +27,7 @@ class SzekhelySeeder extends Seeder
             [
                 'id' => 2,
                 'nev' => 'Debreceni depot',
-                'cim' => 'Fő utca 1',
+                'cim' => 'Kossuth utca 1',
                 'orszag' => 'Magyarország',
                 'varos' => 'Debrecen',
                 'iranyitoszam' => '4024',
