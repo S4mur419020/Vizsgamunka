@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { myAxios } from "../../services/api";
 import '../../css/AdminCss/AdminShoeEditPage.css';
 
 const AdminShoeEditPage = () => {
@@ -16,8 +16,8 @@ const AdminShoeEditPage = () => {
         const fetchData = async () => {
             try {
                 const [shoeRes, catRes] = await Promise.all([
-                    axios.get(`http://localhost:8000/api/termekek/${id}`),
-                    axios.get(`http://localhost:8000/api/kategoriak`)
+                    myAxios.get(`/api/termekek/${id}`),
+                    myAxios.get(`/api/kategoriak`)
                 ]);
 
                 setShoe({
@@ -57,12 +57,17 @@ const AdminShoeEditPage = () => {
         }
 
         try {
-            await axios.put(`http://localhost:3000/api/products/${id}`, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
+            await myAxios.post(`/api/termekek/${id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'X-HTTP-Method-Override': 'PUT'
+                },
             });
+
             alert("Sikeres mentés!");
             navigate('/admin/products');
         } catch (err) {
+            console.error(err);
             alert("Hiba történt a mentés során!");
         }
     };
@@ -92,19 +97,23 @@ const AdminShoeEditPage = () => {
                             required
                         />
                     </div>
+                    
                     <div className="form-group">
-                        <label>Kategória:</label>
+                        <label>Márka / Kategória:</label>
                         <select
                             value={shoe.kategoria_id}
                             onChange={(e) => setShoe({ ...shoe, kategoria_id: e.target.value })}
                             required
                         >
-                            <option value="">Válassz kategóriát...</option>
+                            <option value="">Válassz márkát...</option>
                             {categories.map(cat => (
-                                <option key={cat.id} value={cat.id}>{cat.nev}</option>
+                                <option key={cat.id} value={cat.id}>
+                                    {cat.marka} - {cat.tipus}
+                                </option>
                             ))}
                         </select>
                     </div>
+
                     <div className="form-group image-section">
                         <label>Termék képe:</label>
                         <div className="image-preview-container">

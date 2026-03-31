@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { myAxios } from "../../services/api";
 import AdminShoeCards from "../../Components/admin/AdminShoeCards";
 import useAuthContext from "../../context/AuthContext";
 import '../../css/AdminCss/AdminPage.css';
@@ -8,13 +8,12 @@ export default function Admin() {
     const { user } = useAuthContext();
     const [termekekLista, setTermekekLista] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [view, setView] = useState("admin"); 
 
     useEffect(() => {
         async function fetchTermekek() {
             try {
-                const res = await axios.get("http://localhost:8000/api/termekek", {
-                    withCredentials: true
-                });
+                const res = await myAxios.get("api/termekek");
                 setTermekekLista(res.data);
             } catch (err) {
                 console.error("Hiba a termékek lekérésekor:", err);
@@ -25,38 +24,43 @@ export default function Admin() {
         fetchTermekek();
     }, []);
 
-    if (!user || user.role !== "admin") {
-        return null;
-    }
-
-    function handleSzerkeszt(termek) {
-        console.log("Szerkesztés:", termek);
-    }
+    if (!user || user.role !== "admin") return null;
 
     async function handleTorol(termekId) {
         if (!window.confirm("Biztosan törlöd ezt a terméket?")) return;
-
         try {
-            await axios.delete(`http://localhost:8000/api/termekek/${termekId}`, {
-                withCredentials: true
-            });
+            await myAxios.delete(`api/termekek/${termekId}`);
             setTermekekLista(prev => prev.filter(t => t.id !== termekId));
-        } catch (err) {
-            console.error("Hiba a termék törlésekor:", err);
-        }
+        } catch (err) { console.error("Hiba a törléskor:", err); }
     }
 
     if (loading) return <p>Betöltés...</p>;
-    if (!termekekLista.length) return <p>Nincs elérhető termék.</p>;
 
     return (
-        <main className="admin-main">
-            <h1>Admin Termékek</h1>
-            <AdminShoeCards
-                termekek={termekekLista}
-                onSzerkeszt={handleSzerkeszt}
-                onTorol={handleTorol}
-            />
-        </main>
+        <div className="admin-main-full"> 
+            <nav className="view-switcher">
+                <button 
+                    className={`view-btn ${view === "user" ? "active" : ""}`} 
+                    onClick={() => setView("user")}
+                >
+                    FELHASZNÁLÓ
+                </button>
+                <button 
+                    className={`view-btn ${view === "admin" ? "active" : ""}`} 
+                    onClick={() => setView("admin")}
+                >
+                    ADMIN
+                </button>
+            </nav>
+
+            <h1 className="main-title">{view === "admin" ? "Admin Termékek" : "Vásárlói Nézet"}</h1>
+            <div className={`cards-wrapper ${view === "user" ? "hide-all-buttons" : ""}`}>
+                <AdminShoeCards
+                    termekek={termekekLista}
+                    onSzerkeszt={view === "admin" ? (t) => console.log(t) : null}
+                    onTorol={view === "admin" ? handleTorol : null}
+                />
+            </div>
+        </div>
     );
 }

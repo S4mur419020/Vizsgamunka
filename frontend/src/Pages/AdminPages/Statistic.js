@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Line, Doughnut } from "react-chartjs-2";
-import axios from "axios";
+import { myAxios } from "../../services/api";
 import '../../css/AdminCss/Statistic.css';
 import {
   Chart as ChartJS,
@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
   ArcElement,
+  Filler,
 } from "chart.js";
 
 ChartJS.register(
@@ -22,7 +23,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  ArcElement
+  ArcElement,
+  Filler,
 );
 
 export default function Statistics() {
@@ -37,9 +39,9 @@ export default function Statistics() {
     const fetchAllData = async () => {
       try {
         const [termekRes, valtozatRes, markakRes] = await Promise.all([
-          axios.get("/api/termekek"),
-          axios.get("/api/termek_valtozatok"),
-          axios.get("/api/markak")
+          myAxios.get("/api/termekek"),
+          myAxios.get("/api/termek_valtozatok"),
+          myAxios.get("/api/markak")
         ]);
 
         setData({
@@ -73,7 +75,7 @@ export default function Statistics() {
     labels: data.termekek.slice(0, 10).map(t => t.nev),
     datasets: [{
       label: "Variációk száma",
-      data: data.termekek.slice(0, 10).map(t => 
+      data: data.termekek.slice(0, 10).map(t =>
         data.valtozatok.filter(v => v.termek_id === t.id).length
       ),
       borderColor: "#5bc0de",

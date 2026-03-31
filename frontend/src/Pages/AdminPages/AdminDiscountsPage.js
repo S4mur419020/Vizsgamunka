@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { myAxios } from "../../services/api";
 import "../../css/AdminCss/Statistic.css";
 
 export default function AdminDiscountsPage() {
@@ -12,7 +12,7 @@ export default function AdminDiscountsPage() {
 
     const fetchDiscounts = async () => {
         try {
-            const res = await axios.get("http://localhost:8000/api/learazasok");
+            const res = await myAxios.get("/api/learazasok");
             setDiscounts(res.data);
             setLoading(false);
         } catch (error) {
@@ -28,7 +28,7 @@ export default function AdminDiscountsPage() {
     const handleCreate = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8000/api/learazasok", newForm);
+            await myAxios.post("/api/learazasok", newForm);
             setIsModalOpen(false);
             setNewForm({ kod: '', mertek: '', lejarat: '' });
             fetchDiscounts();
@@ -48,7 +48,7 @@ export default function AdminDiscountsPage() {
 
     const handleSave = async (id) => {
         try {
-            await axios.put(`http://localhost:8000/api/learazasok/${id}`, editForm);
+            await myAxios.put(`/api/learazasok/${id}`, editForm);
             setEditingId(null);
             fetchDiscounts();
         } catch (error) {
@@ -59,7 +59,7 @@ export default function AdminDiscountsPage() {
     const handleDelete = async (id) => {
         if (window.confirm("Biztosan törölni szeretnéd?")) {
             try {
-                await axios.delete(`http://localhost:8000/api/learazasok/${id}`);
+                await myAxios.delete(`/api/learazasok/${id}`);
                 setDiscounts(discounts.filter(d => d.id !== id));
             } catch (error) {
                 alert("Hiba a törlésnél.");
@@ -125,17 +125,17 @@ export default function AdminDiscountsPage() {
                     <div className="modal-content">
                         <h3>Új kedvezménykód</h3>
                         <form onSubmit={handleCreate}>
-                            <input 
-                                type="text" placeholder="Kuponkód (pl: NYAR2024)" required 
-                                value={newForm.kod} onChange={(e) => setNewForm({...newForm, kod: e.target.value})}
+                            <input
+                                type="text" placeholder="Kuponkód (pl: NYAR2024)" required
+                                value={newForm.kod} onChange={(e) => setNewForm({ ...newForm, kod: e.target.value })}
                             />
-                            <input 
-                                type="number" placeholder="Százalék (pl: 15)" required 
-                                value={newForm.mertek} onChange={(e) => setNewForm({...newForm, mertek: e.target.value})}
+                            <input
+                                type="number" placeholder="Százalék (pl: 15)" required
+                                value={newForm.mertek} onChange={(e) => setNewForm({ ...newForm, mertek: e.target.value })}
                             />
-                            <input 
-                                type="text" placeholder="Érvényesség (pl: 5 nap)" 
-                                value={newForm.lejarat} onChange={(e) => setNewForm({...newForm, lejarat: e.target.value})}
+                            <input
+                                type="text" placeholder="Érvényesség (pl: 5 nap)"
+                                value={newForm.lejarat} onChange={(e) => setNewForm({ ...newForm, lejarat: e.target.value })}
                             />
                             <div className="modal-buttons">
                                 <button type="submit" className="btn-save">Létrehozás</button>

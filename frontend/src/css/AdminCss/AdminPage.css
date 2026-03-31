@@ -1,16 +1,33 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .admin-layout {
   display: flex;
+  width: 100%;
   min-height: 100vh;
-  background-color: #1a1a2e;
+  background-color: #0f0f1e;
+  overflow-x: hidden;
 }
 
 .admin-sidebar {
   width: 250px;
+  min-width: 250px;
   background-color: #1e1e2f;
   display: flex;
   flex-direction: column;
   padding: 30px 20px;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
 }
 
 .sidebar-title {
@@ -19,6 +36,8 @@
   font-weight: bold;
   margin-bottom: 40px;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .sidebar-nav {
@@ -43,18 +62,172 @@
   font-weight: 600;
 }
 
-.admin-main {
+.admin-main-full {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 40px;
-  overflow-y: auto;
   background-color: #161625;
+  min-width: 0;
 }
 
-.admin-main h1 {
+.main-title {
   text-align: center;
   font-size: 3rem;
   background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 40px;
+  font-weight: bold;
+}
+
+/* --- NÉZET VÁLTÓ --- */
+.view-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
+}
+
+.view-btn {
+  background: none;
+  border: none;
+  color: #9494b8;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 5px 15px;
+  position: relative;
+}
+
+.view-btn.active {
+  color: #4facfe;
+  font-weight: 700;
+}
+
+.view-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -16px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+}
+
+.cards-wrapper {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 25px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.cards-wrapper>div {
+  display: contents !important;
+}
+
+.admin-card {
+  background-color: #1a1a2e !important;
+  border: 2px solid #ffd700 !important;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.admin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.admin-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  background-color: white;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 10px;
+  flex-shrink: 0;
+}
+
+.admin-card h3 {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  min-height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-card p {
+  color: #00f2fe;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.admin-buttons {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.szerkesztes-btn,
+.torles-btn,
+.admin-buttons button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  font-size: 0.9rem;
+}
+
+.szerkesztes-btn,
+.admin-buttons button:first-of-type {
+  background-color: #007bff;
+  color: white;
+}
+
+.torles-btn,
+.admin-buttons button:last-of-type {
+  background-color: #dc3545;
+  color: white;
+}
+
+.hide-all-buttons .admin-buttons,
+.hide-all-buttons .szerkesztes-btn,
+.hide-all-buttons .torles-btn {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .cards-wrapper {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+  }
 }

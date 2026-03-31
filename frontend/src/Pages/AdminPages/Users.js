@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { myAxios } from "../../services/api"; 
 import "../../css/AdminCss/Users.css";
 
 function Users() {
@@ -11,47 +12,36 @@ function Users() {
     fetchUsers();
   }, []);
 
-  const fetchUsers = () => {
-    fetch("http://localhost:8000/api/felhasznalok")
-      .then((res) => {
-        if (!res.ok) throw new Error("Hiba a felhasználók betöltésekor");
-        return res.json();
-      })
-      .then((data) => {
-        setUsers(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+  const fetchUsers = async () => {
+    try {
+      const res = await myAxios.get("/api/felhasznalok");
+      setUsers(res.data);
+      setLoading(false);
+    } catch (err) {
+      setError("Hiba a felhasználók betöltésekor");
+      setLoading(false);
+    }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Biztosan törlöd a felhasználót?")) return;
     try {
-      const res = await fetch(`http://localhost:8000/api/felhasznalok/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Törlés sikertelen");
+      await myAxios.delete(`/api/felhasznalok/${id}`);
       setUsers(users.filter((user) => user.felhasznalo_id !== id));
     } catch (err) {
-      alert(err.message);
+      alert("Törlés sikertelen");
     }
   };
 
   const handleRoleChange = async (id, newRole) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/felhasznalok/${id}/role`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ jogosultsag: newRole }),
+      await myAxios.put(`/api/felhasznalok/${id}/role`, { 
+        jogosultsag: newRole 
       });
-      if (!res.ok) throw new Error("Módosítás sikertelen");
       
       setUsers(users.map(u => u.felhasznalo_id === id ? { ...u, jogosultsag: newRole } : u));
     } catch (err) {
-      alert(err.message);
+      alert("Módosítás sikertelen");
     }
   };
 
@@ -92,14 +82,14 @@ function Users() {
             {filteredUsers.map((user) => (
               <tr key={user.felhasznalo_id}>
                 <td className="user-info">
-                  <div className="avatar">{user.nev.charAt(0)}</div>
+                  <div className="avatar">{user.nev ? user.nev.charAt(0) : "?"}</div>
                   <div>
                     <div className="user-name">{user.nev}</div>
                     <div className="user-id">ID: {user.felhasznalo_id}</div>
                   </div>
                 </td>
                 <td>{user.email}</td>
-                <td>{new Date(user.regisztracio_datuma).toLocaleDateString()}</td>
+                <td>{user.regisztracio_datuma ? new Date(user.regisztracio_datuma).toLocaleDateString() : "-"}</td>
                 <td>
                   <span className={`badge ${user.aktiv ? "active" : "inactive"}`}>
                     {user.aktiv ? "Active" : "Inactive"}

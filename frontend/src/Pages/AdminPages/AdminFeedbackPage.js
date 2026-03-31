@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { myAxios } from "../../services/api"; 
 import '../../css/AdminCss/AdminFeedbackPage.css'; 
 
 const AdminFeedbackPage = () => {
@@ -9,7 +9,7 @@ const AdminFeedbackPage = () => {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/admin/feedbacks');
+        const response = await myAxios.get('/api/admin/feedbacks');
         setFeedbacks(response.data);
       } catch (err) {
         console.error("Hiba az adatok lekérésekor:", err);
@@ -39,11 +39,11 @@ const AdminFeedbackPage = () => {
           <tbody>
             {feedbacks.length > 0 ? (
               feedbacks.map((fb) => (
-                <tr key={fb._id || fb.id}>
+                <tr key={fb.id || fb._id}>
                   <td className="user-name">{fb.userName}</td>
                   <td>{fb.userEmail}</td>
                   <td className="feedback-comment">"{fb.comment}"</td>
-                  <td>{new Date(fb.createdAt).toLocaleDateString('hu-HU')}</td>
+                  <td>{fb.createdAt ? new Date(fb.createdAt).toLocaleDateString('hu-HU') : 'Nincs dátum'}</td>
                 </tr>
               ))
             ) : (
