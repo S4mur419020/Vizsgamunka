@@ -50,11 +50,22 @@ class Felhasznalo extends Authenticatable
         'birth_year' => 'integer',
     ];
 
+    /**
+     * Megmondja a Laravelnek, melyik oszlopban van a jelszó az adatbázisban.
+     */
+    public function getAuthPasswordName()
+    {
+        return 'jelszo';
+    }
+
     public function getAuthPassword()
     {
         return $this->jelszo;
     }
 
+    /**
+     * Automatikusan hasheli a jelszót mentéskor, ha szükséges.
+     */
     public function setJelszoAttribute($value)
     {
         if (!empty($value)) {
@@ -62,6 +73,9 @@ class Felhasznalo extends Authenticatable
         }
     }
 
+    /**
+     * Alias a 'password' kulcshoz, hogy az Auth::user()->password is működjön.
+     */
     public function getAttribute($key)
     {
         if ($key === 'password') {

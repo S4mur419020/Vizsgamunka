@@ -23,13 +23,13 @@ class FelhasznaloController extends Controller
         ]);
 
         try {
+            // A Laravel 'password' kulcsot vár az attempt-ben, 
+            // de a Modell átirányítja a 'jelszo' oszlopra.
             $credentials = [
                 'email' => $request->email,
                 'password' => $request->password
             ];
 
-            // Az Auth::attempt a Modell getAttribute-ja miatt tudni fogja, 
-            // hogy a 'password'-öt a 'jelszo' mezőben keresse.
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
 
@@ -69,13 +69,12 @@ class FelhasznaloController extends Controller
     {
         $validated = $request->validate([
             'nev' => 'required|string|max:255',
-            'email' => 'required|email|unique:felhasznalos,email', // JAVÍTVA: felhasznalos tábla
+            'email' => 'required|email|unique:felhasznalos,email',
             'jelszo' => 'required|string|min:6',
             'role_id' => 'nullable|exists:roles,id',
         ]);
 
-        // A Modell setJelszoAttribute metódusa miatt a create() automatikusan 
-        // jól kezeli a hashelést, de így is maradhat:
+        // A Modell setJelszoAttribute miatt automatikusan hashelődik.
         $felhasznalo = Felhasznalo::create($validated);
 
         return response()->json($felhasznalo, 201);
@@ -83,18 +82,15 @@ class FelhasznaloController extends Controller
 
     public function show(string $id)
     {
-        // JAVÍTVA: findOrFail a felhasznalo_id alapján fog keresni
         return response()->json(Felhasznalo::findOrFail($id));
     }
 
     public function showProfile(Request $request)
     {
         $user = $request->user();
-
         if (!$user) {
             return response()->json(['message' => 'Nincs bejelentkezve'], 401);
         }
-
         return response()->json($user);
     }
 
@@ -108,18 +104,11 @@ class FelhasznaloController extends Controller
 
         $user->load('role');
 
-        $roleName = null;
-        switch ($user->role_id) {
-            case 1:
-                $roleName = 'admin';
-                break;
-            case 2:
-                $roleName = 'felhasznalo';
-                break;
-            default:
-                $roleName = 'ismeretlen';
-                break;
-        }
+        $roleName = match ((int)$user->role_id) {
+            1 => 'admin',
+            2 => 'felhasznalo',
+            default => 'ismeretlen',
+        };
 
         return response()->json([
             'id' => $user->felhasznalo_id,
