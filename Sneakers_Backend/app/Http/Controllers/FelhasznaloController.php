@@ -28,6 +28,8 @@ class FelhasznaloController extends Controller
                 'password' => $request->password
             ];
 
+            // Az Auth::attempt a Modell getAttribute-ja miatt tudni fogja, 
+            // hogy a 'password'-öt a 'jelszo' mezőben keresse.
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
 
@@ -67,12 +69,13 @@ class FelhasznaloController extends Controller
     {
         $validated = $request->validate([
             'nev' => 'required|string|max:255',
-            'email' => 'required|email|unique:felhasznalok,email',
+            'email' => 'required|email|unique:felhasznalos,email', // JAVÍTVA: felhasznalos tábla
             'jelszo' => 'required|string|min:6',
             'role_id' => 'nullable|exists:roles,id',
         ]);
-        $validated['jelszo'] = Hash::make($validated['jelszo']);
 
+        // A Modell setJelszoAttribute metódusa miatt a create() automatikusan 
+        // jól kezeli a hashelést, de így is maradhat:
         $felhasznalo = Felhasznalo::create($validated);
 
         return response()->json($felhasznalo, 201);
@@ -80,6 +83,7 @@ class FelhasznaloController extends Controller
 
     public function show(string $id)
     {
+        // JAVÍTVA: findOrFail a felhasznalo_id alapján fog keresni
         return response()->json(Felhasznalo::findOrFail($id));
     }
 
@@ -93,6 +97,7 @@ class FelhasznaloController extends Controller
 
         return response()->json($user);
     }
+
     public function currentUser(Request $request)
     {
         $user = $request->user();
@@ -117,7 +122,7 @@ class FelhasznaloController extends Controller
         }
 
         return response()->json([
-            'id' => $user->id,
+            'id' => $user->felhasznalo_id,
             'name' => $user->nev,
             'email' => $user->email,
             'role_id' => $user->role_id,

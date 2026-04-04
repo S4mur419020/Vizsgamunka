@@ -7,8 +7,10 @@ export default function AdminDiscountsPage() {
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editForm, setEditForm] = useState({ kod: '', mertek: '', lejarat: '' });
-    const [newForm, setNewForm] = useState({ kod: '', mertek: '', lejarat: '' });
+    
+    // Form állapotok - szazalek-ra javítva a mertek helyett
+    const [editForm, setEditForm] = useState({ kod: '', szazalek: '', lejarat: '' });
+    const [newForm, setNewForm] = useState({ kod: '', szazalek: '', lejarat: '' });
 
     const fetchDiscounts = async () => {
         try {
@@ -16,7 +18,7 @@ export default function AdminDiscountsPage() {
             setDiscounts(res.data);
             setLoading(false);
         } catch (error) {
-            console.error("Hiba:", error);
+            console.error("Hiba a letöltéskor:", error);
             setLoading(false);
         }
     };
@@ -28,12 +30,13 @@ export default function AdminDiscountsPage() {
     const handleCreate = async (e) => {
         e.preventDefault();
         try {
+            // A newForm már szazalek-ot tartalmaz
             await myAxios.post("/api/learazasok", newForm);
             setIsModalOpen(false);
-            setNewForm({ kod: '', mertek: '', lejarat: '' });
+            setNewForm({ kod: '', szazalek: '', lejarat: '' });
             fetchDiscounts();
         } catch (error) {
-            alert("Hiba a létrehozás során!");
+            alert("Hiba a mentés során! (Valószínűleg már létezik ez a kód)");
         }
     };
 
@@ -41,23 +44,23 @@ export default function AdminDiscountsPage() {
         setEditingId(discount.id);
         setEditForm({
             kod: discount.kod,
-            mertek: discount.mertek,
+            szazalek: discount.szazalek,
             lejarat: discount.lejarat || ''
         });
     };
 
-    const handleSave = async (id) => {
+    const handleSaveUpdate = async (id) => {
         try {
             await myAxios.put(`/api/learazasok/${id}`, editForm);
             setEditingId(null);
             fetchDiscounts();
         } catch (error) {
-            alert("Hiba a mentés során!");
+            alert("Hiba a frissítés során!");
         }
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm("Biztosan törölni szeretnéd?")) {
+        if (window.confirm("Biztosan törölni szeretnéd ezt a kedvezményt?")) {
             try {
                 await myAxios.delete(`/api/learazasok/${id}`);
                 setDiscounts(discounts.filter(d => d.id !== id));
@@ -84,30 +87,42 @@ export default function AdminDiscountsPage() {
                 {discounts.map((discount) => (
                     <div className="discount-card-admin" key={discount.id}>
                         {editingId === discount.id ? (
-                            <div className="edit-mode">
-                                <input
-                                    type="text"
-                                    value={editForm.kod}
-                                    onChange={(e) => setEditForm({ ...editForm, kod: e.target.value })}
+                            <div className="edit-mode-layout">
+                                <input 
+                                    type="text" 
+                                    value={editForm.kod} 
+                                    onChange={(e) => setEditForm({...editForm, kod: e.target.value})}
+                                    placeholder="Kód"
                                 />
-                                <input
-                                    type="number"
-                                    value={editForm.mertek}
-                                    onChange={(e) => setEditForm({ ...editForm, mertek: e.target.value })}
+                                <input 
+                                    type="number" 
+                                    value={editForm.szazalek} 
+                                    onChange={(e) => setEditForm({...editForm, szazalek: e.target.value})}
+                                    placeholder="%"
                                 />
-                                <div className="admin-actions">
-                                    <button className="btn-save" onClick={() => handleSave(discount.id)}>Mentés</button>
-                                    <button className="btn-cancel" onClick={() => setEditingId(null)}>Mégse</button>
+                                <input 
+                                    type="text" 
+                                    value={editForm.lejarat} 
+                                    onChange={(e) => setEditForm({...editForm, lejarat: e.target.value})}
+                                    placeholder="Lejárat"
+                                />
+                                <div className="admin-card-buttons">
+                                    <button className="btn-edit-action" onClick={() => handleSaveUpdate(discount.id)}>Mentés</button>
+                                    <button className="btn-delete-action" onClick={() => setEditingId(null)}>Mégse</button>
                                 </div>
                             </div>
                         ) : (
                             <>
                                 <div className="discount-info">
-                                    <h2 className="discount-percent">{discount.mertek}% kedvezmény</h2>
+                                    <h2 className="discount-percent">{discount.szazalek}% kedvezmény</h2>
                                     <div className="coupon-code-box">
-                                        <code>{discount.kod}</code>
+                                        <div className="dashed-border-code">
+                                            {discount.kod}
+                                        </div>
                                     </div>
-                                    <p className="validity-text">KÓD ÉRVÉNYESSÉG: {discount.lejarat || 'Nincs megadva'}</p>
+                                    <p className="validity-text">
+                                        KÓD ÉRVÉNYESSÉG: {discount.lejarat ? discount.lejarat.toUpperCase() : 'NINCS MEGADVA'}
+                                    </p>
                                 </div>
 
                                 <div className="admin-card-buttons">
@@ -123,22 +138,22 @@ export default function AdminDiscountsPage() {
             {isModalOpen && (
                 <div className="modal-overlay">
                     <div className="modal-content">
-                        <h3>Új kedvezménykód</h3>
+                        <h3>Új kedvezménykód rögzítése</h3>
                         <form onSubmit={handleCreate}>
                             <input
-                                type="text" placeholder="Kuponkód (pl: NYAR2024)" required
+                                type="text" placeholder="Kuponkód (pl: KUPON20)" required
                                 value={newForm.kod} onChange={(e) => setNewForm({ ...newForm, kod: e.target.value })}
                             />
                             <input
-                                type="number" placeholder="Százalék (pl: 15)" required
-                                value={newForm.mertek} onChange={(e) => setNewForm({ ...newForm, mertek: e.target.value })}
+                                type="number" placeholder="Kedvezmény %" required
+                                value={newForm.szazalek} onChange={(e) => setNewForm({ ...newForm, szazalek: e.target.value })}
                             />
                             <input
-                                type="text" placeholder="Érvényesség (pl: 5 nap)"
+                                type="text" placeholder="Lejárat (pl: 2024.12.31)"
                                 value={newForm.lejarat} onChange={(e) => setNewForm({ ...newForm, lejarat: e.target.value })}
                             />
                             <div className="modal-buttons">
-                                <button type="submit" className="btn-save">Létrehozás</button>
+                                <button type="submit" className="btn-save">Mentés</button>
                                 <button type="button" className="btn-cancel" onClick={() => setIsModalOpen(false)}>Bezárás</button>
                             </div>
                         </form>

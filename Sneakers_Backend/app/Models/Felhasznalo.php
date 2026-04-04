@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
-
 
 class Felhasznalo extends Authenticatable
 {
@@ -17,7 +15,6 @@ class Felhasznalo extends Authenticatable
     protected $table = 'felhasznalos';
     protected $primaryKey = 'felhasznalo_id';
 
-   
     public $incrementing = true;
 
     protected $fillable = [
@@ -53,23 +50,16 @@ class Felhasznalo extends Authenticatable
         'birth_year' => 'integer',
     ];
 
-    
     public function getAuthPassword()
     {
         return $this->jelszo;
     }
 
-    
     public function setJelszoAttribute($value)
     {
         if (!empty($value)) {
             $this->attributes['jelszo'] = Hash::needsRehash($value) ? Hash::make($value) : $value;
         }
-    }
-
-    public function nyelv()
-    {
-        return $this->belongsTo(Nyelv::class, 'nyelv_id');
     }
 
     public function getAttribute($key)
@@ -79,6 +69,12 @@ class Felhasznalo extends Authenticatable
         }
         return parent::getAttribute($key);
     }
+
+    public function nyelv()
+    {
+        return $this->belongsTo(Nyelv::class, 'nyelv_id');
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class);
