@@ -34,7 +34,6 @@ export default function OrderPage() {
         <>
           <div className="orders-list">
             {orders.map((order) => {
-              // Kiszámoljuk a tételek eredeti összértékét (darab * ár)
               const subTotal = order.tetel 
                 ? order.tetel.reduce((sum, item) => {
                     const price = Number(item.ar || item.termek?.ar || 0);
@@ -43,7 +42,6 @@ export default function OrderPage() {
                   }, 0)
                 : 0;
               
-              // Megnézzük, hogy a fizetett összeg kevesebb-e, mint az eredeti ár
               const hasDiscount = subTotal > Number(order.osszeg) + 10;
 
               return (

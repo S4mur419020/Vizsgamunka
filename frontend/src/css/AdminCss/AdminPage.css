@@ -81,7 +81,6 @@ body {
   font-weight: bold;
 }
 
-/* --- NÉZET VÁLTÓ --- */
 .view-switcher {
   display: flex;
   justify-content: center;

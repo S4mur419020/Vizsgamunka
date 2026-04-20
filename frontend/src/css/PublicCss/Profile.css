@@ -1,3 +1,14 @@
+.dropdown-menu {
+    position: absolute;
+    z-index: 9999 !important;
+}
+
+.navbar { 
+    position: relative;
+    z-index: 100; 
+}
+
+
 .profile-container {
     color: #fff;
 }

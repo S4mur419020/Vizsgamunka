@@ -9,7 +9,7 @@ const AdminFeedbackPage = () => {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const response = await myAxios.get('/api/admin/feedbacks');
+        const response = await myAxios.get('/api/blog');
         setFeedbacks(response.data);
       } catch (err) {
         console.error("Hiba az adatok lekérésekor:", err);
@@ -40,10 +40,10 @@ const AdminFeedbackPage = () => {
             {feedbacks.length > 0 ? (
               feedbacks.map((fb) => (
                 <tr key={fb.id || fb._id}>
-                  <td className="user-name">{fb.userName}</td>
+                  <td className="user-name">Felhasználó #{fb.szerzo_id}</td>
                   <td>{fb.userEmail}</td>
-                  <td className="feedback-comment">"{fb.comment}"</td>
-                  <td>{fb.createdAt ? new Date(fb.createdAt).toLocaleDateString('hu-HU') : 'Nincs dátum'}</td>
+                  <td className="feedback-comment">"{fb.tartalom}"</td>
+                  <td>{new Date(fb.publikacio_datuma).toLocaleDateString('hu-HU')}</td>
                 </tr>
               ))
             ) : (

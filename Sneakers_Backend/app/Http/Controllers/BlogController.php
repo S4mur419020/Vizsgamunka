@@ -13,14 +13,7 @@ class BlogController extends Controller
 {
     public function index()
     {
-
-        $user = Auth::user();
-
-        if ($user && $user->jogosultsag_id === 1) {
-            return response()->json(Blog::all());
-        }
-
-        return response()->json(['message' => 'Nincs jogosultságod a megtekintéshez'], 403);
+        return response()->json(Blog::all());
     }
 
     public function store(Request $request)

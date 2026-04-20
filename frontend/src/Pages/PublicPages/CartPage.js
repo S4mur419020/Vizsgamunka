@@ -2,11 +2,11 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/PublicCss/Cart.css';
 import { ShoeContext } from '../../context/ShoeContext'; 
-import useTranslation from '../../i18n/useTranslation'; // Fordító hook importálása
+import useTranslation from '../../i18n/useTranslation'; 
 
 export default function CartPage() {
   const navigate = useNavigate();
-  const { t } = useTranslation(); // Fordító függvény inicializálása
+  const { t } = useTranslation(); 
  
   const [couponCode, setCouponCode] = useState("");
   
@@ -24,7 +24,6 @@ export default function CartPage() {
       await myAxios.delete(`/api/kosar/${kosarId}`);
       window.location.reload(); 
     } catch (error) {
-      // Hibakezelés fordítása a profil mentési hiba kulccsal (vagy delete kulccsal)
       alert(t('profile.save_error') || "Hiba történt a törlés során!");
     }
   };
@@ -39,7 +38,6 @@ export default function CartPage() {
   const handleApplyCoupon = () => {
     if (couponCode.toUpperCase() === '7X4K-29QZ') {
       setIsApplied(true);
-      // Itt egy egyszerű visszajelzést adunk
       alert("OK! 10%");
     } else {
       alert(t('profile.save_error')); 
@@ -61,26 +59,28 @@ export default function CartPage() {
               />
               <div className="cart-item-info">
                 <h3>{item.termek?.nev}</h3>
-                {/* Méret felirat a JSON-ből */}
                 <p>{t('product.size_label')}: {item.meret_id}</p> 
-                <button onClick={() => handleRemove(item.kosar_id)} className="remove-btn">
-                  {t('cart.remove')}
-                </button>
               </div>
 
               <div className="cart-item-quantity-controls">
                 <button 
                   className="qty-btn"
-                  onClick={() => updateCart(item.termek_id, -1, item.meret_id)}
-                > - </button>
-                
-                <span className="qty-value">{item.mennyiseg} db</span>
-                
-                <button 
-                  className="qty-btn"
-                  onClick={() => updateCart(item.termek_id, 1, item.meret_id)}
-                > + </button>
-              </div>
+                  onClick={() => {
+                    if (item.mennyiseg > 1) {
+                      updateCart(item.termek_id, -1, item.meret_id);
+                    } else {
+                      handleRemove(item.kosar_id); 
+                    }
+                  }}
+                > − </button>
+  
+  <span className="qty-value">{item.mennyiseg} db</span>
+  
+  <button 
+    className="qty-btn"
+    onClick={() => updateCart(item.termek_id, 1, item.meret_id)}
+  > + </button>
+</div>
 
               <div className="cart-item-price">
                 {(Number(item.termek?.ar || 0) * item.mennyiseg).toLocaleString()} Ft
@@ -88,7 +88,6 @@ export default function CartPage() {
             </div>
           ))
         ) : (
-          /* Üres kosár üzenet a JSON-ből */
           <div className="empty-cart-msg">{t('cart.empty')}</div>
         )}
       </div>
@@ -116,7 +115,6 @@ export default function CartPage() {
                 </button>
               </>
             ) : (
-              /* Kedvezmény visszajelzés a JSON alapján következtetve */
               <div className="coupon-applied">
                 ✓ 10% {t('cart.discount').toLowerCase()}
               </div>
@@ -131,7 +129,6 @@ export default function CartPage() {
           )}
 
           <div className="total-row">
-            {/* Fizetendő / Összesen felirat */}
             <span>{t('orders.total')}:</span>
             <span>{finalTotal.toLocaleString()} Ft</span>
           </div>

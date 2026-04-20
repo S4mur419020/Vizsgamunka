@@ -9,25 +9,65 @@
   margin: 0 auto;
 }
 
-/* Termék lista szakasz */
-.cart-items-section {
-  flex: 2;
+.cart-item-quantity-controls {
+  display: flex;
+  align-items: center;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: #111;
+  overflow: hidden;
+  height: 40px;
+}
+
+.qty-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  width: 40px;
+  height: 100%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qty-btn:hover {
+  background: #222;
+  color: #00aaff;
+}
+
+.qty-value {
+  padding: 0 15px;
+  font-weight: bold;
+  border-left: 1px solid #333;
+  border-right: 1px solid #333;
+  min-width: 60px;
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 40px;
 }
 
 .cart-item-row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 20px;
-  padding: 20px 0;
+  padding: 25px 0;
   border-bottom: 1px solid #222;
 }
 
 .cart-item-image {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 8px;
-  background: white;
+  width: 110px;
+  height: 110px;
+  border-radius: 12px;
+  object-fit: contain; 
+  background: #fff;
+}
+
+.cart-items-section {
+  flex: 2;
 }
 
 .cart-item-info {
@@ -63,7 +103,6 @@
   white-space: nowrap;
 }
 
-/* Összegző szakasz */
 .cart-summary-section {
   flex: 1;
 }
@@ -92,7 +131,6 @@
   color: #ccc;
 }
 
-/* Kupon szekció */
 .coupon-container {
   margin-bottom: 20px;
   display: flex;
@@ -140,7 +178,6 @@
   font-weight: bold;
 }
 
-/* Fizetendő fősor */
 .total-row {
   display: flex;
   justify-content: space-between;
@@ -176,7 +213,6 @@
   font-size: 1.2rem;
 }
 
-/* Reszponzivitás */
 @media (max-width: 992px) {
   .cart-page-container {
     flex-direction: column;

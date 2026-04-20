@@ -16,7 +16,6 @@
   color: #ccc;
 }
 
-/* Kártya stílusok */
 .order-card {
   background: #1a1a1a;
   border-radius: 12px;
@@ -34,7 +33,6 @@
   margin-bottom: 15px;
 }
 
-/* Termék sorok */
 .order-item-row {
   display: flex;
   align-items: center;
@@ -65,7 +63,6 @@
   color: #ccc;
 }
 
-/* Kártya alja */
 .order-footer {
   display: flex;
   flex-direction: column;
@@ -75,7 +72,6 @@
   padding-top: 10px;
 }
 
-/* Összesített statisztika a lap alján */
 .total-summary {
   margin-top: 30px;
   text-align: center;
