@@ -23,8 +23,6 @@ class FelhasznaloController extends Controller
         ]);
 
         try {
-            // A Laravel 'password' kulcsot vár az attempt-ben, 
-            // de a Modell átirányítja a 'jelszo' oszlopra.
             $credentials = [
                 'email' => $request->email,
                 'password' => $request->password
@@ -74,7 +72,6 @@ class FelhasznaloController extends Controller
             'role_id' => 'nullable|exists:roles,id',
         ]);
 
-        // A Modell setJelszoAttribute miatt automatikusan hashelődik.
         $felhasznalo = Felhasznalo::create($validated);
 
         return response()->json($felhasznalo, 201);
