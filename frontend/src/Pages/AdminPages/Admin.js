@@ -8,7 +8,7 @@ export default function Admin() {
     const { user } = useAuthContext();
     const [termekekLista, setTermekekLista] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [view, setView] = useState("admin"); 
+    const [view, setView] = useState("admin");
 
     useEffect(() => {
         async function fetchTermekek() {
@@ -37,16 +37,10 @@ export default function Admin() {
     if (loading) return <p>Betöltés...</p>;
 
     return (
-        <div className="admin-main-full"> 
+        <div className="admin-main-full">
             <nav className="view-switcher">
-                <button 
-                    className={`view-btn ${view === "user" ? "active" : ""}`} 
-                    onClick={() => setView("user")}
-                >
-                    FELHASZNÁLÓ
-                </button>
-                <button 
-                    className={`view-btn ${view === "admin" ? "active" : ""}`} 
+                <button
+                    className={`view-btn ${view === "admin" ? "active" : ""}`}
                     onClick={() => setView("admin")}
                 >
                     ADMIN

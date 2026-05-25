@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import useTranslation from '../../i18n/useTranslation';
 
-export default function ShoeCard({ termek }) {
+export default function ShoeCard({ termek, isAdmin }) {
     const { t } = useTranslation(); 
+    
     return (
         <div style={{ 
             background: '#1a1a1a', 
@@ -25,8 +26,9 @@ export default function ShoeCard({ termek }) {
             <p style={{ color: '#007bff', fontWeight: 'bold' }}>
                 {Number(termek.ar).toLocaleString()} Ft
             </p>
+
             <Link 
-                to={`/products/${termek.cikkszam}`} 
+                to={`/products/${termek.id || termek.cikkszam}`} 
                 style={{ 
                     color: '#fff', 
                     background: '#333', 
@@ -38,6 +40,43 @@ export default function ShoeCard({ termek }) {
             >
                 {t('products.details')}
             </Link>
+
+            {isAdmin && (
+                <div style={{ display: 'flex', gap: '5px', marginTop: '10px' }}>
+                    <Link 
+                        to={`/admin/edit/${termek.id}`} 
+                        style={{ 
+                            flex: 1,
+                            background: '#007bff', 
+                            color: 'white', 
+                            textDecoration: 'none', 
+                            padding: '8px', 
+                            borderRadius: '5px',
+                            fontSize: '14px'
+                        }}
+                    >
+                        Szerkesztés
+                    </Link>
+                    <button 
+                        style={{ 
+                            flex: 1,
+                            background: '#ff4d4d', 
+                            color: 'white', 
+                            border: 'none', 
+                            padding: '8px', 
+                            borderRadius: '5px',
+                            cursor: 'pointer',
+                            fontSize: '14px'
+                        }}
+                        onClick={() => {
+                            if(window.confirm("Biztosan törlöd?")) {
+                            }
+                        }}
+                    >
+                        Törlés
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

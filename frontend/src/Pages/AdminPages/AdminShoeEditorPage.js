@@ -28,7 +28,7 @@ const AdminShoeEditPage = () => {
                 setCategories(catRes.data);
 
                 if (shoeRes.data.kepUrl) {
-                    setPreviewUrl(`http://localhost:3000/storage/${shoeRes.data.kepUrl}`);
+                    setPreviewUrl(`/kepek/${shoeRes.data.kepUrl}`);
                 }
             } catch (err) {
                 console.error("Hiba az adatok lekérésekor:", err);
@@ -57,7 +57,7 @@ const AdminShoeEditPage = () => {
         formData.append('_method', 'PUT');
 
         if (selectedFile) {
-            formData.append('kep', selectedFile);
+            formData.append('kepUrl', selectedFile); 
         }
 
         try {
@@ -69,10 +69,9 @@ const AdminShoeEditPage = () => {
             navigate('/admin/products');
         } catch (err) {
             console.error("Mentési hiba:", err.response?.data || err);
-            alert("Hiba történt a mentés során!");
+            alert("Hiba történt a mentés során! Ellenőrizd az adatbázis táblaneveit!");
         }
     };
-
     const handleDelete = async () => {
         if (window.confirm("Biztosan törölni szeretnéd ezt a terméket?")) {
             try {
@@ -119,7 +118,7 @@ const AdminShoeEditPage = () => {
                             onChange={(e) => setShoe({ ...shoe, kategoria_id: e.target.value })}
                             required
                         >
-                            <option value="">Válassz márkát...</option>
+                            <option value="">Válassz kategóriát...</option>
                             {categories.map(cat => (
                                 <option key={cat.id} value={cat.id}>
                                     {cat.marka} - {cat.tipus}
@@ -141,12 +140,10 @@ const AdminShoeEditPage = () => {
 
                     <div className="button-group">
                         <button type="submit" className="save-btn">Mentés</button>
-
                         <button type="button" className="delete-btn" onClick={handleDelete}
                             style={{ backgroundColor: '#ff4d4d', color: 'white', marginLeft: '10px' }}>
                             Törlés
                         </button>
-
                         <button type="button" className="cancel-btn" onClick={() => navigate(-1)}>Mégse</button>
                     </div>
                 </form>
