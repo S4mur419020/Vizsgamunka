@@ -27,7 +27,9 @@ const AdminShoeEditPage = () => {
                 });
                 setCategories(catRes.data);
 
-                setPreviewUrl(`http://localhost:8000/storage/${shoeRes.data.kepUrl}`);
+                if (shoeRes.data.kepUrl) {
+                    setPreviewUrl(`http://localhost:3000/storage/${shoeRes.data.kepUrl}`);
+                }
             } catch (err) {
                 console.error("Hiba az adatok lekérésekor:", err);
             } finally {
@@ -47,10 +49,12 @@ const AdminShoeEditPage = () => {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
+
         const formData = new FormData();
         formData.append('nev', shoe.nev);
         formData.append('ar', shoe.ar);
         formData.append('kategoria_id', shoe.kategoria_id);
+        formData.append('_method', 'PUT');
 
         if (selectedFile) {
             formData.append('kep', selectedFile);
@@ -58,17 +62,27 @@ const AdminShoeEditPage = () => {
 
         try {
             await myAxios.post(`/api/termekek/${id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'X-HTTP-Method-Override': 'PUT'
-                },
+                headers: { 'Content-Type': 'multipart/form-data' },
             });
 
             alert("Sikeres mentés!");
             navigate('/admin/products');
         } catch (err) {
-            console.error(err);
+            console.error("Mentési hiba:", err.response?.data || err);
             alert("Hiba történt a mentés során!");
+        }
+    };
+
+    const handleDelete = async () => {
+        if (window.confirm("Biztosan törölni szeretnéd ezt a terméket?")) {
+            try {
+                await myAxios.delete(`/api/termekek/${id}`);
+                alert("Sikeres törlés!");
+                navigate('/admin/products');
+            } catch (err) {
+                console.error("Törlési hiba:", err);
+                alert("Hiba történt a törlés során!");
+            }
         }
     };
 
@@ -97,7 +111,7 @@ const AdminShoeEditPage = () => {
                             required
                         />
                     </div>
-                    
+
                     <div className="form-group">
                         <label>Márka / Kategória:</label>
                         <select
@@ -124,8 +138,15 @@ const AdminShoeEditPage = () => {
                             </div>
                         </div>
                     </div>
+
                     <div className="button-group">
                         <button type="submit" className="save-btn">Mentés</button>
+
+                        <button type="button" className="delete-btn" onClick={handleDelete}
+                            style={{ backgroundColor: '#ff4d4d', color: 'white', marginLeft: '10px' }}>
+                            Törlés
+                        </button>
+
                         <button type="button" className="cancel-btn" onClick={() => navigate(-1)}>Mégse</button>
                     </div>
                 </form>

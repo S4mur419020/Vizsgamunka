@@ -23,7 +23,7 @@ class TermekController extends Controller
         $validated = $request->validate([
             'nev' => 'required|string',
             'ar' => 'required|numeric',
-            'kategoria_id' => 'required|exists:kategoria,id',
+            'kategoria_id' => 'required|exists:kategoriak,id',
             'marka_id' => 'required|exists:marka,id',
             'nem' => 'required|string',
             'anyag' => 'required|string',
@@ -55,7 +55,7 @@ class TermekController extends Controller
         $validated = $request->validate([
             'nev' => 'sometimes|string',
             'ar' => 'sometimes|numeric',
-            'kategoria_id' => 'sometimes|exists:kategoria,id',
+            'kategoria_id' => 'sometimes|exists:kategoriak,id',
             'marka_id' => 'sometimes|exists:marka,id',
             'nem' => 'sometimes|string',
             'anyag' => 'sometimes|string',
