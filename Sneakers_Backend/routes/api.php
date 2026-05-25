@@ -115,6 +115,7 @@ Route::prefix('felhasznalok')->group(function () {
     Route::post('/', [FelhasznaloController::class, 'store']);
     Route::put('{id}', [FelhasznaloController::class, 'update']);
     Route::delete('{id}', [FelhasznaloController::class, 'destroy']);
+    Route::put('{id}/role', [FelhasznaloController::class, 'updateRole']);
 });
 
 Route::prefix('regisztracio')->group(function () {

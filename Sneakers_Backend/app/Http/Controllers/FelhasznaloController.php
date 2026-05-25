@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Felhasznalo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -23,31 +22,26 @@ class FelhasznaloController extends Controller
         ]);
 
         try {
-            $credentials = [
-                'email' => $request->email,
-                'password' => $request->password
-            ];
+            $credentials = $request->only('email', 'password');
 
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
-
+                $user = Auth::user();
                 return response()->json([
                     'success' => true,
-                    'user' => Auth::user(),
+                    'user' => [
+                        'felhasznalo_id' => $user->felhasznalo_id,
+                        'nev' => $user->nev,
+                        'email' => $user->email,
+                        'role_id' => $user->role_id,
+                    ],
                     'message' => 'Sikeres bejelentkezés!'
                 ], 200);
             }
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Hibás e-mail cím vagy jelszó!'
-            ], 401);
+            return response()->json(['success' => false, 'message' => 'Hibás adatok!'], 401);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Szerver hiba történt!',
-                'error' => $e->getMessage()
-            ], 500);
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
 
@@ -56,56 +50,43 @@ class FelhasznaloController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Sikeres kijelentkezés!'
-        ]);
+        return response()->json(['success' => true]);
     }
 
-    public function store(Request $request)
+    public function updateRole(Request $request, $id)
     {
-        $validated = $request->validate([
-            'nev' => 'required|string|max:255',
-            'email' => 'required|email|unique:felhasznalos,email',
-            'jelszo' => 'required|string|min:6',
-            'role_id' => 'nullable|exists:roles,id',
-        ]);
+        $user = Felhasznalo::findOrFail($id);
+        $user->role_id = ($request->jogosultsag === 'admin') ? 1 : 2;
+        
+        $user->save();
 
-        $felhasznalo = Felhasznalo::create($validated);
-
-        return response()->json($felhasznalo, 201);
+        return response()->json(['message' => 'Sikeres módosítás']);
     }
 
-    public function show(string $id)
+    public function destroy($id)
     {
-        return response()->json(Felhasznalo::findOrFail($id));
-    }
+        try {
+            $user = Felhasznalo::findOrFail($id);
+            if (method_exists($user, 'kosar')) {
+                $user->kosar()->delete();
+            }
 
-    public function showProfile(Request $request)
-    {
-        $user = $request->user();
-        if (!$user) {
-            return response()->json(['message' => 'Nincs bejelentkezve'], 401);
+            $user->delete();
+
+            return response()->json(['message' => 'Felhasználó törölve']);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Hiba történt a törlés során!',
+                'error' => $e->getMessage()
+            ], 500);
         }
-        return response()->json($user);
     }
 
     public function currentUser(Request $request)
     {
         $user = $request->user();
-
-        if (!$user) {
-            return response()->json(['message' => 'Nincs bejelentkezve'], 401);
-        }
-
-        $user->load('role');
-
-        $roleName = match ((int)$user->role_id) {
-            1 => 'admin',
-            2 => 'felhasznalo',
-            default => 'ismeretlen',
-        };
+        if (!$user) return response()->json(['message' => 'Nincs bejelentkezve'], 401);
+        $roleName = ((int)$user->role_id === 1) ? 'admin' : 'felhasznalo';
 
         return response()->json([
             'id' => $user->felhasznalo_id,

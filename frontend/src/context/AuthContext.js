@@ -28,21 +28,17 @@ export const AuthProvider = ({ children }) => {
         try {
             await csrf();
             const { data } = await myAxios.post(vegpont, adat);
-            if (vegpont === "/api/regisztracio") {
-                return true;
-            }
+            if (vegpont === "/api/regisztracio") return true;
             const loggedInUser = data.user;
             setUser(loggedInUser);
-
-            if (loggedInUser.role_id === 1) {
-                navigate("/admin", { replace: true });
+            if (Number(loggedInUser.role_id) === 1) {
+                navigate("/admin/users", { replace: true });
             } else {
                 navigate("/", { replace: true });
             }
-
             return true;
         } catch (error) {
-            if (error.response && error.response.status === 422) {
+            if (error.response?.status === 422) {
                 setErrors(error.response.data.errors);
             }
             return false;
@@ -67,12 +63,12 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{ user, errors, loginReg, logout, loading }}>
             {loading ? (
-                <div style={{ 
-                    backgroundColor: '#121212', 
-                    height: '100vh', 
-                    display: 'flex', 
-                    justifyContent: 'center', 
-                    alignItems: 'center', 
+                <div style={{
+                    backgroundColor: '#121212',
+                    height: '100vh',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     color: 'white',
                     flexDirection: 'column'
                 }}>
