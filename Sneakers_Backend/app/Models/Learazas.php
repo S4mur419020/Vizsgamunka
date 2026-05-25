@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Learazas extends Model
 {
-    /** @use HasFactory<\Database\Factories\LearazasFactory> */
     use HasFactory;
-
+    protected $table = 'learazas';
+    protected $primaryKey = 'akcio';
     protected $fillable = [
         'marka',
         'tipus',
-        'akcio',
-        'kezdodo_datum',
+        'akcio_szazalek',
+        'aktiv',
+        'kezdo_datum',
         'zaro_datum'
     ];
 }

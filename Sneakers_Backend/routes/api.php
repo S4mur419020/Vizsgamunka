@@ -212,12 +212,13 @@ Route::prefix('nyelvek')->group(function () {
     Route::delete('{id}', [NyelvController::class, 'destroy']);
 });
 
-Route::prefix('learazasok')->group(function () {
-    Route::get('/', [LearazasController::class, 'index']);
-    Route::get('{id}', [LearazasController::class, 'show']);
-    Route::post('/', [LearazasController::class, 'store']);
-    Route::put('{id}', [LearazasController::class, 'update']);
-    Route::delete('{id}', [LearazasController::class, 'destroy']);
+Route::get('learazasok', [LearazasController::class, 'index']);
+Route::get('learazasok/{id}', [LearazasController::class, 'show']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('learazasok', [LearazasController::class, 'store']);
+    Route::put('learazasok/{id}', [LearazasController::class, 'update']);
+    Route::delete('learazasok/{id}', [LearazasController::class, 'destroy']);
 });
 
 Route::post('/login', [FelhasznaloController::class, 'login']);

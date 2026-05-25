@@ -14,11 +14,13 @@ class LearazasController extends Controller
 
     public function store(Request $request)
     {
-        // A React-ból 'kod', 'szazalek' és 'lejarat' érkezik.
         $validated = $request->validate([
-            'kod' => 'required|string|unique:learazas,kod',
-            'szazalek' => 'required|numeric|min:0|max:100',
-            'lejarat' => 'nullable|string'
+            'marka' => 'required|string|max:50',
+            'tipus' => 'required|string|max:50',
+            'akcio_szazalek' => 'required|numeric|min:0|max:100',
+            'kezdo_datum' => 'required|date',
+            'zaro_datum' => 'required|date',
+            'aktiv' => 'nullable|boolean'
         ]);
 
         $learazas = Learazas::create($validated);
@@ -34,11 +36,13 @@ class LearazasController extends Controller
     public function update(Request $request, $id)
     {
         $learazas = Learazas::findOrFail($id);
-        
         $validated = $request->validate([
-            'kod' => 'string|unique:learazas,kod,' . $id,
-            'szazalek' => 'numeric|min:0|max:100',
-            'lejarat' => 'nullable|string'
+            'marka' => 'string|max:50',
+            'tipus' => 'string|max:50',
+            'akcio_szazalek' => 'numeric|min:0|max:100',
+            'kezdo_datum' => 'date',
+            'zaro_datum' => 'date',
+            'aktiv' => 'boolean'
         ]);
 
         $learazas->update($validated);

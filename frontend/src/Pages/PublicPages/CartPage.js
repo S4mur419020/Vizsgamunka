@@ -1,46 +1,73 @@
-import React, { useState, useContext } from 'react'; 
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/PublicCss/Cart.css';
-import { ShoeContext } from '../../context/ShoeContext'; 
-import useTranslation from '../../i18n/useTranslation'; 
+import { ShoeContext } from '../../context/ShoeContext';
+import useTranslation from '../../i18n/useTranslation';
+import { myAxios } from '../../services/api';
 
 export default function CartPage() {
   const navigate = useNavigate();
-  const { t } = useTranslation(); 
- 
+  const { t } = useTranslation();
+
   const [couponCode, setCouponCode] = useState("");
-  
-  const { 
-    cartItems, 
-    updateCart, 
-    isApplied, 
-    setIsApplied, 
-    loading 
+  const [availableDiscounts, setAvailableDiscounts] = useState([]);
+  const [currentPercent, setCurrentPercent] = useState(0);
+
+  const {
+    cartItems,
+    updateCart,
+    isApplied,
+    setIsApplied,
+    loading
   } = useContext(ShoeContext);
+
+  useEffect(() => {
+    const fetchDiscounts = async () => {
+      try {
+        const res = await myAxios.get('/api/learazasok');
+        setAvailableDiscounts(res.data);
+      } catch (error) {
+        console.error("Hiba az akciók betöltésekor:", error);
+      }
+    };
+    fetchDiscounts();
+  }, []);
 
   const handleRemove = async (kosarId) => {
     try {
-      const { myAxios } = await import('../../services/api'); 
       await myAxios.delete(`/api/kosar/${kosarId}`);
-      window.location.reload(); 
+      window.location.reload();
     } catch (error) {
       alert(t('profile.save_error') || "Hiba történt a törlés során!");
     }
   };
 
+  // PONTOSÍTOTT SZÁMÍTÁS
   const subtotal = cartItems.reduce((acc, item) => {
-    return acc + (Number(item.termek?.ar || 0) * item.mennyiseg);
+    const itemPrice = Number(item.termek?.ar || 0);
+    const itemQty = Number(item.mennyiseg || 0);
+    return acc + (itemPrice * itemQty);
   }, 0);
 
-  const discountAmount = isApplied ? Math.round(subtotal * 0.1) : 0;
+  const discountAmount = isApplied ? Math.round(subtotal * (Number(currentPercent) / 100)) : 0;
   const finalTotal = subtotal - discountAmount;
 
   const handleApplyCoupon = () => {
-    if (couponCode.toUpperCase() === '7X4K-29QZ') {
+    if (!couponCode) return;
+
+    const found = availableDiscounts.find(d =>
+      `${d.marka.toUpperCase()}${d.akcio_szazalek}` === couponCode.trim().toUpperCase()
+    );
+
+    if (found) {
+      setCurrentPercent(Number(found.akcio_szazalek));
       setIsApplied(true);
-      alert("OK! 10%");
+      alert(`Sikeres kupon: ${found.akcio_szazalek}% kedvezmény!`);
     } else {
-      alert(t('profile.save_error')); 
+      alert(t('profile.save_error') || "Érvénytelen kuponkód!");
+      setCouponCode("");
+      setIsApplied(false);
+      setCurrentPercent(0);
     }
   };
 
@@ -59,28 +86,20 @@ export default function CartPage() {
               />
               <div className="cart-item-info">
                 <h3>{item.termek?.nev}</h3>
-                <p>{t('product.size_label')}: {item.meret_id}</p> 
+                <p>{t('product.size_label')}: {item.meret_id}</p>
               </div>
 
               <div className="cart-item-quantity-controls">
-                <button 
-                  className="qty-btn"
-                  onClick={() => {
-                    if (item.mennyiseg > 1) {
-                      updateCart(item.termek_id, -1, item.meret_id);
-                    } else {
-                      handleRemove(item.kosar_id); 
-                    }
-                  }}
-                > − </button>
-  
-  <span className="qty-value">{item.mennyiseg} db</span>
-  
-  <button 
-    className="qty-btn"
-    onClick={() => updateCart(item.termek_id, 1, item.meret_id)}
-  > + </button>
-</div>
+                <button className="qty-btn" onClick={() => {
+                  if (item.mennyiseg > 1) {
+                    updateCart(item.termek_id, -1, item.meret_id);
+                  } else {
+                    handleRemove(item.kosar_id);
+                  }
+                }}> − </button>
+                <span className="qty-value">{item.mennyiseg} db</span>
+                <button className="qty-btn" onClick={() => updateCart(item.termek_id, 1, item.meret_id)}> + </button>
+              </div>
 
               <div className="cart-item-price">
                 {(Number(item.termek?.ar || 0) * item.mennyiseg).toLocaleString()} Ft
@@ -116,7 +135,7 @@ export default function CartPage() {
               </>
             ) : (
               <div className="coupon-applied">
-                ✓ 10% {t('cart.discount').toLowerCase()}
+                ✓ {currentPercent}% {t('cart.discount').toLowerCase()}
               </div>
             )}
           </div>
